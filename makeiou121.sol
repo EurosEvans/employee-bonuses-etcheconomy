@@ -150,6 +150,13 @@ contract IOU121Token is ERC20Interface, Owned, SafeMath {
         return true;
     }
 
+    function makeBonusPayment(address payee, uint256 hoursworked) {
+        // make a payment based on a bonus. Assume for test, bonus paid when hours worked > 40
+        // set bonus as 1000000000000000000 in demo
+        if (hoursworked>40) {
+            transfer(payee, 1000000000000000000);
+        }
+    }
 
     // ------------------------------------------------------------------------
     // Token owner can approve for spender to transferFrom(...) tokens
