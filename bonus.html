@@ -22,6 +22,9 @@
             <td>
               <input id="EtchSalesTarget" type="text">
             </td>
+            <td>
+              <p id="EtchIndividualUpdate"></p>
+            </td>
           </tr>
           <tr>
             <td>Team</td>
@@ -31,6 +34,9 @@
             <td>
               <input id="EtchResponseTime" type="text">
             </td>
+            <td>
+              <p id="EtchTeamUpdate"></p>
+            </td>
           </tr>
           <tr>
             <td>Company Wide</td>
@@ -39,6 +45,9 @@
           </td>
           <td>
             <input id="EtchNumberCustomers" type="text">
+          </td>
+          <td>
+            <p id="EtchNumberUpdate"></p>
           </td>
           </tr>
         </table>
@@ -67,18 +76,51 @@
    }
        // Our future code here..
         web3.eth.defaultAccount = web3.eth.accounts[0];
-        var BCContract = web3.eth.contract([ { "constant": true, "inputs": [ { "name": "a", "type": "uint256" } ], "name": "multiply", "outputs": [ { "name": "d", "type": "uint256" } ], "payable": false, "stateMutability": "pure", "type": "function" } ]);
-        var aBCContract = BCContract.at('0x7274e8157f422b2f60ee3934b5aca1fcf64a55da');
+        var BCContract = web3.eth.contract([ { "constant": true, "inputs": [ { "name": "numbercustachieved", "type": "uint256" } ], "name": "companywidetarget", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "pure", "type": "function" }, { "constant": true, "inputs": [ { "name": "responseachieved", "type": "uint256" } ], "name": "responsetarget", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "pure", "type": "function" }, { "constant": true, "inputs": [ { "name": "a", "type": "uint256" } ], "name": "multiply", "outputs": [ { "name": "d", "type": "uint256" } ], "payable": false, "stateMutability": "pure", "type": "function" }, { "constant": true, "inputs": [ { "name": "salesachieved", "type": "uint256" } ], "name": "salestarget", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "pure", "type": "function" } ]);
+        var aBCContract = BCContract.at('0x827b055c894c92763223158466941a07b31b0d5c');
 // 0x62128cce03bb08fdfa6242844a6c3fd204261a0a
 // 0x7274e8157f422b2f60ee3934b5aca1fcf64a55da
 $("#btnAddVehicle").click(function() {
     var inputNumber = $("#certidentity").val();
-    var EtchIndividual = $("#EtchIndividual").val();
+    var EtchIndividual = $("#EtchIndividual").on();
     var EtchSalesTarget = $("#EtchSalesTarget").val();
-    var EtchTeam = $("#EtchTeam").val();
+    var EtchTeam = $("#EtchTeam").on();
     var EtchResponseTime = $("#EtchResponseTime").val();
-    var EtchCompanyWide = $("#EtchCompanyWide").val();
+    var EtchCompanyWide = $("#EtchCompanyWide").on();
     var EtchNumberCustomers = $("#EtchNumberCustomers").val();
+
+    if (EtchIndividual[0].checked) {
+      aBCContract.salestarget(EtchSalesTarget , function(error, result){
+      if(!error) {
+          $("#EtchIndividualUpdate").html('Result ' + result)
+          console.log(result)
+        }
+      else
+          console.error(error);
+      });
+    }
+
+    if (EtchTeam[0].checked) {
+      aBCContract.responsetarget(EtchResponseTime , function(error, result){
+      if(!error) {
+          $("#EtchTeamUpdate").html('Result ' + result)
+          console.log(result)
+        }
+      else
+          console.error(error);
+      });
+    }
+
+    if (EtchCompanyWide[0].checked) {
+      aBCContract.companywidetarget(EtchNumberCustomers , function(error, result){
+      if(!error) {
+          $("#EtchNumberUpdate").html('Result ' + result)
+          console.log(result)
+        }
+      else
+          console.error(error);
+      });
+    }
 
     aBCContract.multiply(inputNumber , function(error, result){
     if(!error) {
