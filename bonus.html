@@ -1,0 +1,98 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Etch Bonus Payment System</title>
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+       <h2>Etch Bonus Demo</h2>
+        <button id="btnAddVehicle">SAVE</button>
+        <input id="certidentity" type="text">
+        <div class="table-responsive">
+        <table class="table">
+          <tr>
+            <td>Individual</td>
+            <td>
+              <input id="EtchIndividual" type="checkbox">
+            </td>
+            <td>
+              <input id="EtchSalesTarget" type="text">
+            </td>
+          </tr>
+          <tr>
+            <td>Team</td>
+            <td>
+              <input id="EtchTeam" type="checkbox">
+            </td>
+            <td>
+              <input id="EtchResponseTime" type="text">
+            </td>
+          </tr>
+          <tr>
+            <td>Company Wide</td>
+            <td>
+            <input id="EtchCompanyWide" type="checkbox">
+          </td>
+          <td>
+            <input id="EtchNumberCustomers" type="text">
+          </td>
+          </tr>
+        </table>
+</div>
+
+        <h2 id="Vehicle">Results</h2>
+  <p id="txnID"></p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+    if (typeof web3 !== 'undefined') {
+       web3 = new Web3(web3.currentProvider);
+   } else {
+       // set the provider you want from Web3.providers
+       web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+   }
+       // Our future code here..
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        var BCContract = web3.eth.contract([ { "constant": true, "inputs": [ { "name": "a", "type": "uint256" } ], "name": "multiply", "outputs": [ { "name": "d", "type": "uint256" } ], "payable": false, "stateMutability": "pure", "type": "function" } ]);
+        var aBCContract = BCContract.at('0x7274e8157f422b2f60ee3934b5aca1fcf64a55da');
+// 0x62128cce03bb08fdfa6242844a6c3fd204261a0a
+// 0x7274e8157f422b2f60ee3934b5aca1fcf64a55da
+$("#btnAddVehicle").click(function() {
+    var inputNumber = $("#certidentity").val();
+    var EtchIndividual = $("#EtchIndividual").val();
+    var EtchSalesTarget = $("#EtchSalesTarget").val();
+    var EtchTeam = $("#EtchTeam").val();
+    var EtchResponseTime = $("#EtchResponseTime").val();
+    var EtchCompanyWide = $("#EtchCompanyWide").val();
+    var EtchNumberCustomers = $("#EtchNumberCustomers").val();
+
+    aBCContract.multiply(inputNumber , function(error, result){
+    if(!error) {
+        $("#txnID").html('Txn ' + result)
+        console.log(result)
+      }
+    else
+        console.error(error);
+    });
+});
+
+        console.log(aBCContract);
+
+    </script>
+
+</body>
+</html>
