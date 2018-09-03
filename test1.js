@@ -27,6 +27,55 @@ function populateVersions(versions) {
     }
 }
 
+function testDB() {
+
+}
+
+function companywide() {
+  inividualSourceCode="pragma solidity ^0.4.2;\n" +
+  "contract greeter {\n" +
+  "   uint public targetNumberCustomers;\n" +
+  "   function createCustomerCondition (uint _targetNumberCustomers) public {\n" +
+  "       targetNumberCustomers = _targetNumberCustomers;\n" +
+  "     }\n" +
+  "   function payBonus (uint _targetNumberCustomers) public view returns (bool) {\n" +
+  "       if (_targetNumberCustomers > targetNumberCustomers) return true;\n" +
+  "       else return false;\n" +
+  "   }\n" +
+  "}";
+  document.getElementById("source").value = inividualSourceCode;
+}
+
+function team() {
+  inividualSourceCode="pragma solidity ^0.4.2;\n" +
+  "contract greeter {\n" +
+  "   uint public targetResponseTime;\n" +
+  "   function createResponseCondition (uint _targetResponseTime) public {\n" +
+  "       targetResponseTime = _targetResponseTime;\n" +
+  "     }\n" +
+  "   function payBonus (uint _responseTime) public view returns (bool) {\n" +
+  "       if (_responseTime > targetResponseTime) return true;\n" +
+  "       else return false;\n" +
+  "   }\n" +
+  "}";
+  document.getElementById("source").value = inividualSourceCode;
+}
+
+function individual() {
+  inividualSourceCode="pragma solidity ^0.4.2;\n" +
+  "contract greeter {\n" +
+  "   uint public targetHours;\n" +
+  "   function createBonusCondition (uint _targetHours) public {\n" +
+  "       targetHours = _targetHours;\n" +
+  "     }\n" +
+  "   function payBonus (uint _hoursWorked) public view returns (bool) {\n" +
+  "       if (_hoursWorked > targetHours) return true;\n" +
+  "       else return false;\n" +
+  "   }\n" +
+  "}";
+  document.getElementById("source").value = inividualSourceCode;
+}
+
 function solcCompile(compiler) {
     status("compiling");
     document.getElementById("compile-output").value = "";
