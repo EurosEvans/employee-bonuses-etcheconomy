@@ -76,15 +76,50 @@ function individual() {
   document.getElementById("source").value = inividualSourceCode;
 }
 
+function save(data, hash){
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "/api/save_code", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("hash=" +hash + "&data=" + data);
+
+  xhttp.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status ==200){
+       var data = JSON.parse(this.response);
+       console.log(data);
+    }
+  };
+}
+
+function checkSourceCode() {
+  var xhttp = new XMLHttpRequest();
+  var hash = document.getElementById("hash").value;
+
+  xhttp.open("POST", "/api/get_info", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("hash=" +hash);
+
+  xhttp.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status ==200){
+       var data = JSON.parse(this.response);
+       document.getElementById("source").value = data.Code;
+    }
+  };
+}
+
+
 function solcCompile(compiler) {
     status("compiling");
+    var mycontractcode="pragma solidity ^0.4.3; contract greeter {}"
     document.getElementById("compile-output").value = "";
-    var result = compiler.compile(getSourceCode(), optimize);
+    var result = compiler.compile(mycontractcode, optimize);
+    var hash = web3.sha3(mycontractcode);
+    save(mycontractcode, hash);
     var stringResult = JSON.stringify(result);
     document.getElementById("compile-output").value = stringResult;
 
-    var bytecode = result.contracts.greeter.bytecode;
-    var abi = result.contracts.greeter.interface;
+    var bytecode = result.contracts[":greeter"].bytecode;
+    var abi = result.contracts[":greeter"].interface;
 
     web3 = new Web3(web3.currentProvider);
 
@@ -92,7 +127,7 @@ function solcCompile(compiler) {
      web3.eth.defaultAccount = web3.eth.accounts[0];
 
     var contract = web3.eth.contract(JSON.parse(abi));
-    var hash = web3.sha3(getSourceCode());
+    var hash1 = web3.sha3(mycontractcode);
 
 
       var contractList=web3.eth.contract([ { "constant": false, "inputs": [ { "name": "contractAddress", "type": "bytes32" }, { "name": "sourceCodeHash", "type": "bytes32" } ], "name": "addContractDetail", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "payable": true, "stateMutability": "payable", "type": "fallback" }, { "constant": true, "inputs": [ { "name": "", "type": "bytes32" } ], "name": "ContractDetails", "outputs": [ { "name": "sourceCodeHash", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "contractAddress", "type": "bytes32" } ], "name": "readContractDetails", "outputs": [ { "name": "", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" } ]);

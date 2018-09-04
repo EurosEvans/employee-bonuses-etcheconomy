@@ -1,0 +1,65 @@
+ <!doctype html>
+<html>
+    <head>
+        <title>Etch Bonus Demo</title>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <!-- // <script src="https://s3.amazonaws.com/browser-solc.dappbench.com/browser-solc.js"></script> -->
+        <script src="./node_modules/web3/dist/web3.min.js"></script>
+        <scrtipt src="./node_modules/web3/dist/web3/web3-utils.js"></script>
+        <script src="./browser-solc/browser-solc.min.js" type="text/javascript"></script>
+        <script id="testscript" src="./test1.js" type="text/javascript"></script>
+        <link href="./browser-solc/vendor/bootstrap.min.css" rel="stylesheet">
+
+    </head>
+    <body>
+        <header>
+            <p style="margin-left:105px; margin-top:20px; font-size:25px; font-weight:bold">
+                Etch Bonus Demo
+            </p>
+        </header>
+
+        <div class="container">
+          <div class="col-md-5">
+            <div class="col-md-12">
+              <button id="individual-button" onclick="individual()"
+              class="btn btn-outline btn-xl" style="margin-top: 20px">
+                Individual</button>
+            </div>
+            <div class="col-md-12">
+              <button id="team-button" onclick="team()"
+              class="btn btn-outline btn-xl" style="margin-top: 20px">
+                Team</button>
+            </div>
+            <div class="col-md-12">
+              <button id="companywide-button" onclick="companywide()"
+              class="btn btn-outline btn-xl" style="margin-top: 20px">
+                Company Wide</button>
+            </div>
+          </div>
+
+            <div class="col-md-7">
+                <textarea id="source" onclick="this.select()" style="height:200px; width: 400px; display:block; margin-left:20px"></textarea>
+            </div>
+          </div>
+         <div class="container">
+            <div class="col-md-12">
+                <select id="versions" class="form-control" ></select>
+                <textarea id="hash"   style="height:50px; width: 400px; display:block; margin-left:20px"></textarea>
+
+
+
+                <button id="check-button" onclick="checkSourceCode()" class="btn btn-outline btn-xl" style="margin-top: 20px">
+                  check</button>
+                <button id="test-button" class="btn btn-outline btn-xl" style="margin-top: 20px">
+                  compile</button>
+                  <button id="blockchainbutton" onclick="showAddress()" class="btn btn-outline btn-xl" style="margin-top: 20px">
+                    show address</button>
+                    <button id="blockchainbutton" onclick="showDB()" class="btn btn-outline btn-xl" style="margin-top: 20px">
+                      show db</button>
+                <p id="status" style="float:right; margin-top:20px"></p>
+                <p style="margin-top:20px">Output: </p>
+                <textarea id="compile-output" onclick="this.select()" style="width:445px; height:360px;" readonly></textarea>
+            </div>
+        </div>
+    </body>
+</html>
