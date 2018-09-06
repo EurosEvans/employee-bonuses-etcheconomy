@@ -6,6 +6,8 @@ const logger = require('morgan');
 
 const mongoose = require('mongoose');
 
+const solc = require('solc');
+
 mongoose.connect('mongodb://127.0.0.1:27017/mydb');
 
 app.use(function(req, res, next){
@@ -25,7 +27,7 @@ app.get("/api/ping", function(req, res){
 
 var codeSchema = new mongoose.Schema({
   Code : { type: String, default: null },
-  Hash : { type: String, default: null }
+  Hash : { type: String, default: null, uniq: true }
 });
 
 var codeDB = mongoose.model("codes", codeSchema);
@@ -39,28 +41,33 @@ app.post("/api/save_code", function(req, res){
     Hash : hash
   });
 
-  codeCreate.save(function(err, doc){
-    if(err) throw err;
+  codeDB.findOne({ Hash : hash}, function(err, doc){
+    if(doc == null){
+      codeCreate.save(function(err, doc){
+        if(err) throw err;
 
-     res.json({ message: "Successfully saved 10", doc : doc });
+         res.json({ message: "Successfully saved", doc : doc, type: 'success'});
+      });
+    }else{
+         res.json({ message: "Data exists", doc : doc, type: 'error'});
+    }
   });
-  
 });
 
 app.get("/api/codes", function(req, res){
   codeDB.find({}, function(err, doc){
-    if(err) throw err;
+    if(err) res.json({ message: "Error", error: err, type: 'error' });
 
-     res.json({ message: "All Code", doc : doc });
+     res.json({ message: "All Code", doc : doc, type: 'success' });
   });
 });
 
 app.post("/api/get_info", function(req, res){
   var hash = req.body.hash;
-  codeDB.find({ Hash : hash}, function(err, doc){
-    if(err) throw err;
+  codeDB.findOne({ Hash : hash}, function(err, doc){
+    if(err) res.json({ message: "Error", error: err, type: 'error' });
 
-     res.json({ message: "All Code", doc : doc });
+     res.json({ message: "All Code", doc : doc, type: 'success' });
   });
 });
 

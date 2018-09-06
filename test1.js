@@ -84,31 +84,61 @@ function save(data, hash){
   xhttp.send("hash=" +hash + "&data=" + data);
 
   xhttp.onreadystatechange = function(){
+    var messageDiv = document.getElementById('message');
     if(this.readyState == 4 && this.status ==200){
        var data = JSON.parse(this.response);
-       console.log(data);
+       document.getElementById("userMessage").innerHTML = data.message;
+       //document.getElementById("userMessage").value = JSON.parse(this.response).message;
+
+
+//       if(data.type == 'success'){
+  //     messageDiv.innerHTML = data;
+    //   }else{
+      // console.log(data);
+       //messageDiv.innerHTML = "error";
+       //}
     }
   };
 }
 
-function checkSourceCode() {
-  var xhttp = new XMLHttpRequest();
+function checkSourceCodeFull() {
   var hash = document.getElementById("hash").value;
+   checkSourceCode(hash);
+
+}
+
+function checkSourceCode(hash) {
+  var xhttp = new XMLHttpRequest();
+  var hash = document.getElementById("hash").value
 
   xhttp.open("POST", "/api/get_info", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("hash=" +hash);
 
   xhttp.onreadystatechange = function(){
+    var messageDiv = document.getElementById('userMessage');
     if(this.readyState == 4 && this.status ==200){
        var data = JSON.parse(this.response);
-       document.getElementById("source").value = data.Code;
+      messageDiv.innerHTML = data.message;
+      document.getElementById("source").value = data.doc.Code;
     }
   };
 }
 
 
 function solcCompile(compiler) {
+  var mycontractcode="pragma solidity ^0.4.3; contract greeter {uint d;}"
+  var hash = web3.sha3(mycontractcode);
+
+    save(mycontractcode, hash);
+    document.getElementById("hash").value = hash;
+
+    // read mongodb
+    //var returnedSourceCode = checkSourceCode(hash);
+
+}
+
+function solcCompile2(compiler) {
     status("compiling");
     var mycontractcode="pragma solidity ^0.4.3; contract greeter {}"
     document.getElementById("compile-output").value = "";
@@ -225,7 +255,7 @@ window.onload = function() {
     BrowserSolc.getVersions(function(soljsonSources, soljsonReleases) {
         populateVersions(soljsonSources);
 
-        document.getElementById("versions").value = soljsonReleases["0.4.5"];
+        document.getElementById("versions").value = soljsonReleases["0.4.25"];
 
         loadSolcVersion();
     });
