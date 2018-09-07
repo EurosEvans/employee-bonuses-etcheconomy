@@ -27,9 +27,6 @@
 </div>
 
         <div class="container">
-
-
-
             <div class="col-md-12">
               <button id="individual-button" onclick="individual()"
               class="btn btn-outline btn-xl" style="margin-top: 20px">
@@ -41,17 +38,40 @@
               class="btn btn-outline btn-xl" style="margin-top: 20px">
                 Company Wide</button>
             </div>
-            <div class="col-md-12">
-              <button id="save-button" onclick="savecontract()"
-              class="btn btn-success btn-xl" style="margin-top: 20px">
-                SAVE</button>
+
+            <div class="col-md-6">
                 <button id="list-button" onclick="listContracts()"
                 class="btn btn-secondary btn-xl" style="margin-top: 20px">
                   LIST</button>
             </div>
+            <div class="col-md-6">
+              <button id="save-button" onclick="savecontract()"
+              class="btn btn-success btn-xl" style="margin-top: 20px">
+                SAVE</button>
+            </div>
+
+          <div class="col-md-6 panel panel-default" id="iPanel">
+            <h3>Individual Targets</h3>
+            <div class="col-md-4">
+              <div class="input-group mb-3">
+                 <div class="input-group-prepend">
+                    <div class="input-group-text">
+                       <label><input type="checkbox" id="hourlycheckbox"
+                         aria-label="Checkbox for following text input">Hourly</label>
+                    </div>
+                 </div>
+                 <label><input type="text" class="form-control"
+                 id="hourlyrate" aria-label="Text input with checkbox">Target</label>
+                 <button id="gen-hourly-button" onclick="genhourlycontract()"
+                 class="btn btn-primary btn-xl" style="margin-top: 20px">
+                   Generate</button>
+             </div>
+            </div>
           </div>
 
-            <div class="col-md-7">
+
+
+            <div class="col-md-6">
                 <textarea id="source" onclick="this.select()" style="height:200px; width: 400px; display:block; margin-left:20px"></textarea>
             </div>
           </div>

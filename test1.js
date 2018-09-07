@@ -65,6 +65,8 @@ function companywide() {
 }
 
 function team() {
+  document.getElementById("iPanel").style.visibility="hidden";
+
   inividualSourceCode="pragma solidity ^0.4.2;\n" +
   "contract greeter {\n" +
   "   uint public targetResponseTime;\n" +
@@ -92,6 +94,31 @@ function individual() {
   "   }\n" +
   "}";
   document.getElementById("source").value = inividualSourceCode;
+}
+
+function genhourlycontract() {
+
+  var checkbox = document.getElementById("hourlycheckbox").value;
+
+  var targetvalue = document.getElementById("hourlyrate").value;
+
+var contractheader=  "contract greeter {\n" +
+  "   uint public targetHours="+ targetvalue+";\n";
+var payBonus =   "   function payBonus (uint _hoursWorked) public view returns (bool) {\n" +
+  "       if (_hoursWorked > targetHours) return true;\n" +
+  "       else return false;\n" +
+  "   }\n";
+var bonuscondition =   "   function createBonusCondition (uint _targetHours) public {\n" +
+  "       targetHours = _targetHours;\n" +
+  "     }\n";
+
+  inividualSourceCode="pragma solidity ^0.4.2;\n" +
+     contractheader +
+     bonuscondition +
+     payBonus +
+  "}";
+  document.getElementById("source").value = inividualSourceCode;
+
 }
 
 function save(data, hash){
