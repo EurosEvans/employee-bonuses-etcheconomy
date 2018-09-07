@@ -7,6 +7,11 @@ function getSourceCode() {
     return document.getElementById("source").value;
 }
 
+function selectContract() {
+    var mycontractHash = document.getElementById("contracts").value;
+    checkSourceCode(mycontractHash);
+}
+
 function getVersion() {
     return document.getElementById("versions").value;
 }
@@ -26,6 +31,19 @@ function populateVersions(versions) {
         sel.appendChild(opt);
     }
 }
+
+function populateContracts(contractHashes) {
+    sel = document.getElementById("contracts");
+    sel.innerHTML = "";
+
+    for(var i = 0; i < contractHashes.length; i++) {
+        var opt = document.createElement('option');
+        opt.appendChild( document.createTextNode(contractHashes[i]) );
+        opt.value = contractHashes[i];
+        sel.appendChild(opt);
+    }
+}
+
 
 function testDB() {
 
@@ -87,7 +105,19 @@ function save(data, hash){
     var messageDiv = document.getElementById('message');
     if(this.readyState == 4 && this.status ==200){
        var data = JSON.parse(this.response);
-       document.getElementById("userMessage").innerHTML = data.message;
+       document.getElementById("uMessage").style.visibility="visible";
+       if (data.message == "Data exists") {
+           document.getElementById("userMessage").innerHTML = data.message;
+           document.getElementById("uMessage").classList.add("alert-danger");
+           document.getElementById("uMessage").classList.remove("alert-info");
+
+       } else {
+           document.getElementById("userMessage").innerHTML = data.message;
+           document.getElementById("uMessage").classList.add("alert-info");
+           document.getElementById("uMessage").classList.remove("alert-danger");
+
+
+      }
        //document.getElementById("userMessage").value = JSON.parse(this.response).message;
 
 
@@ -107,9 +137,45 @@ function checkSourceCodeFull() {
 
 }
 
+function savecontract() {
+  var mycontractcode=     document.getElementById("source").value;
+  var hash = web3.sha3(mycontractcode);
+
+    save(mycontractcode, hash);
+    document.getElementById("hash").value = hash;
+}
+
+function listContracts() {
+  getHashCodes();
+}
+
+function getHashCodes() {
+  var xhttp = new XMLHttpRequest();
+  //var hash = document.getElementById("hash").value
+
+  xhttp.open("POST", "/api/get_allcontracts", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send();
+
+  xhttp.onreadystatechange = function(){
+    var messageDiv = document.getElementById('userMessage');
+    if(this.readyState == 4 && this.status ==200){
+       var data = JSON.parse(this.response);
+      messageDiv.innerHTML = data.message;
+      var arrayLength = data.doc.length;
+      var contractHashes=[arrayLength];
+      for (var i=0; i<arrayLength; i++) {
+        contractHashes[i]=data.doc[i].Hash;
+      }
+      populateContracts(contractHashes);
+      //document.getElementById("selcontract").value = data.doc.Code;
+    }
+  };
+}
+
 function checkSourceCode(hash) {
   var xhttp = new XMLHttpRequest();
-  var hash = document.getElementById("hash").value
+  //var hash = document.getElementById("hash").value
 
   xhttp.open("POST", "/api/get_info", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -120,13 +186,13 @@ function checkSourceCode(hash) {
     if(this.readyState == 4 && this.status ==200){
        var data = JSON.parse(this.response);
       messageDiv.innerHTML = data.message;
-      document.getElementById("source").value = data.doc.Code;
+      document.getElementById("selcontract").value = data.doc.Code;
     }
   };
 }
 
 
-function solcCompile(compiler) {
+function solcCompile2(compiler) {
   var mycontractcode="pragma solidity ^0.4.3; contract greeter {uint d;}"
   var hash = web3.sha3(mycontractcode);
 
@@ -138,9 +204,9 @@ function solcCompile(compiler) {
 
 }
 
-function solcCompile2(compiler) {
+function solcCompile(compiler) {
     status("compiling");
-    var mycontractcode="pragma solidity ^0.4.3; contract greeter {}"
+    var mycontractcode="pragma solidity ^0.4.3; contract greeter {uint d1;}"
     document.getElementById("compile-output").value = "";
     var result = compiler.compile(mycontractcode, optimize);
     var hash = web3.sha3(mycontractcode);
@@ -211,11 +277,6 @@ else
     console.error(error);
 });
 
-
-
-
-
-
     status("Compile Complete.");
 }
 
@@ -230,6 +291,11 @@ function compileCode() {
   });
 
 }
+
+function displayContract(contractHash) {
+   checkSourceCode(contractHash);
+}
+
 function loadSolcVersion() {
     status("Loading Solc: " + getVersion());
 
@@ -243,6 +309,14 @@ function loadSolcVersion() {
 
 window.onload = function() {
 //    document.getElementById("source").value = exampleSource;
+
+   document.getElementById("uMessage").style.visibility="hidden";
+  //  var contractHashes=[];
+  //  contractHashes[0]="0x1ebcd88e0400e332977227457d5a8599b383d8960e282da42e331ee793d7ce49";
+  //  contractHashes[1]="0xf0d2d13b1f73ab2c07a941014cae589913c2a27b6ce7c707918c0f811ddc05dd";
+
+  //  populateContracts(contractHashes);
+//    document.getElementById("contracts").onchange = displayContract;
 
     document.getElementById("versions").onchange = loadSolcVersion;
 

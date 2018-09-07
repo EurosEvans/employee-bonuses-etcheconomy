@@ -71,6 +71,15 @@ app.post("/api/get_info", function(req, res){
   });
 });
 
+app.post("/api/get_allcontracts", function(req, res){
+//  var hash = req.body.hash;
+  codeDB.find( function(err, doc){
+    if(err) res.json({ message: "Error", error: err, type: 'error' });
+
+     res.json({ message: "Contracts Read", doc : doc, type: 'success' });
+  });
+});
+
 app.use(express.static(__dirname + "/public" ));
 
 app.listen(3000, function(){

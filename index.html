@@ -12,31 +12,42 @@
 
     </head>
     <body>
-        <header>
-            <p style="margin-left:105px; margin-top:20px; font-size:25px; font-weight:bold">
-                Etch Bonus Demo
-            </p>
-        </header>
+
+<div class="container">
+  <div class="col-md-2">
+    <img src="./etchlogo.png" class="img-fluid">
+  </div>
+  <div class="col-md-8">
+    <h2>Bonus Smart Contracts Management</h2>
+  </div>
+  <div class="col-md-2">
+    <div class="col-md-12 alert alert-info" id="uMessage" role="alert">
+      <p id="userMessage"></p>
+    </div>
+</div>
 
         <div class="container">
-          <div class="col-md-5">
-            <div class="col-md-12">
-              <p id="userMessage"></p>
-            </div>
+
+
+
             <div class="col-md-12">
               <button id="individual-button" onclick="individual()"
               class="btn btn-outline btn-xl" style="margin-top: 20px">
                 Individual</button>
-            </div>
-            <div class="col-md-12">
               <button id="team-button" onclick="team()"
               class="btn btn-outline btn-xl" style="margin-top: 20px">
                 Team</button>
-            </div>
-            <div class="col-md-12">
               <button id="companywide-button" onclick="companywide()"
               class="btn btn-outline btn-xl" style="margin-top: 20px">
                 Company Wide</button>
+            </div>
+            <div class="col-md-12">
+              <button id="save-button" onclick="savecontract()"
+              class="btn btn-success btn-xl" style="margin-top: 20px">
+                SAVE</button>
+                <button id="list-button" onclick="listContracts()"
+                class="btn btn-secondary btn-xl" style="margin-top: 20px">
+                  LIST</button>
             </div>
           </div>
 
@@ -45,12 +56,23 @@
             </div>
           </div>
          <div class="container">
+           <div class="col-md-12">
+             <h2>Saved Contracts</h2>
+           </div>
+            <div class="col-md-12">
+                <select id="contracts" class="form-control" onchange="selectContract()"></select>
+            </div>
+            <div class="col-md-12">
+              <h2>Contract Details</h2>
+            </div>
+            <div class="col-md-12">
+              <textarea id="selcontract" onclick="this.select()" style="height:200px; width: 400px; display:block; margin-left:20px"></textarea>
+            </div>
             <div class="col-md-12">
                 <select id="versions" class="form-control" ></select>
+            </div>
+            <div class="col-md-12">
                 <textarea id="hash"   style="height:50px; width: 400px; display:block; margin-left:20px"></textarea>
-
-
-
                 <button id="check-button" onclick="checkSourceCodeFull()" class="btn btn-outline btn-xl" style="margin-top: 20px">
                   check</button>
                 <button id="test-button" class="btn btn-outline btn-xl" style="margin-top: 20px">
