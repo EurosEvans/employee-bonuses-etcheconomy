@@ -27,6 +27,11 @@ app.get("/api/ping", function(req, res){
 
 var codeSchema = new mongoose.Schema({
   Code : { type: String, default: null },
+  Type : { type: String, default: null},
+  Target : {type: String, default: null},
+  Address : {type: String, default: null},
+  cABI : {type: String, default: null},
+  Bytecode : {type: String, default: null},
   Hash : { type: String, default: null, uniq: true }
 });
 
@@ -34,10 +39,20 @@ var codeDB = mongoose.model("codes", codeSchema);
 
 app.post("/api/save_code", function(req, res){
   var data = req.body.data;
+  var type = req.body.type;
+  var target = req.body.target;
+  var address = req.body.address;
+  var cabi = req.body.cabi;
+  var bytecode = req.body.bytecode;
   var hash = req.body.hash;
 
   var codeCreate = new codeDB({
     Code : data,
+    Type : type,
+    Target : target,
+    Address : address,
+    cABI : cabi,
+    Bytecode : bytecode,
     Hash : hash
   });
 

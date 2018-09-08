@@ -64,8 +64,119 @@ function companywide() {
   document.getElementById("source").value = inividualSourceCode;
 }
 
+function createCompanyDom() {
+  var newDiv = "<div class=\"col-md-12 panel panel-default\" id=\"cPanel\">"+
+  "  <h3>Company Targets</h3> "+
+    "  <div class=\"col-md-4\"> "+
+    "    <div class=\"input-group mb-3\"> "+
+    "       <div class=\"input-group-prepend\"> "+
+    "          <div class=\"input-group-text\"> "+
+    "             <label><input type=\"checkbox\" id=\"companycheckbox\" "+
+    "               aria-label=\"Checkbox for following text input\">Number of Customers</label> "+
+    "          </div> "+
+    "       </div> "+
+    "       <label><input type=\"text\" class=\"form-control\" "+
+    "       id=\"numbercustomers\" aria-label=\"Text input with checkbox\">Target</label> "+
+    "       <button id=\"gen-company-button\" onclick=\"gencompanycontract()\" "+
+    "       class=\"btn btn-primary btn-xl\" style=\"margin-top: 20px\"> "+
+    "         Generate</button> "+
+    "   </div>"+
+    "  </div>"+
+    "</div>";
+
+removePanels();
+
+var orgDiv = document.getElementById("checkboxid");
+orgDiv.insertAdjacentHTML('beforeend', newDiv);
+
+
+}
+
+function createTeamDom() {
+var newDiv = "<div class=\"col-md-12 panel panel-default\" id=\"tPanel\">"+
+"  <h3>Team Targets</h3> "+
+  "  <div class=\"col-md-4\"> "+
+  "    <div class=\"input-group mb-3\"> "+
+  "       <div class=\"input-group-prepend\"> "+
+  "          <div class=\"input-group-text\"> "+
+  "             <label><input type=\"checkbox\" id=\"responsecheckbox\" "+
+  "               aria-label=\"Checkbox for following text input\">Response Time</label> "+
+  "          </div> "+
+  "       </div> "+
+  "       <label><input type=\"text\" class=\"form-control\" "+
+  "       id=\"responserate\" aria-label=\"Text input with checkbox\">Target</label> "+
+  "       <button id=\"gen-response-button\" onclick=\"genresponsecontract()\" "+
+  "       class=\"btn btn-primary btn-xl\" style=\"margin-top: 20px\"> "+
+  "         Generate</button> "+
+  "   </div>"+
+  "  </div>"+
+  "</div>";
+
+  removePanels();
+var orgDiv = document.getElementById("checkboxid");
+orgDiv.insertAdjacentHTML('beforeend', newDiv);
+
+
+  // body=document.getElementsByTagName('body')[0];
+  //var newDivEle = document.createElement('div');
+  //newDivEle.class = "col-md-12";
+  //var h3 = document.createElement('h3');
+//h3.innerHTML="Team Targets";
+  //newDivEle.appendChild(h3);
+
+
+  //body.appendChild(newDivEle);
+//currentDiv=document.getElementById("tPanel");
+//var orgDiv = document.getElementById("checkboxid");
+//currentDiv.insertBefore(newDivEle, orgDiv);
+
+}
+
+function createIndDom() {
+
+var newDiv =  "<div class=\"col-md-12 panel panel-default\" id=\"iPanel\">"+
+    "<h3>Individual Targets</h3>"+
+    "<div class=\"col-md-4\">"+
+      "<div class=\"input-group mb-3\"> "+
+         "<div class=\"input-group-prepend\"> "+
+            "<div class=\"input-group-text\"> "+
+               "<label><input type=\"checkbox\" id=\"hourlycheckbox\" "+
+                 "aria-label=\"Checkbox for following text input\">Hourly</label>"+
+            "</div>"+
+         "</div>"+
+         "<label><input type=\"text\" class=\"form-control\" "+
+         " id=\"hourlyrate\" aria-label=\"Text input with checkbox\">Target</label> "+
+         "<button id=\"gen-hourly-button\" onclick=\"genhourlycontract()\" "+
+         "class=\"btn btn-primary btn-xl\" style=\"margin-top: 20px\"> "+
+           "Generate</button>"+
+    " </div>"+
+    "</div>"+
+  "</div>";
+
+removePanels();
+  var orgDiv = document.getElementById("checkboxid");
+  orgDiv.insertAdjacentHTML('beforeend', newDiv);
+}
+
+function removePanels() {
+  var mainpanel = document.getElementById("checkboxid");
+  var tpanel = document.getElementById("tPanel");
+  if (tpanel!==null) {
+      mainpanel.removeChild(tpanel);
+  }
+  var ipanel = document.getElementById("iPanel");
+  if (ipanel!==null) {
+      mainpanel.removeChild(ipanel);
+  }
+  var cpanel = document.getElementById("cPanel");
+  if (cpanel!==null) {
+      mainpanel.removeChild(cpanel);
+  }
+}
+
 function team() {
   document.getElementById("iPanel").style.visibility="hidden";
+  document.getElementById("tPanel").style.visibility="visible";
 
   inividualSourceCode="pragma solidity ^0.4.2;\n" +
   "contract greeter {\n" +
@@ -78,10 +189,14 @@ function team() {
   "       else return false;\n" +
   "   }\n" +
   "}";
-  document.getElementById("source").value = inividualSourceCode;
+//  document.getElementById("source").value = inividualSourceCode;
 }
 
 function individual() {
+  document.getElementById("iPanel").style.visibility="visible";
+  document.getElementById("tPanel").style.visibility="hidden";
+
+
   inividualSourceCode="pragma solidity ^0.4.2;\n" +
   "contract greeter {\n" +
   "   uint public targetHours;\n" +
@@ -93,8 +208,35 @@ function individual() {
   "       else return false;\n" +
   "   }\n" +
   "}";
-  document.getElementById("source").value = inividualSourceCode;
+  //document.getElementById("source").value = inividualSourceCode;
 }
+
+function gencompanycontract() {
+
+  var checkbox = document.getElementById("companycheckbox").value;
+
+  var targetvalue = document.getElementById("numbercustomers").value;
+var contractheader=  "contract greeter {\n" +
+"//<type>company</type>\n" +
+"//<target>numbers of customers</target>\n" +
+"   uint public targetNumberCustomers="+targetvalue+";\n";
+var payBonus =    "   function createCustomerCondition (uint _targetNumberCustomers) public {\n" +
+  "       targetNumberCustomers = _targetNumberCustomers;\n" +
+  "     }\n";
+var bonuscondition =    "   function payBonus (uint _targetNumberCustomers) public view returns (bool) {\n" +
+  "       if (_targetNumberCustomers > targetNumberCustomers) return true;\n" +
+  "       else return false;\n" +
+  "   }\n";
+
+  inividualSourceCode="pragma solidity ^0.4.2;\n" +
+     contractheader +
+     bonuscondition +
+     payBonus +
+  "}";
+  document.getElementById("source").value = inividualSourceCode;
+
+}
+
 
 function genhourlycontract() {
 
@@ -103,6 +245,8 @@ function genhourlycontract() {
   var targetvalue = document.getElementById("hourlyrate").value;
 
 var contractheader=  "contract greeter {\n" +
+"//<type>individual</type>\n" +
+"//<target>hours worked</target>\n" +
   "   uint public targetHours="+ targetvalue+";\n";
 var payBonus =   "   function payBonus (uint _hoursWorked) public view returns (bool) {\n" +
   "       if (_hoursWorked > targetHours) return true;\n" +
@@ -121,12 +265,41 @@ var bonuscondition =   "   function createBonusCondition (uint _targetHours) pub
 
 }
 
-function save(data, hash){
+function genresponsecontract() {
+
+  var checkbox = document.getElementById("responsecheckbox").value;
+
+  var targetvalue = document.getElementById("responserate").value;
+
+  var contractheader=  "contract greeter {\n" +
+  "//<type>team</type>\n" +
+  "//<target>response time</target>\n" +
+    "   uint public targetResponseTime="+ targetvalue+";\n";
+  var payBonus =   "   function payBonus (uint _targetResponseTime) public view returns (bool) {\n" +
+    "       if (targetResponseTime > _targetResponseTime) return true;\n" +
+    "       else return false;\n" +
+    "   }\n";
+  var bonuscondition =   "   function createBonusCondition (uint _responseTime) public {\n" +
+    "       responseTime = _responseTime;\n" +
+    "     }\n";
+
+  teamSourceCode="pragma solidity ^0.4.2;\n" +
+     contractheader +
+     bonuscondition +
+     payBonus +
+  "}";
+  document.getElementById("source").value = teamSourceCode;
+
+}
+
+function save(data, hash, type, target, address, cabi, bytecode){
   var xhttp = new XMLHttpRequest();
 
   xhttp.open("POST", "/api/save_code", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("hash=" +hash + "&data=" + data);
+  xhttp.send("hash=" +hash + "&data=" + data + "&type=" +
+  type + "&target=" + target + "&address=" + address +
+  "&cabi=" + cabi + "&bytecode=" + bytecode );
 
   xhttp.onreadystatechange = function(){
     var messageDiv = document.getElementById('message');
@@ -167,8 +340,19 @@ function checkSourceCodeFull() {
 function savecontract() {
   var mycontractcode=     document.getElementById("source").value;
   var hash = web3.sha3(mycontractcode);
+// function save(data, hash, type, target, address, cabi, bytecode){
+var address=null;
+var cabi=null;
+var bytecode = null;
+var typen=mycontractcode.indexOf("<type>");
+var targetn=mycontractcode.indexOf("<target>");
+var typen2=mycontractcode.indexOf("</type>");
+var targetn2=mycontractcode.indexOf("</target>");
+var type = mycontractcode.substring(typen+6, typen2);
+var target = mycontractcode.substring(targetn+8, targetn2);
 
-    save(mycontractcode, hash);
+
+    save(mycontractcode, hash, type, target, address, cabi, bytecode);
     document.getElementById("hash").value = hash;
 }
 
@@ -223,7 +407,7 @@ function solcCompile2(compiler) {
   var mycontractcode="pragma solidity ^0.4.3; contract greeter {uint d;}"
   var hash = web3.sha3(mycontractcode);
 
-    save(mycontractcode, hash);
+  //  save(mycontractcode, hash);
     document.getElementById("hash").value = hash;
 
     // read mongodb
@@ -237,7 +421,7 @@ function solcCompile(compiler) {
     document.getElementById("compile-output").value = "";
     var result = compiler.compile(mycontractcode, optimize);
     var hash = web3.sha3(mycontractcode);
-    save(mycontractcode, hash);
+  //  save(mycontractcode, hash);
     var stringResult = JSON.stringify(result);
     document.getElementById("compile-output").value = stringResult;
 
