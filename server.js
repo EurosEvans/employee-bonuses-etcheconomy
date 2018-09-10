@@ -7,6 +7,10 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 
 const solc = require('solc');
+let Web3 = require('web3');
+
+let web3 = new Web3();
+
 
 mongoose.connect('mongodb://127.0.0.1:27017/mydb');
 
@@ -42,9 +46,15 @@ app.post("/api/save_code", function(req, res){
   var type = req.body.type;
   var target = req.body.target;
   var address = req.body.address;
-  var cabi = req.body.cabi;
-  var bytecode = req.body.bytecode;
-  var hash = req.body.hash;
+//  var cabi = req.body.cabi;
+//  var bytecode = req.body.bytecode;
+//  var hash = req.body.hash;
+
+
+  var result = solc.compile(data, 1);
+  var hash = web3.sha3(data);
+  var bytecode = result.contracts[":greeter"].bytecode;
+  var cabi = result.contracts[":greeter"].interface;
 
   var codeCreate = new codeDB({
     Code : data,
@@ -61,7 +71,7 @@ app.post("/api/save_code", function(req, res){
       codeCreate.save(function(err, doc){
         if(err) throw err;
 
-         res.json({ message: "Successfully saved", doc : doc, type: 'success'});
+         res.json({ message: "Saved", doc : doc, type: 'success'});
       });
     }else{
          res.json({ message: "Data exists", doc : doc, type: 'error'});
@@ -82,7 +92,7 @@ app.post("/api/get_info", function(req, res){
   codeDB.findOne({ Hash : hash}, function(err, doc){
     if(err) res.json({ message: "Error", error: err, type: 'error' });
 
-     res.json({ message: "All Code", doc : doc, type: 'success' });
+     res.json({ message: "Displayed Code", doc : doc, type: 'success' });
   });
 });
 

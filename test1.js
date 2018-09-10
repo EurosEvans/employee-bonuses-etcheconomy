@@ -384,6 +384,25 @@ function getHashCodes() {
   };
 }
 
+function deployContractManager() {
+  var xhttp = new XMLHttpRequest();
+  var hashcode = document.getElementById("hash").value
+
+  xhttp.open("POST", "/api/get_info", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("hash=" +hashcode);
+
+  xhttp.onreadystatechange = function(){
+    var messageDiv = document.getElementById('userMessage');
+    if(this.readyState == 4 && this.status ==200){
+       var data = JSON.parse(this.response);
+       var abi = data.doc.cABI;
+      var bytecode = data.doc.bytecode;
+      deployContract(bytecode, abi);
+    }
+  };
+}
+
 function checkSourceCode(hash) {
   var xhttp = new XMLHttpRequest();
   //var hash = document.getElementById("hash").value
@@ -398,6 +417,11 @@ function checkSourceCode(hash) {
        var data = JSON.parse(this.response);
       messageDiv.innerHTML = data.message;
       document.getElementById("selcontract").value = data.doc.Code;
+      var type = data.doc.Type;
+      var target = data.doc.Target;
+      var bonus = "type: " + type + " target: " + target;
+      document.getElementById("targetcontract").value=bonus;
+
     }
   };
 }
@@ -412,6 +436,31 @@ function solcCompile2(compiler) {
 
     // read mongodb
     //var returnedSourceCode = checkSourceCode(hash);
+
+}
+
+function deployContract( bytecode, abi) {
+
+   web3 = new Web3(web3.currentProvider);
+  // Our future code here..
+   web3.eth.defaultAccount = web3.eth.accounts[0];
+   var contract = web3.eth.contract(JSON.parse(abi));
+
+  contract.new(
+     {
+       from: web3.eth.accounts[0],
+       data: "0x"+bytecode,
+       gas: '4500000'
+     }, function (e, contract){
+        console.log(e, contract);
+        if (typeof contract.address !== 'undefined') {
+           console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
+         }
+  });
+
+
+
+  status("Compile Complete.");
 
 }
 

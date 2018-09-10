@@ -9,7 +9,6 @@
         <script src="./browser-solc/browser-solc.min.js" type="text/javascript"></script>
         <script id="testscript" src="./test1.js" type="text/javascript"></script>
         <link href="./browser-solc/vendor/bootstrap.min.css" rel="stylesheet">
-
     </head>
     <body>
 
@@ -48,6 +47,9 @@
               <button id="save-button" onclick="savecontract()"
               class="btn btn-success btn-xl" style="margin-top: 20px">
                 SAVE</button>
+                <button id="deploy-button" onclick="deployContractManager()"
+                class="btn btn-primary btn-xl" style="margin-top: 20px">
+                  Deploy</button>
             </div>
         </div>
        <div class="container" >
@@ -69,7 +71,12 @@
               <h2>Contract Details</h2>
             </div>
             <div class="col-md-12">
-              <textarea id="selcontract" onclick="this.select()" style="height:200px; width: 400px; display:block; margin-left:20px"></textarea>
+               <div class="col-md-6">
+                  <textarea id="selcontract" onclick="this.select()" style="height:200px; width: 400px; display:block; margin-left:20px"></textarea>
+               </div>
+               <div class="col-md-6">
+                  <textarea id="targetcontract" onclick="this.select()" style="height:200px; width: 400px; display:block; margin-left:20px"></textarea>
+               </div>
             </div>
             <div class="col-md-12">
                 <select id="versions" class="form-control" ></select>
