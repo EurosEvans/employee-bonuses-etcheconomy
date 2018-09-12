@@ -1,6 +1,7 @@
 var exampleSource = "";
 var optimize = 1;
 var compiler;
+var web3provider;
 //var mongoose=require('mongoose');
 
 function getSourceCode() {
@@ -42,6 +43,8 @@ function populateContracts(contractHashes) {
         opt.value = contractHashes[i];
         sel.appendChild(opt);
     }
+    document.getElementById("userMessage").innerHTML = "Hashes Listed";
+
 }
 
 
@@ -65,18 +68,16 @@ function companywide() {
 }
 
 function createCompanyDom() {
+
+document.getElementById("source").value="";
+  cleanButtons();
+
   var newDiv = "<div class=\"col-md-12 panel panel-default\" id=\"cPanel\">"+
   "  <h3>Company Targets</h3> "+
     "  <div class=\"col-md-4\"> "+
     "    <div class=\"input-group mb-3\"> "+
-    "       <div class=\"input-group-prepend\"> "+
-    "          <div class=\"input-group-text\"> "+
-    "             <label><input type=\"checkbox\" id=\"companycheckbox\" "+
-    "               aria-label=\"Checkbox for following text input\">Number of Customers</label> "+
-    "          </div> "+
-    "       </div> "+
     "       <label><input type=\"text\" class=\"form-control\" "+
-    "       id=\"numbercustomers\" aria-label=\"Text input with checkbox\">Target</label> "+
+    "       id=\"numbercustomers\" aria-label=\"Text input with checkbox\">Target Number of Customers</label> "+
     "       <button id=\"gen-company-button\" onclick=\"gencompanycontract()\" "+
     "       class=\"btn btn-primary btn-xl\" style=\"margin-top: 20px\"> "+
     "         Generate</button> "+
@@ -84,33 +85,33 @@ function createCompanyDom() {
     "  </div>"+
     "</div>";
 
-removePanels();
+    document.getElementById("userMessage").innerHTML = "";
 
+removePanels();
 var orgDiv = document.getElementById("checkboxid");
 orgDiv.insertAdjacentHTML('beforeend', newDiv);
-
 
 }
 
 function createTeamDom() {
+
+document.getElementById("source").value="";
+cleanButtons();
+
 var newDiv = "<div class=\"col-md-12 panel panel-default\" id=\"tPanel\">"+
 "  <h3>Team Targets</h3> "+
   "  <div class=\"col-md-4\"> "+
   "    <div class=\"input-group mb-3\"> "+
-  "       <div class=\"input-group-prepend\"> "+
-  "          <div class=\"input-group-text\"> "+
-  "             <label><input type=\"checkbox\" id=\"responsecheckbox\" "+
-  "               aria-label=\"Checkbox for following text input\">Response Time</label> "+
-  "          </div> "+
-  "       </div> "+
   "       <label><input type=\"text\" class=\"form-control\" "+
-  "       id=\"responserate\" aria-label=\"Text input with checkbox\">Target</label> "+
+  "       id=\"responserate\" aria-label=\"Text input with checkbox\">Target Response Time</label> "+
   "       <button id=\"gen-response-button\" onclick=\"genresponsecontract()\" "+
   "       class=\"btn btn-primary btn-xl\" style=\"margin-top: 20px\"> "+
   "         Generate</button> "+
   "   </div>"+
   "  </div>"+
   "</div>";
+
+  document.getElementById("userMessage").innerHTML = "";
 
   removePanels();
 var orgDiv = document.getElementById("checkboxid");
@@ -134,28 +135,42 @@ orgDiv.insertAdjacentHTML('beforeend', newDiv);
 
 function createIndDom() {
 
+document.getElementById("source").value="";
+cleanButtons();
+
 var newDiv =  "<div class=\"col-md-12 panel panel-default\" id=\"iPanel\">"+
     "<h3>Individual Targets</h3>"+
     "<div class=\"col-md-4\">"+
       "<div class=\"input-group mb-3\"> "+
-         "<div class=\"input-group-prepend\"> "+
-            "<div class=\"input-group-text\"> "+
-               "<label><input type=\"checkbox\" id=\"hourlycheckbox\" "+
-                 "aria-label=\"Checkbox for following text input\">Hourly</label>"+
-            "</div>"+
-         "</div>"+
          "<label><input type=\"text\" class=\"form-control\" "+
-         " id=\"hourlyrate\" aria-label=\"Text input with checkbox\">Target</label> "+
+         " id=\"hourlyrate\" aria-label=\"Text input with checkbox\">Target Hours</label> "+
          "<button id=\"gen-hourly-button\" onclick=\"genhourlycontract()\" "+
          "class=\"btn btn-primary btn-xl\" style=\"margin-top: 20px\"> "+
            "Generate</button>"+
     " </div>"+
     "</div>"+
   "</div>";
+  document.getElementById("userMessage").innerHTML = "";
 
 removePanels();
   var orgDiv = document.getElementById("checkboxid");
   orgDiv.insertAdjacentHTML('beforeend', newDiv);
+}
+
+function removeButtons() {
+  var mainpanel = document.getElementById("etherscan");
+  var tpanel = document.getElementById("scanButton");
+  if (tpanel!==null) {
+      mainpanel.removeChild(tpanel);
+  }
+  var ipanel = document.getElementById("contractScanButton");
+  if (ipanel!==null) {
+      mainpanel.removeChild(ipanel);
+  }
+  var cpanel = document.getElementById("addressButton");
+  if (cpanel!==null) {
+      mainpanel.removeChild(cpanel);
+  }
 }
 
 function removePanels() {
@@ -213,7 +228,9 @@ function individual() {
 
 function gencompanycontract() {
 
-  var checkbox = document.getElementById("companycheckbox").value;
+  genSaveButton();
+
+//  var checkbox = document.getElementById("companycheckbox").value;
 
   var targetvalue = document.getElementById("numbercustomers").value;
 var contractheader=  "contract greeter {\n" +
@@ -237,10 +254,133 @@ var bonuscondition =    "   function payBonus (uint _targetNumberCustomers) publ
 
 }
 
+function cleanButtons () {
+
+  var mainpanel = document.getElementById("menuid");
+
+  var saveButton = document.getElementById("saveButton");
+  if (saveButton!==null) {
+      mainpanel.removeChild(saveButton);
+  }
+
+  var deployButton = document.getElementById("deployButton");
+  if (deployButton!==null) {
+      mainpanel.removeChild(deployButton);
+  }
+}
+
+function createScanButton() {
+
+  var newButton =  "<div class=\"col-md-12\" id=\"scanButton\">"+
+     "<button id=\"scan-button\" onclick=\"showEtherscan()\" " +
+  " class=\"btn btn-info btn-xl\" style=\"margin-top: 20px\"> "+
+  "  Txn Etherscan</button> " +
+  "</div>";
+
+   var orgDiv = document.getElementById("etherscan");
+    orgDiv.insertAdjacentHTML('beforeend', newButton);
+
+}
+
+function createContractEtherscanButton() {
+
+  var newButton =  "<div class=\"col-md-12\" id=\"contractScanButton\">"+
+     "<button id=\"scan-button\" onclick=\"showContractEtherscan()\" " +
+  " class=\"btn btn-info btn-xl\" style=\"margin-top: 20px\"> "+
+  "  Contract Etherscan</button> " +
+  "</div>";
+
+   var orgDiv = document.getElementById("etherscan");
+    orgDiv.insertAdjacentHTML('beforeend', newButton);
+
+}
+
+function updateAddress() {
+   var txid = document.getElementById("transactionhash").value;
+   var hash = document.getElementById("contracthash").value;
+
+   //var web3 = new Web3(web3.currentProvider);
+   web3provider.eth.defaultAccount = web3provider.eth.accounts[0];
+
+  web3provider.eth.getTransactionReceipt(txid , function(error, result){
+  if(!error) {
+     document.getElementById("contractaddress").value = result.contractAddress;
+     update(hash, result.contractAddress);
+     console.log(result)
+  }
+  else {
+     document.getElementById("contractaddress").value = "not mined";
+     console.error(error);
+  }
+  });
+
+
+}
+
+function showContractEtherscan() {
+
+  var contractaddress = document.getElementById("contractaddress").value;
+  window.open("https://ropsten.etherscan.io/address/"+contractaddress);
+}
+
+function showEtherscan() {
+
+  var txid = document.getElementById("transactionhash").value;
+  window.open("https://ropsten.etherscan.io/tx/"+txid);
+}
+
+function createAddressButton() {
+
+  var newButton =  "<div class=\"col-md-12\" id=\"addressButton\">"+
+     "<button id=\"address-button\" onclick=\"updateAddress()\" " +
+  " class=\"btn btn-success btn-xl\" style=\"margin-top: 20px\"> "+
+  "  Update Address</button> " +
+  "</div>";
+
+   var orgDiv = document.getElementById("etherscan");
+    orgDiv.insertAdjacentHTML('beforeend', newButton);
+
+}
+
+function genDeployButton() {
+
+  cleanButtons();
+
+  var newButton =  "<div class=\"col-md-12\" id=\"deployButton\">"+
+     "<button id=\"deploy-button\" onclick=\"deployContractManager()\" " +
+  " class=\"btn btn-primary btn-xl\" style=\"margin-top: 20px\"> "+
+  "  Deploy</button> " +
+  "</div>";
+
+   var orgDiv = document.getElementById("menuid");
+    orgDiv.insertAdjacentHTML('beforeend', newButton);
+
+}
+
+function genSaveButton() {
+
+  cleanButtons();
+
+  var newButton =  "<div class=\"col-md-12\" id=\"saveButton\">"+
+     "<button id=\"save-button\" onclick=\"savecontract()\" " +
+  " class=\"btn btn-success btn-xl\" style=\"margin-top: 20px\"> "+
+  "  SAVE</button> " +
+  "</div>";
+
+  //  <button id="deploy-button" onclick="deployContractManager()"
+  //  class="btn btn-primary btn-xl" style="margin-top: 20px">
+  //    Deploy</button>
+
+   var orgDiv = document.getElementById("menuid");
+    orgDiv.insertAdjacentHTML('beforeend', newButton);
+
+}
 
 function genhourlycontract() {
 
-  var checkbox = document.getElementById("hourlycheckbox").value;
+  genSaveButton();
+
+  //var checkbox = document.getElementById("hourlycheckbox").value;
 
   var targetvalue = document.getElementById("hourlyrate").value;
 
@@ -267,7 +407,9 @@ var bonuscondition =   "   function createBonusCondition (uint _targetHours) pub
 
 function genresponsecontract() {
 
-  var checkbox = document.getElementById("responsecheckbox").value;
+  genSaveButton();
+
+  //var checkbox = document.getElementById("responsecheckbox").value;
 
   var targetvalue = document.getElementById("responserate").value;
 
@@ -280,7 +422,7 @@ function genresponsecontract() {
     "       else return false;\n" +
     "   }\n";
   var bonuscondition =   "   function createBonusCondition (uint _responseTime) public {\n" +
-    "       responseTime = _responseTime;\n" +
+    "       targetResponseTime = _responseTime;\n" +
     "     }\n";
 
   teamSourceCode="pragma solidity ^0.4.2;\n" +
@@ -306,6 +448,8 @@ function save(data, hash, type, target, address, cabi, bytecode){
     if(this.readyState == 4 && this.status ==200){
        var data = JSON.parse(this.response);
        document.getElementById("uMessage").style.visibility="visible";
+       cleanButtons();
+       genDeployButton();
        if (data.message == "Data exists") {
            document.getElementById("userMessage").innerHTML = data.message;
            document.getElementById("uMessage").classList.add("alert-danger");
@@ -315,8 +459,6 @@ function save(data, hash, type, target, address, cabi, bytecode){
            document.getElementById("userMessage").innerHTML = data.message;
            document.getElementById("uMessage").classList.add("alert-info");
            document.getElementById("uMessage").classList.remove("alert-danger");
-
-
       }
        //document.getElementById("userMessage").value = JSON.parse(this.response).message;
 
@@ -331,6 +473,43 @@ function save(data, hash, type, target, address, cabi, bytecode){
   };
 }
 
+
+function update( hash, address){
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "/api/update_code", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("hash=" +hash + "&address=" + address );
+
+  xhttp.onreadystatechange = function(){
+    var messageDiv = document.getElementById('message');
+    if(this.readyState == 4 && this.status ==200){
+       var data = JSON.parse(this.response);
+       document.getElementById("uMessage").style.visibility="visible";
+       if (data.message == "No Record") {
+           document.getElementById("userMessage").innerHTML = data.message;
+           document.getElementById("uMessage").classList.add("alert-danger");
+           document.getElementById("uMessage").classList.remove("alert-info");
+
+       } else {
+           document.getElementById("userMessage").innerHTML = data.message;
+           document.getElementById("uMessage").classList.add("alert-info");
+           document.getElementById("uMessage").classList.remove("alert-danger");
+      }
+       //document.getElementById("userMessage").value = JSON.parse(this.response).message;
+
+
+//       if(data.type == 'success'){
+  //     messageDiv.innerHTML = data;
+    //   }else{
+      // console.log(data);
+       //messageDiv.innerHTML = "error";
+       //}
+    }
+  };
+}
+
+
 function checkSourceCodeFull() {
   var hash = document.getElementById("hash").value;
    checkSourceCode(hash);
@@ -338,8 +517,13 @@ function checkSourceCodeFull() {
 }
 
 function savecontract() {
+  document.getElementById("userMessage").innerHTML = "";
+
   var mycontractcode=     document.getElementById("source").value;
   var hash = web3.sha3(mycontractcode);
+  document.getElementById("contracthash").value=hash;
+  document.getElementById("transactionhash").value="";
+
 // function save(data, hash, type, target, address, cabi, bytecode){
 var address=null;
 var cabi=null;
@@ -357,6 +541,7 @@ var target = mycontractcode.substring(targetn+8, targetn2);
 }
 
 function listContracts() {
+  document.getElementById("userMessage").innerHTML = "";
   getHashCodes();
 }
 
@@ -385,6 +570,8 @@ function getHashCodes() {
 }
 
 function deployContractManager() {
+  document.getElementById("userMessage").innerHTML = "";
+
   var xhttp = new XMLHttpRequest();
   var hashcode = document.getElementById("hash").value
 
@@ -442,9 +629,13 @@ function solcCompile2(compiler) {
 function deployContract( bytecode, abi) {
 
    web3 = new Web3(web3.currentProvider);
+   web3provider=new Web3(web3.currentProvider);
   // Our future code here..
    web3.eth.defaultAccount = web3.eth.accounts[0];
    var contract = web3.eth.contract(JSON.parse(abi));
+
+   document.getElementById("userMessage").innerHTML = "Deploying Contract";
+
 
   contract.new(
      {
@@ -453,8 +644,13 @@ function deployContract( bytecode, abi) {
        gas: '4500000'
      }, function (e, contract){
         console.log(e, contract);
-        if (typeof contract.address !== 'undefined') {
-           console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
+        if (typeof contract.transactionHash !== 'undefined') {
+          document.getElementById("transactionhash").value = contract.transactionHash;
+
+          createScanButton();
+          createContractEtherscanButton();
+          createAddressButton();
+           console.log(' transactionHash: ' + contract.transactionHash);
          }
   });
 

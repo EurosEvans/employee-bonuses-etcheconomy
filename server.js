@@ -79,6 +79,26 @@ app.post("/api/save_code", function(req, res){
   });
 });
 
+app.post("/api/update_code", function(req, res){
+  var hash = req.body.hash;
+  var address = req.body.address;
+
+  var query = { Hash : hash};
+  codeDB.findOne({ Hash : hash}, function(err, doc){
+    if(doc != null){
+      codeDB.update(query,{Address: address}, function(err, doc){
+        if(err) throw err;
+         res.json({ message: "Updated", doc : doc, type: 'success'});
+      });
+    }else{
+         res.json({ message: "No Record", doc : doc, type: 'error'});
+    }
+  });
+});
+
+
+
+
 app.get("/api/codes", function(req, res){
   codeDB.find({}, function(err, doc){
     if(err) res.json({ message: "Error", error: err, type: 'error' });
