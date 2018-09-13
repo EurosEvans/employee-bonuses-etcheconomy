@@ -1,7 +1,5 @@
 pragma solidity ^0.4.18;
 
-// storing bytes32s is very expensive so this presently has mostly bytes32 as a storage.
-// we need to use a data store such as IPFS in conjunction with the contract.
 
 contract BonusManager {
 
