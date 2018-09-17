@@ -1,7 +1,5 @@
 pragma solidity ^0.4.18;
 
-// storing bytes32s is very expensive so this presently has mostly bytes32 as a storage.
-// we need to use a data store such as IPFS in conjunction with the contract.
 
 contract BonusManager {
 
@@ -27,12 +25,17 @@ contract BonusManager {
         uint bonusEndDay;
         bytes32 bonusToken;
         uint bonusAmount;
+        bool bonusExists;
     }
 
     struct PaymentDetail {
         uint totalPaid;
     }
  
+    struct WalletBonus {
+        bool bonusExists;
+    }
+
     
     struct WalletDetail {
         bytes32 walletEmailAddress;
@@ -42,12 +45,13 @@ contract BonusManager {
  // map wallet to wallet details
     mapping (address => WalletDetail) public WalletDetails;
  
+     // map wallet and token to bonus payment
+    mapping (address => mapping (bytes32 => WalletBonus) ) public WalletBonuses;
     // map wallet and token to bonus payment
     mapping (address => mapping (bytes32 => PaymentDetail) ) public PaymentDetails; 
      // map bonus name to bonus 
-      mapping  (bytes32 => Bonus)  public Bonuses;
+    mapping  (bytes32 => Bonus)  public Bonuses;
     
-    mapping (address=>BonusName[]) public BonusNames;
     address[] public Wallets;
     BonusName[] public BonusNamesArray;
 
@@ -56,11 +60,7 @@ contract BonusManager {
     function addK(uint k1) public {
         k =k1;
     }
-
-
-
-
-
+    
     function addBonus( string bonusType, uint bonusTarget, uint bonusStartYear, 
         uint bonusStartMonth, uint bonusStartDay, uint bonusEndYear,
         uint bonusEndMonth, uint bonusEndDay, 
@@ -80,6 +80,7 @@ contract BonusManager {
         Bonuses[bonusNameBytes].bonusEndDay=bonusEndDay;
         Bonuses[bonusNameBytes].bonusToken=bonusTokenBytes;
         Bonuses[bonusNameBytes].bonusAmount=bonusAmount;
+        Bonuses[bonusNameBytes].bonusExists=true;
         
         BonusName memory b;
         b.bonusName=bonusNameBytes;
@@ -87,9 +88,10 @@ contract BonusManager {
         
     }
 
-    function addBonusWallet( address wallet,   string bonusName ) public {
+    function addWalletBonus( address wallet, string bonusName ) public {
         bytes32 bonusNameBytes = stringToBytes32(bonusName);
-        BonusNames[wallet][bonusNameBytes].bonusName =bonusNameBytes;
+        require (Bonuses[bonusNameBytes].bonusExists);
+        WalletBonuses[wallet][bonusNameBytes].bonusExists =true;
  
     }
 
@@ -149,26 +151,33 @@ contract BonusManager {
     }
 
     function isBonusPayable(address wallet, string bonusName, uint targetReached, uint endYear, uint endMonth, uint endDay)
-    public view returns (bool payBonus, uint bonusAmount, bytes32 bonusToken) {
-        
+    public view returns (bool payBonus, uint bonusAmount, string bonusToken)  
+ 
+    {
         bytes32 bonusNameBytes32 = stringToBytes32(bonusName);
-        bytes32 bonusNameBlockchain = BonusNames[wallet][bonusNameBytes32].bonusName;
+        require(Bonuses[bonusNameBytes32].bonusExists);
+        require(WalletBonuses[wallet][bonusNameBytes32].bonusExists);
+        
         bool beforeEnd=false;
         payBonus=false;
+        bytes32 bonusTokenBytes;
+        bonusAmount=0;
         bonusToken="";
         
-        if ((endYear <= Bonuses[bonusNameBlockchain].bonusEndYear)
-        && (endMonth <= Bonuses[bonusNameBlockchain].bonusEndMonth)
-        && (endDay <= Bonuses[bonusNameBlockchain].bonusEndDay)) {
+        if ((endYear <= Bonuses[bonusNameBytes32].bonusEndYear)
+        && (endMonth <= Bonuses[bonusNameBytes32].bonusEndMonth)
+        && (endDay <= Bonuses[bonusNameBytes32].bonusEndDay)) {
             beforeEnd = true;
         }
-        
-        if ((targetReached >= Bonuses[bonusNameBlockchain].bonusTarget) && beforeEnd) {
+
+        if ((targetReached >= Bonuses[bonusNameBytes32].bonusTarget) && beforeEnd) {
             payBonus = true;
-            bonusAmount = Bonuses[bonusNameBlockchain].bonusAmount;
-            bonusToken = Bonuses[bonusNameBlockchain].bonusToken;
+            bonusAmount = Bonuses[bonusNameBytes32].bonusAmount;
+            bonusTokenBytes = Bonuses[bonusNameBytes32].bonusToken;
+            bonusToken = bytes32ToString(bonusTokenBytes);
         }
         
+        return (payBonus, bonusAmount,  bonusToken);
         
     }
 
