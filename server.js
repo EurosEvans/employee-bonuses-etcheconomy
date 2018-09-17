@@ -29,6 +29,14 @@ app.get("/api/ping", function(req, res){
   res.json({ messaage: "pong" });
 });
 
+var walletSchema = new mongoose.Schema({
+  Wallet : { type: String, default: null },
+  Email : { type: String, default: null}
+});
+var bonusnameSchema = new mongoose.Schema({
+  BonusName : { type: String, default: null },
+});
+
 var codeSchema = new mongoose.Schema({
   Code : { type: String, default: null },
   Type : { type: String, default: null},
@@ -40,6 +48,9 @@ var codeSchema = new mongoose.Schema({
 });
 
 var codeDB = mongoose.model("codes", codeSchema);
+var walletDB = mongoose.model("wallets", walletSchema);
+var bonusnameDB = mongoose.model("bonusnames", bonusnameSchema);
+
 
 app.post("/api/save_code", function(req, res){
   var data = req.body.data;
@@ -78,6 +89,50 @@ app.post("/api/save_code", function(req, res){
     }
   });
 });
+
+app.post("/api/save_wallet", function(req, res){
+  var wallet = req.body.wallet;
+  var email = req.body.email;
+
+  var walletCreate = new walletDB({
+    Wallet : wallet,
+    Email : email,
+  });
+
+  walletDB.findOne({ Wallet : wallet}, function(err, doc){
+    if(doc == null){
+      walletCreate.save(function(err, doc){
+        if(err) throw err;
+
+         res.json({ message: "Saved Wallet", doc : doc, type: 'success'});
+      });
+    }else{
+         res.json({ message: "Wallet exists", doc : doc, type: 'error'});
+    }
+  });
+});
+
+
+app.post("/api/save_bonusname", function(req, res){
+  var bonusname = req.body.bonusname;
+
+  var bonusnameCreate = new bonusnameDB({
+    BonusName : bonusname
+  });
+
+  bonusnameDB.findOne({ BonusName : bonusname}, function(err, doc){
+    if(doc == null){
+      bonusnameCreate.save(function(err, doc){
+        if(err) throw err;
+
+         res.json({ message: "Saved Bonus Name", doc : doc, type: 'success'});
+      });
+    }else{
+         res.json({ message: "Name exists", doc : doc, type: 'error'});
+    }
+  });
+});
+
 
 app.post("/api/update_code", function(req, res){
   var hash = req.body.hash;
@@ -124,6 +179,25 @@ app.post("/api/get_allcontracts", function(req, res){
      res.json({ message: "Contracts Read", doc : doc, type: 'success' });
   });
 });
+
+app.post("/api/get_bonusnames", function(req, res){
+//  var hash = req.body.hash;
+  bonusnameDB.find( function(err, doc){
+    if(err) res.json({ message: "Error", error: err, type: 'error' });
+
+     res.json({ message: "Bonuses Read", doc : doc, type: 'success' });
+  });
+});
+
+app.post("/api/get_wallets", function(req, res){
+//  var hash = req.body.hash;
+  walletDB.find( function(err, doc){
+    if(err) res.json({ message: "Error", error: err, type: 'error' });
+
+     res.json({ message: "Wallets Read", doc : doc, type: 'success' });
+  });
+});
+
 
 app.use(express.static(__dirname + "/public" ));
 
