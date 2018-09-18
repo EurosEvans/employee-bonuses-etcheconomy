@@ -8,7 +8,9 @@ contract BonusManager {
         
             
     }
-
+    
+    enum InequalityValue {LessThan, GreaterThan}
+    
     struct BonusName {
         bytes32 bonusName;
     }
@@ -17,15 +19,13 @@ contract BonusManager {
         bytes32 bonusName;
         bytes32 bonusType;
         uint bonusTarget;
-        uint bonusStartYear;
-        uint bonusStartMonth;
-        uint bonusStartDay;
         uint bonusEndYear;
         uint bonusEndMonth;
         uint bonusEndDay;
         bytes32 bonusToken;
         uint bonusAmount;
         bool bonusExists;
+        InequalityValue ineq;
     }
 
     struct PaymentDetail {
@@ -36,17 +36,23 @@ contract BonusManager {
         bool bonusExists;
     }
 
+    struct WalletBonusList {
+        bytes32 bonusname;
+    }
     
     struct WalletDetail {
         bytes32 walletEmailAddress;
     }
 
- 
+
  // map wallet to wallet details
     mapping (address => WalletDetail) public WalletDetails;
  
      // map wallet and token to bonus payment
     mapping (address => mapping (bytes32 => WalletBonus) ) public WalletBonuses;
+
+    mapping (address => WalletBonusList[]) public WalletBonusLists;
+    
     // map wallet and token to bonus payment
     mapping (address => mapping (bytes32 => PaymentDetail) ) public PaymentDetails; 
      // map bonus name to bonus 
@@ -54,6 +60,8 @@ contract BonusManager {
     
     address[] public Wallets;
     BonusName[] public BonusNamesArray;
+    bytes32[] public BonusNamesBytes;
+
 
     uint k;
 
@@ -61,10 +69,22 @@ contract BonusManager {
         k =k1;
     }
     
-    function addBonus( string bonusType, uint bonusTarget, uint bonusStartYear, 
-        uint bonusStartMonth, uint bonusStartDay, uint bonusEndYear,
+    function getWalletBonusesArray() {
+        
+    }
+    
+    function getWallets() public view returns (address[]) {
+        return Wallets;
+    }
+    
+    function getBonusNames() public view returns (bytes32[]) {
+        return BonusNamesBytes;
+    }
+    
+    
+    function addBonus( string bonusType, uint bonusTarget,  uint bonusEndYear,
         uint bonusEndMonth, uint bonusEndDay, 
-        string bonusToken, uint bonusAmount, string bonusName ) public {
+        string bonusToken, uint bonusAmount, string bonusName, uint ineq ) public {
         bytes32 bonusTokenBytes = stringToBytes32(bonusToken);
         bytes32 bonusTypeBytes = stringToBytes32(bonusType);
         bytes32 bonusNameBytes = stringToBytes32(bonusName);
@@ -72,19 +92,19 @@ contract BonusManager {
         Bonuses[bonusNameBytes].bonusName=bonusNameBytes;
         Bonuses[bonusNameBytes].bonusType=bonusTypeBytes;
         Bonuses[bonusNameBytes].bonusTarget=bonusTarget;
-        Bonuses[bonusNameBytes].bonusStartYear=bonusStartYear;
-        Bonuses[bonusNameBytes].bonusStartMonth=bonusStartMonth;
-        Bonuses[bonusNameBytes].bonusStartDay=bonusStartDay;
         Bonuses[bonusNameBytes].bonusEndYear=bonusEndYear;
         Bonuses[bonusNameBytes].bonusEndMonth=bonusEndMonth;
         Bonuses[bonusNameBytes].bonusEndDay=bonusEndDay;
         Bonuses[bonusNameBytes].bonusToken=bonusTokenBytes;
         Bonuses[bonusNameBytes].bonusAmount=bonusAmount;
         Bonuses[bonusNameBytes].bonusExists=true;
+        Bonuses[bonusNameBytes].ineq=InequalityValue(ineq);
         
         BonusName memory b;
         b.bonusName=bonusNameBytes;
         BonusNamesArray.push(b);
+    
+        BonusNamesBytes.push(bonusNameBytes);
         
     }
 
@@ -92,6 +112,12 @@ contract BonusManager {
         bytes32 bonusNameBytes = stringToBytes32(bonusName);
         require (Bonuses[bonusNameBytes].bonusExists);
         WalletBonuses[wallet][bonusNameBytes].bonusExists =true;
+        
+        WalletBonusList memory b;
+        b.bonusname=bonusNameBytes;
+    
+        
+       // WalletBonusLists[wallet]. 
  
     }
 
