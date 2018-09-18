@@ -48,7 +48,7 @@
     </div>
 
       <div class="col-md-4">
-          <select id="wallets" class="form-control"
+          <select id="wallets1" class="form-control"
           onchange="selectWallet()"></select>
       </div>
       <div class="col-md-2">
@@ -56,7 +56,7 @@
           onchange="selectToken()"></select>
       </div>
       <div class="col-md-2">
-        Wallet  <input id="readwallet" type="text">
+        Wallet  <input id="readwallet1" type="text">
       </div>
       <div class="col-md-2">
         Token  <input id="readtoken" type="text">
@@ -70,30 +70,137 @@
 
 <div class="container">
     <div class="alert alert-primary" role="alert">
-       <h2>List Bonus Conditions</h2>
+       <h2>List Wallets and Assigned Bonuses</h2>
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-md-12">
+      <button id="popWallets" onclick="listAllWallets()"
+      class="btn btn-primary btn-xl"
+      style="margin-top: 20px">List Wallets</button>
+    </div>
+</div>
+
+<div class="container">
+   <div class="col-md-5">
+      <select id="allwallets" class="form-control"
+      onchange="selectWalletFromAllWallets()"></select>
+   </div>
+   <div class="col-md-5">
+     Wallet: <label id="readallwallet" type="text"></label>
+   </div>
+   <div class="col-md-5">
+     Email: <label id="allwalletemail" type="text"></label>
+   </div>
+</div>
+
+<div class="container">
+    <div class="alert alert-primary" role="alert">
+       <h2>List Bonus Conditions and Assign a Wallet</h2>
     </div>
 </div>
 
 
 <div class="container">
     <div class="col-md-12">
-       <button id="popBonuses" onclick="listBonusNames()" class="btn btn-outline btn-xl"
+       <button id="popBonuses" onclick="listAllBonusNames()"
+       class="btn btn-primary btn-xl"
        style="margin-top: 20px">List Bonuses</button>
+    </div>
 </div>
+
+
 
 <div class="container">
     <div class="col-md-3">
         <select id="listBonusNames" class="form-control"
          onchange="selectBonusName()"></select>
     </div>
-    <div class="col-md-9">
-        
+    <div class="col-md-5">
+          <select id="wallets" class="form-control"
+          onchange="selectWallet()"></select>
     </div>
-
+    <div class="col-md-2">
+        Wallet: <label id="readwallet" type="text"></label>
+    </div>
+    <div class="col-md-2">
+      <button id="marryWallet" onclick="marryWallet()"
+      class="btn btn-primary btn-xl"
+      style="margin-top: 20px">Assign</button>
+    </div>
 </div>
 
+<div class="container">
+    <div class="col-md-4">
+       Bonus Type: <label type="text" id="displayBonusType"></label>
+    </div>
+    <div class="col-md-4">
+       Bonus Name: <label type="text" id="displayBonusName"></label>
+    </div>
+    <div class="col-md-4">
+       Bonus Date: <label type="text" id="displayBonusDate"></label>
+    </div>
+</div>
 
+<div class="container">
+    <div class="col-md-4">
+       Bonus Target: <label type="text" id="displayBonusTarget"></label>
+    </div>
+    <div class="col-md-4">
+       Bonus Payable: <label type="text" id="displayBonusPayable"></label>
+    </div>
+    <div class="col-md-4">
+       Bonus Token: <label type="text" id="displayBonusToken"></label>
+    </div>
+</div>
 
+<div class="container">
+    <div class="col-md-8">
+         <label type="text" id="ifstring"></label>
+    </div>
+
+    <div class="col-md-4">
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-md-8">
+         <label type="text" id="beforestring"></label>
+    </div>
+
+    <div class="col-md-4">
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-md-8">
+         <label type="text" id="thenstring"></label>
+    </div>
+
+    <div class="col-md-4">
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="alert alert-primary" role="alert">
+       <h2>Add a Wallet</h2>
+    </div>
+</div>
+
+<div class="container">
+  <div class="col-md-12">
+    Wallet Address
+    <input type="text" id="walletaddress">
+    Email Address
+    <input type="text" id="walletemailaddress">
+    <button id="walletbbutton" onclick="addWallet()"
+    class="btn btn-primary btn-xl" style="margin-top: 20px">
+    Add</button>
+  </div>
 </div>
 
 <div class="container">
@@ -229,17 +336,7 @@
             </div>
           </div>
 
-          <div class="container">
-            <div class="col-md-12">
-              <h2>Add a Wallet</h2>
-              Wallet Address
-              <input type="text" id="walletaddress">
-              Email Address
-              <input type="text" id="walletemailaddress">
-              <button id="walletbbutton" onclick="addWallet()" class="btn btn-secondary btn-xl" style="margin-top: 20px">
-              Add</button>
-            </div>
-          </div>
+
 
          <div class="container">
            <div class="col-md-12">
