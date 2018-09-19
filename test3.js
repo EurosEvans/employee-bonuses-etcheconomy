@@ -10,6 +10,8 @@ abi = [ { "constant": false, "inputs": [ { "name": "bonusType", "type": "string"
 
 var selectedDate;
 
+var selectedCheckDate;
+
 function getSourceCode() {
     return document.getElementById("source").value;
 }
@@ -121,6 +123,13 @@ function selDate() {
       //dd/mm/yyyy
 
 }
+function selCheckDate() {
+
+//    $( "#datepicker" ).datepicker();
+      selectedCheckDate = document.getElementById("datepickercheck").value;
+      //dd/mm/yyyy
+
+}
 
 function addBonusData() {
 
@@ -188,6 +197,12 @@ function getBonusBlockchain(bonusname) {
 
 //getWalletBonusesBlockchain
 
+function selectWalletBonuses() {
+  var bonus =document.getElementById("walletbonuses").value;
+  document.getElementById("checkbonus").innerHTML=bonus;
+
+}
+
 function getWalletBonusesBlockchain(wallet) {
   web3 = new Web3(web3.currentProvider);
   web3provider=web3;
@@ -196,7 +211,7 @@ function getWalletBonusesBlockchain(wallet) {
 
   var contract = web3.eth.contract(abi);
   var instanceContract = contract.at(address);
-
+  document.getElementById("checkbonus").innerHTML="";
   instanceContract.getWalletBonuses(
        wallet
      , function (e, result){
@@ -321,7 +336,8 @@ function populateWalletBonuses(wallets, bonusnames, web3) {
   sel = document.getElementById("walletbonuses");
   sel.innerHTML = "";
   if (wallets.length > 0)
-    //  document.getElementById("readwallet").value=wallets[0];
+    var  bonusnamesStrLocal = web3.toAscii(bonusnames[0]);
+      document.getElementById("checkbonus").innerHTML=bonusnamesStrLocal;
     for(var i = 0; i < bonusnames.length; i++) {
         var opt = document.createElement('option');
         var  bonusnamesStr = web3.toAscii(bonusnames[i]);
@@ -335,7 +351,7 @@ function populateWallets(wallets) {
   sel = document.getElementById("wallets");
   sel.innerHTML = "";
   if (wallets.length > 0)
-      document.getElementById("readwallet").value=wallets[0];
+      document.getElementById("readwallet").innerHTML=wallets[0];
     for(var i = 0; i < wallets.length; i++) {
         var opt = document.createElement('option');
         opt.appendChild( document.createTextNode(wallets[i]) );
@@ -347,6 +363,8 @@ function populateWallets(wallets) {
 function selectWalletFromAllWallets() {
   var wallet = document.getElementById("allwallets").value;
   document.getElementById("readallwallet").innerHTML = wallet;
+  document.getElementById("checkwallet").innerHTML=wallet;
+
   getWalletBlockchain(wallet);
   getWalletBonusesBlockchain(wallet);
   // read blockchain for details.
@@ -356,13 +374,45 @@ function populateAllWallets(wallets) {
   sel = document.getElementById("allwallets");
   sel.innerHTML = "";
   if (wallets.length > 0)
-      document.getElementById("readallwallet").value=wallets[0];
+      document.getElementById("readallwallet").innerHTML=wallets[0];
+      document.getElementById("checkwallet").innerHTML=wallets[0];
+
     for(var i = 0; i < wallets.length; i++) {
         var opt = document.createElement('option');
         opt.appendChild( document.createTextNode(wallets[i]) );
         opt.value = wallets[i];
         sel.appendChild(opt);
     }
+
+    getWalletBlockchain(wallets[0]);
+    getWalletBonusesBlockchain(wallets[0]);
+
+}
+
+function checkbutton() {
+
+   var targetreached = document.getElementById("checkTarget").value;
+   var wallet = document.getElementById("checkwallet").innerHTML;
+
+   var bonusname = document.getElementById("checkbonus").innerHTML;
+
+   var arrayDate;
+   if (selectedCheckDate!=undefined && selectedCheckDate!=null) {
+      arrayDate = selectedCheckDate.split("/");
+   } else {
+   }
+   var day; var month; var year;
+   if (arrayDate!=undefined && arrayDate!=null) {
+       if (arrayDate.length > 2) {
+           month = arrayDate[0];
+           day = arrayDate[1];
+           year = arrayDate[2];
+       }
+   }
+
+    isBonusPayable(wallet, bonusname, targetreached, year, month, day);
+
+
 }
 
 function populateBonuses(bonusnames, web3) {
@@ -377,7 +427,8 @@ function populateBonuses(bonusnames, web3) {
         opt.value = localBonusName;
         sel.appendChild(opt);
     }
-
+    var bonusnameFirst = web3.toAscii(bonusnames[0]);
+getBonusBlockchain(bonusnameFirst);
 
 }
 
@@ -993,12 +1044,23 @@ function listAllBonusNames() {
   getBlockchainBonuses();
   var typelisting=0;
   getBlockchainWallets(typelisting);
+
+  //var bonusname = document.getElementById("listBonusNames").firstChild.innerHTML;
+//  document.getElementById("readwallet").value = wallet;
+  //getBonusBlockchain(bonusname);
+
+//  var wallet = document.getElementById("wallets").firstChild.innerHTML;
+//  document.getElementById("readwallet").innerHTML = wallet;
+
 }
 
 function listAllWallets() {
   document.getElementById("userMessage").innerHTML = "";
   var typelisting=1;
   getBlockchainWallets(typelisting);
+
+
+
 }
 
 function getHashCodes() {
@@ -1028,6 +1090,40 @@ function getHashCodes() {
 function getTokens() {
   var tokens = ["IOU121", "ETH", "BTC"];
   populateTokens(tokens);
+}
+
+
+function isBonusPayable(wallet, bonusname, targetreached,
+  year, month, day) {
+
+  web3 = new Web3(web3.currentProvider);
+  web3provider=web3;
+  web3provider=new Web3(web3.currentProvider);
+  web3.eth.defaultAccount = web3.eth.accounts[0];
+
+  var contract = web3.eth.contract(abi);
+  var instanceContract = contract.at(address);
+
+  instanceContract.isBonusPayable(wallet, bonusname,
+    targetreached, year, month, day, function (e, result){
+        console.log(result);
+        //var emailaddr= web3.toAscii(result);
+      //  document.getElementById("allwalletemail").innerHTML = emailaddr;
+      var payBonus = result[0];
+      var payAmount = result[1].c[0];
+      var payToken = result[2];
+      if (payBonus) {
+        var str = "Pay" + " " + payAmount + " " + payToken;
+        document.getElementById("eCheckMessage").innerHTML=str;
+
+      } else {
+        document.getElementById("eCheckMessage").innerHTML="No Bonus";
+
+
+      }
+  });
+
+
 }
 
 function getBlockchainWallets(typelisting) {
