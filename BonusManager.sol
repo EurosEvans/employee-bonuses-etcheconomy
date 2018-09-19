@@ -69,9 +69,7 @@ contract BonusManager {
         k =k1;
     }
     
-    function getWalletBonusesArray() {
-        
-    }
+
     
     function getWallets() public view returns (address[]) {
         return Wallets;
@@ -115,10 +113,22 @@ contract BonusManager {
         
         WalletBonusList memory b;
         b.bonusname=bonusNameBytes;
-    
         
-       // WalletBonusLists[wallet]. 
+        WalletBonusList memory wb = WalletBonusList(bonusNameBytes); 
+        
+        WalletBonusLists[wallet].push(wb);
  
+    }
+
+    function getWalletBonuses(address wallet) public view returns (bytes32[] bonusNames) {
+ 
+        uint length = WalletBonusLists[wallet].length;
+        bonusNames = new bytes32[](length);
+
+        for(uint i = 0; i < length; i++)
+        {
+            bonusNames[i] =  WalletBonusLists[wallet][i].bonusname;
+        }   
     }
 
     function getNumberWallets() public view returns(uint) {
