@@ -12,6 +12,11 @@
         <link rel="stylesheet" href="/resources/demos/style.css">
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
         <script>
          $( function() {
            $( "#datepicker" ).datepicker();
@@ -20,13 +25,15 @@
            $( "#datepickercheck" ).datepicker();
          } );
          </script>
-        <link href="./browser-solc/vendor/bootstrap.min.css" rel="stylesheet">
+      <!--  <link href="./browser-solc/vendor/bootstrap.min.css" rel="stylesheet"> -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
 
     </head>
     <body>
 
 <div class="container">
+    <div class="row">
   <div class="col-md-2">
     <img src="./etchlogo.png" class="img-fluid">
   </div>
@@ -37,391 +44,326 @@
     <div class="col-md-12 alert alert-info" id="uMessage" role="alert">
       <p id="userMessage"></p>
     </div>
+  </div>
 </div>
 
 
 <div class="container">
+  <div class="row">
     <div class="col-md-12">
       <hr>
-    </div>
-</div>
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab"
+        href="#profile" role="tab" aria-controls="profile"
+        aria-selected="false">Check Bonuses</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+        aria-controls="contact" aria-selected="false">Assign Wallets</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="addbonus-tab" data-toggle="tab"
+        href="#addbonus" role="tab"
+        aria-controls="addbonus" aria-selected="false">Add Bonus</a>
+      </li>
 
-<div class="container">
-    <div class="alert alert-primary" role="alert">
-       <h2>List Wallets and Assigned Bonuses</h2>
-    </div>
-</div>
-
-<div class="container">
-    <div class="col-md-12">
-      <button id="popWallets" onclick="listAllWallets()"
-      class="btn btn-primary btn-xl"
-      style="margin-top: 20px">List Wallets</button>
-    </div>
-</div>
-
-<div class="container">
-   <div class="col-md-5">
-      <select id="allwallets" class="form-control"
-      onchange="selectWalletFromAllWallets()"></select>
-   </div>
-   <div class="col-md-5">
-     Wallet: <label id="readallwallet" type="text"></label>
-   </div>
-   <div class="col-md-5">
-     Email: <label id="allwalletemail" type="text"></label>
-   </div>
-</div>
-
-<div class="container">
-  <div class="col-md-6">
-     <select id="walletbonuses" class="form-control"
-     onchange="selectWalletBonuses()"></select>
-  </div>
-    <div class="col-md-6">
-      <button id="checkbutton" onclick="checkbutton()"
-      class="btn btn-secondary btn-xl"
-      style="margin-top: 20px">Check</button>
-    </div>
-</div>
-
-<div class="container">
-   <div class="col-md-4">
-     Wallet: <label id="checkwallet" type="text"></label>
-   </div>
-   <div class="col-md-2">
-     Bonus: <label id="checkbonus" type="text"></label>
-   </div>
-   <div class="col-md-4">
-      <p>Date: <input type="text" id="datepickercheck" onchange="selCheckDate()"></p>
-   </div>
-   <div class="col-md-4">
-      <p>Target: <input type="text" id="checkTarget"></p>
-   </div>
-</div>
-
-<div class="container">
-    <div class="col-md-12 alert alert-info" id="eCheckMessage" role="alert">
-      <p id="errorCheckMessage"></p>
-    </div>
-</div>
+      <li class="nav-item">
+        <a class="nav-link" id="addwallet-tab" data-toggle="tab"
+        href="#addwallet" role="tab"
+        aria-controls="addwallet" aria-selected="false">Add Wallet</a>
+      </li>
 
 
+      </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="home" role="tabpanel"
+      aria-labelledby="home-tab"><h1>Welcome to Etch</h1></div>
 
-<div class="container">
-    <div class="alert alert-primary" role="alert">
-       <h2>List Bonus Conditions and Assign a Wallet</h2>
-    </div>
-</div>
+      <div class="tab-pane fade" id="profile" role="tabpanel"
+      aria-labelledby="profile-tab">
 
+          <div class="row">
+            <div class="alert alert-primary" role="alert">
+               <h3>Check Bonuses</h3>
+            </div>
+          </div>
 
-<div class="container">
-    <div class="col-md-12">
-       <button id="popBonuses" onclick="listAllBonusNames()"
-       class="btn btn-primary btn-xl"
-       style="margin-top: 20px">List Bonuses</button>
-    </div>
-</div>
+          <div class="row">
+            <div class="col-md-12">
+              <button id="popWallets" onclick="listAllWallets()"
+              class="btn btn-primary btn-xl"
+              style="margin-top: 20px">List Wallets</button>
+            </div>
+          </div>
 
+          <div class="row">
+              <div class="col-md-5">
+                <select id="allwallets" class="form-control"
+                onchange="selectWalletFromAllWallets()"></select>
+              </div>
+              <div class="col-md-5">
+               Wallet: <label id="readallwallet" type="text"></label>
+              </div>
+              <div class="col-md-2">
+               Email: <label id="allwalletemail" type="text"></label>
+              </div>
+          </div>
 
+          <div class="row">
+              <div class="col-md-6">
+               <select id="walletbonuses" class="form-control"
+               onchange="selectWalletBonuses()"></select>
+              </div>
+              <div class="col-md-6">
+                <button id="checkbutton" onclick="checkbutton()"
+                class="btn btn-secondary btn-xl"
+                style="margin-top: 20px">Check</button>
+              </div>
+          </div>
 
-<div class="container">
-    <div class="col-md-3">
-        <select id="listBonusNames" class="form-control"
-         onchange="selectBonusName()"></select>
-    </div>
-    <div class="col-md-5">
-          <select id="wallets" class="form-control"
-          onchange="selectWallet()"></select>
-    </div>
-    <div class="col-md-2">
-        Wallet: <label id="readwallet" type="text"></label>
-    </div>
-    <div class="col-md-2">
-      <button id="marryWallet" onclick="marryWallet()"
-      class="btn btn-primary btn-xl"
-      style="margin-top: 20px">Assign</button>
-    </div>
-</div>
+          <div class="row">
+             <div class="col-md-4">
+               Wallet: <label id="checkwallet" type="text"></label>
+             </div>
+             <div class="col-md-2">
+               Bonus: <label id="checkbonus" type="text"></label>
+             </div>
+             <div class="col-md-4">
+                <p>Date: <input type="text" id="datepickercheck" onchange="selCheckDate()"></p>
+             </div>
+             <div class="col-md-2">
+                <p>Target: <input type="text" id="checkTarget"></p>
+             </div>
+          </div>
 
-<div class="container">
-    <div class="col-md-4">
-       Bonus Type: <label type="text" id="displayBonusType"></label>
-    </div>
-    <div class="col-md-4">
-       Bonus Name: <label type="text" id="displayBonusName"></label>
-    </div>
-    <div class="col-md-4">
-       Bonus Date: <label type="text" id="displayBonusDate"></label>
-    </div>
-</div>
+          <div class="row">
+            <div class="col-md-12 alert alert-info" id="eCheckMessage" role="alert">
+              <p id="errorCheckMessage"></p>
+            </div>
+          </div>
 
-<div class="container">
-    <div class="col-md-4">
-       Bonus Target: <label type="text" id="displayBonusTarget"></label>
-    </div>
-    <div class="col-md-4">
-       Bonus Payable: <label type="text" id="displayBonusPayable"></label>
-    </div>
-    <div class="col-md-4">
-       Bonus Token: <label type="text" id="displayBonusToken"></label>
-    </div>
-</div>
-
-<div class="container">
-    <div class="col-md-8">
-         <label type="text" id="ifstring"></label>
-    </div>
-
-    <div class="col-md-4">
-
-    </div>
-</div>
-
-<div class="container">
-    <div class="col-md-8">
-         <label type="text" id="beforestring"></label>
-    </div>
-
-    <div class="col-md-4">
-
-    </div>
-</div>
-
-<div class="container">
-    <div class="col-md-8">
-         <label type="text" id="thenstring"></label>
-    </div>
-
-    <div class="col-md-4">
-
-    </div>
-</div>
-
-<div class="container">
-    <div class="alert alert-primary" role="alert">
-       <h2>Add a Wallet</h2>
-    </div>
-</div>
-
-<div class="container">
-  <div class="col-md-12">
-    Wallet Address
-    <input type="text" id="walletaddress">
-    Email Address
-    <input type="text" id="walletemailaddress">
-    <button id="walletbbutton" onclick="addWallet()"
-    class="btn btn-primary btn-xl" style="margin-top: 20px">
-    Add</button>
-  </div>
-</div>
-
-<div class="container">
-    <div class="alert alert-primary" role="alert">
-       <h2>Add a Bonus Condition</h2>
-    </div>
-</div>
-
-
-<div class="container">
-    <div class="col-md-8">
-      <input type="radio" name="selbonus" id="Individual" onclick="selIndDom()"> Individual
-      <input type="radio" id="Team" name="selbonus" onclick="selTeamDom()"> Team
-      <input type="radio" id="Company" name="selbonus" onclick="selCompanyDom()" > Company
-    </div>
-      <div class="col-md-4">
-        <p><input type="text" id="selBonusType" ></p>
       </div>
-</div>
+      <div class="tab-pane fade" id="contact" role="tabpanel"
+      aria-labelledby="contact-tab">
 
-<div class="container">
-  <div class="col-md-2">
-     <p>Bonus Name:</p>
-  </div>
-  <div class="col-md-3">
-     <p><input type="text" id="selBonusName" ></p>
-  </div>
-    <div class="col-md-2">
-       <p>End Date: </p>
-    </div>
-    <div class="col-md-5">
-       <p><input type="text" id="datepicker" onchange="selDate()"></p>
-    </div>
-</div>
+          <div class="row">
+             <div class="alert alert-primary" role="alert">
+               <h2>Assign Wallets</h2>
+            </div>
+          </div>
 
-<div class="container">
-  <div class="col-md-2">
-     <p>Target to be reached (quantity):</p>
-  </div>
-  <div class="col-md-3">
-     <p><input type="text" id="selTarget" ></p>
-  </div>
-  <div class="col-md-2">
-     <p>Bonus Payable (amount):</p>
-  </div>
-    <div class="col-md-3">
-       <p><input type="text" id="selBonus" ></p>
-    </div>
-    <div class="col-md-2">
+          <div class="row">
+            <div class="col-md-12">
+               <button id="popBonuses" onclick="listAllBonusNames()"
+               class="btn btn-primary btn-xl"
+               style="margin-top: 20px">List Bonuses</button>
+            </div>
+          </div>
 
-    </div>
-</div>
+          <div class="row">
+              <div class="col-md-3">
+                  <select id="listBonusNames" class="form-control"
+                   onchange="selectBonusName()"></select>
+              </div>
+              <div class="col-md-5">
+                    <select id="wallets" class="form-control"
+                    onchange="selectWallet()"></select>
+              </div>
+              <div class="col-md-2">
+                  Wallet: <label id="readwallet" type="text"></label>
+              </div>
+              <div class="col-md-2">
+                <button id="marryWallet" onclick="marryWallet()"
+                class="btn btn-primary btn-xl"
+                style="margin-top: 20px">Assign</button>
+              </div>
+          </div>
 
-<div class="container">
-  <div class="col-md-5">
-     <p></p>
-  </div>
-  <div class="col-md-2">
-     <p>Token (Symbol):</p>
-  </div>
-    <div class="col-md-3">
-       <p><input type="text" id="selToken" ></p>
-    </div>
-    <div class="col-md-2">
-       <p></p>
-    </div>
-</div>
+          <div class="row">
+            <div class="col-md-4">
+               Bonus Type: <label type="text" id="displayBonusType"></label>
+            </div>
+            <div class="col-md-4">
+               Bonus Name: <label type="text" id="displayBonusName"></label>
+            </div>
+            <div class="col-md-4">
+               Bonus Date: <label type="text" id="displayBonusDate"></label>
+            </div>
+          </div>
 
-<div class="container">
-  <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-4">
+               Bonus Target: <label type="text" id="displayBonusTarget"></label>
+            </div>
+            <div class="col-md-4">
+               Bonus Payable: <label type="text" id="displayBonusPayable"></label>
+            </div>
+            <div class="col-md-4">
+               Bonus Token: <label type="text" id="displayBonusToken"></label>
+            </div>
+          </div>
 
-  </div>
-    <div class="col-md-4">
-        <button id="addBonusCondition" onclick="addBonusCondition()"
-            class="btn btn-primary btn-xl" style="margin-top: 20px">Add Bonus</button>
-    </div>
+          <div class="row">
+            <div class="col-md-8">
+                 <label type="text" id="ifstring"></label>
+            </div>
 
-</div>
-<div class="container">
-    <div class="col-md-12 alert alert-info" id="eMessage" role="alert">
-      <p id="errorMessage"></p>
-    </div>
-</div>
-
-<div class="container">
-    <div class="col-md-12">
-      <hr>
-    </div>
-</div>
-
-<div class="container">
-    <div class="col-md-12">
-      <h2>Legacy Demo</h2>
-    </div>
-</div>
-
-<div class="container">
-    <div class="col-md-6">
-       <p>Target: <input type="text" id="selBonusTargetVal" onchange="selBonusTarget()"></p>
-    </div>
-    <div class="col-md-6">
-       <p>Payable: <input type="text" id="selBonusPayableVal" onchange="selBonusPayable()"></p>
-    </div>
-</div>
-<div class="container">
-    <div class="col-md-6">
-      <button id="addBonus" onclick="addBonusData()" class="btn btn-secondary btn-xl" style="margin-top: 20px">
-      Add Bonus Condition</button>
-    </div>
-    <div class="col-md-6">
-    </div>
-</div>
-<div class="container">
-  <div class="col-md-12">
-   <h2>Create a Bonus Condition</h2>
-  </div>
-    <div class="col-md-12">
-       <input type="radio" name="contract" id="Individual" onclick="createIndDom()"> Individual
-       <input type="radio" id="Team" name="contract" onclick="createTeamDom()"> Team
-       <input type="radio" id="Company" name="contract" onclick="createCompanyDom()" > Company
-
-    </div>
-
-      <div class="col-md-4">
-          <select id="wallets1" class="form-control"
-          onchange="selectWallet()"></select>
-      </div>
-      <div class="col-md-2">
-          <select id="tokens" class="form-control"
-          onchange="selectToken()"></select>
-      </div>
-      <div class="col-md-2">
-        Wallet  <input id="readwallet1" type="text">
-      </div>
-      <div class="col-md-2">
-        Token  <input id="readtoken" type="text">
-      </div>
-</div>
-
-
-<div class="container">
-    <div class="col-md-6">
-        <h2>Advanced Contracts</h2>
-    </div>
-</div>
-
-        <div class="container">
-            <div class="col-md-6">
+            <div class="col-md-4">
 
             </div>
-            <div class="col-md-6">
-               <p id="menuid"></p>
+          </div>
 
+          <div class="row">
+              <div class="col-md-8">
+                   <label type="text" id="beforestring"></label>
+              </div>
+
+              <div class="col-md-4">
+
+              </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-8">
+                 <label type="text" id="thenstring"></label>
             </div>
-        </div>
-       <div class="container" >
-            <div class="col-md-6 " id="mainPanel">
-              <p id="checkboxid"></p>
-            </div>
-            <div class="col-md-6">
-                <textarea id="source" onclick="this.select()" style="height:200px; width: 400px; display:block; margin-left:20px"></textarea>
-                Txn Hash <textarea id="transactionhash" style="height:50px; width: 400px; display:block; margin-left:20px"></textarea>
-                Hash <textarea id="contracthash" style="height:50px; width: 400px; display:block; margin-left:20px"></textarea>
-                Address <textarea id="contractaddress" style="height:50px; width: 400px; display:block; margin-left:20px"></textarea>
-                <p id="etherscan"></p>
+
+            <div class="col-md-4">
+
             </div>
           </div>
 
 
+      </div>
 
-         <div class="container">
-           <div class="col-md-12">
-             <button id="list-button" onclick="listContracts()"
-             class="btn btn-secondary btn-xl" style="margin-top: 20px">
-               LIST</button>
-             <h2>Saved Contracts</h2>
-           </div>
-            <div class="col-md-12">
-                <select id="contracts" class="form-control" onchange="selectContract()"></select>
+
+      <div class="tab-pane fade" id="addbonus" role="tabpanel"
+      aria-labelledby="addbonus-tab">
+
+          <div class="row">
+            <div class="alert alert-primary" role="alert">
+               <h3>Add Bonus</h3>
             </div>
-            <div class="col-md-12">
-              <h2>Contract Details</h2>
+          </div>
+
+          <div class="row">
+              <div class="col-md-8">
+                <input type="radio" name="selbonus" id="Individual" onclick="selIndDom()"> Individual
+                <input type="radio" id="Team" name="selbonus" onclick="selTeamDom()"> Team
+                <input type="radio" id="Company" name="selbonus" onclick="selCompanyDom()" > Company
+              </div>
+                <div class="col-md-4">
+                  <p><input type="text" id="selBonusType" ></p>
+                </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+               <p>Bonus Name:</p>
             </div>
-            <div class="col-md-12">
-               <div class="col-md-6">
-                  <textarea id="selcontract" onclick="this.select()" style="height:200px; width: 400px; display:block; margin-left:20px"></textarea>
-               </div>
-               <div class="col-md-6">
-                  <textarea id="targetcontract" onclick="this.select()" style="height:200px; width: 400px; display:block; margin-left:20px"></textarea>
-               </div>
+            <div class="col-md-3">
+               <p><input type="text" id="selBonusName" ></p>
             </div>
-            <div class="col-md-12">
-                <select id="versions" class="form-control" ></select>
+              <div class="col-md-2">
+                 <p>End Date: </p>
+              </div>
+              <div class="col-md-5">
+                 <p><input type="text" id="datepicker" onchange="selDate()"></p>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-md-2">
+                 <p>Target to be reached (quantity):</p>
+              </div>
+              <div class="col-md-3">
+                 <p><input type="text" id="selTarget" ></p>
+              </div>
+              <div class="col-md-2">
+                 <p>Bonus Payable (amount):</p>
+              </div>
+              <div class="col-md-3">
+                 <p><input type="text" id="selBonus" ></p>
+              </div>
+              <div class="col-md-2">
+
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-md-5">
+                 <p></p>
+              </div>
+              <div class="col-md-2">
+                 <p>Token (Symbol):</p>
+              </div>
+                <div class="col-md-3">
+                   <p><input type="text" id="selToken" ></p>
+                </div>
+                <div class="col-md-2">
+                   <p></p>
+                </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8">
+
             </div>
-            <div class="col-md-12">
-                <textarea id="hash"   style="height:50px; width: 400px; display:block; margin-left:20px"></textarea>
-                <button id="check-button" onclick="checkSourceCodeFull()" class="btn btn-outline btn-xl" style="margin-top: 20px">
-                  check</button>
-                <button id="test-button" class="btn btn-outline btn-xl" style="margin-top: 20px">
-                  compile</button>
-                  <button id="blockchainbutton" onclick="showAddress()" class="btn btn-outline btn-xl" style="margin-top: 20px">
-                    show address</button>
-                    <button id="blockchainbutton" onclick="showDB()" class="btn btn-outline btn-xl" style="margin-top: 20px">
-                      show db</button>
-                <p id="status" style="float:right; margin-top:20px"></p>
-                <p style="margin-top:20px">Output: </p>
-                <textarea id="compile-output" onclick="this.select()" style="width:445px; height:360px;" readonly></textarea>
+            <div class="col-md-4">
+              <button id="addBonusCondition" onclick="addBonusCondition()"
+                  class="btn btn-primary btn-xl" style="margin-top: 20px">Add Bonus</button>
             </div>
-        </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 alert alert-info" id="eMessage" role="alert">
+              <p id="errorMessage"></p>
+            </div>
+          </div>
+
+
+      </div>
+
+
+      <div class="tab-pane fade" id="addwallet" role="tabpanel"
+      aria-labelledby="addwallet-tab">
+
+          <div class="row">
+            <div class="alert alert-primary" role="alert">
+               <h2>Add a Wallet</h2>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              Wallet Address
+              <input type="text" id="walletaddress">
+              Email Address
+              <input type="text" id="walletemailaddress">
+              <button id="walletbbutton" onclick="addWallet()"
+              class="btn btn-primary btn-xl" style="margin-top: 20px">
+              Add</button>
+            </div>
+          </div>
+
+      </div>
+
+
+    </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+ 
+
+
     </body>
 </html>
