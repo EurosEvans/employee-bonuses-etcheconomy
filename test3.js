@@ -13,6 +13,28 @@ var selectedDate;
 
 var selectedCheckDate;
 
+function selectEmployeeBonus() {
+    var bonusname = document.getElementById("employeebonuses").value;
+
+    getMyBonusBlockchain(bonusname);
+
+
+  //  <td><label type="input" id="mybonustype"></label></td>
+  //  <td><label type="input" id="mybonusdate"></label></td>
+  //  <td><label type="input" id="mybonustarget"></label></td>
+  //  <td><label type="input" id="mybonuspayable"></label></td>
+  //  <td><label type="input" id="mybonustoken"></label></td>
+
+
+}
+
+function employeeBonus() {
+    var myWallet = document.getElementById("employeeWallet").value;
+
+    getEmployeeBonusesBlockchain(myWallet);
+}
+
+
 function getSourceCode() {
     return document.getElementById("source").value;
 }
@@ -196,6 +218,27 @@ function getBonusBlockchain(bonusname) {
 
 }
 
+function getMyBonusBlockchain(bonusname) {
+  web3 = new Web3(web3.currentProvider);
+  web3provider=web3;
+  web3provider=new Web3(web3.currentProvider);
+  web3.eth.defaultAccount = web3.eth.accounts[0];
+
+  var bonusnameBytes32 = web3.fromAscii(bonusname);
+
+  var contract = web3.eth.contract(abi);
+  var instanceContract = contract.at(address);
+
+  instanceContract.Bonuses(
+       bonusnameBytes32
+     , function (e, result){
+        console.log(result);
+        var x = popMyBonusFields(result, web3);
+  });
+
+}
+
+
 //getWalletBonusesBlockchain
 
 function selectWalletBonuses() {
@@ -222,6 +265,23 @@ function getWalletBonusesBlockchain(wallet) {
 
 }
 
+function getEmployeeBonusesBlockchain(wallet) {
+  web3 = new Web3(web3.currentProvider);
+  web3provider=web3;
+  web3provider=new Web3(web3.currentProvider);
+  web3.eth.defaultAccount = web3.eth.accounts[0];
+
+  var contract = web3.eth.contract(abi);
+  var instanceContract = contract.at(address);
+  //document.getElementById("checkbonus").innerHTML="";
+  instanceContract.getWalletBonuses(
+       wallet
+     , function (e, result){
+        console.log(result);
+        populateEmployeeBonuses(result, web3);
+  });
+
+}
 
 function getWalletBlockchain(wallet) {
   web3 = new Web3(web3.currentProvider);
@@ -241,6 +301,26 @@ function getWalletBlockchain(wallet) {
   });
 
 }
+
+function getEmployeeBlockchain(wallet) {
+  web3 = new Web3(web3.currentProvider);
+  web3provider=web3;
+  web3provider=new Web3(web3.currentProvider);
+  web3.eth.defaultAccount = web3.eth.accounts[0];
+
+  var contract = web3.eth.contract(abi);
+  var instanceContract = contract.at(address);
+
+  instanceContract.WalletDetails(
+       wallet
+     , function (e, result){
+        console.log(result);
+        var emailaddr= web3.toAscii(result);
+        document.getElementById("employeeemail").innerHTML = emailaddr;
+  });
+
+}
+
 
 function popBonusFields(result, web3) {
 
@@ -293,6 +373,60 @@ document.getElementById("thenstring").innerHTML = ThenString;
     return true;
 
 }
+
+function popMyBonusFields(result, web3) {
+
+    if (result==undefined) return false;
+    if (result==null) return false;
+    if (result.length > 10) return false;
+
+    var bonusName;
+    var bonusName32 = result[0]; //
+    if (isValid(bonusName32)) bonusName = web3.toAscii(bonusName32);
+    var bonusType;
+    var bonusType32 = result[1];
+    if (isValid(bonusType32)) bonusType = web3.toAscii(bonusType32);
+
+    var bonusTarget = result[2]; //
+    var bonusEndYear = result[3];
+    var bonusEndMonth = result[4];
+    var bonusEndDay = result[5];
+
+    var bonusToken;
+    var bonusToken32 = result[6]; //
+    if (isValid(bonusToken32)) bonusToken = web3.toAscii(bonusToken32);
+
+    var bonusAmount = result[7]; //
+    var bonusExists = result[8];
+    var bonusIneq = result[9];
+
+    var bonusDate = bonusEndDay + "/"+bonusEndMonth+"/"+bonusEndYear;
+
+    document.getElementById("mybonusname").innerHTML = bonusName;
+    document.getElementById("mybonustype").innerHTML = bonusType;
+    document.getElementById("mybonustarget").innerHTML = bonusTarget;
+    document.getElementById("mybonuspayable").innerHTML = bonusAmount;
+    document.getElementById("mybonustoken").innerHTML = bonusToken;
+    document.getElementById("mybonusdate").innerHTML = bonusDate;
+
+if ((bonusIneq) == 1) {
+    ineqStr="Greater Than";
+} else {
+    ineqStr="Less Than";
+}
+
+var IFString = "IF " + bonusType + " Target " + ineqStr + " " + bonusTarget;
+var BeforeString = "Before " + bonusDate;
+var ThenString = "Then pay " + bonusAmount + " " + bonusToken;
+
+document.getElementById("ifmystring").innerHTML = IFString;
+document.getElementById("beforemystring").innerHTML = BeforeString;
+document.getElementById("thenmystring").innerHTML = ThenString;
+
+    return true;
+
+}
+
 
 function selectToken() {
     var token = document.getElementById("tokens").value;
@@ -347,6 +481,23 @@ function populateWalletBonuses(wallets, bonusnames, web3) {
         sel.appendChild(opt);
     }
 }
+
+function populateEmployeeBonuses(bonusnames, web3) {
+  sel = document.getElementById("employeebonuses");
+  sel.innerHTML = "";
+  if (wallets.length > 0)
+    var  bonusnamesStrLocal = web3.toAscii(bonusnames[0]);
+    //  document.getElementById("checkbonus").innerHTML=bonusnamesStrLocal;
+    for(var i = 0; i < bonusnames.length; i++) {
+        var opt = document.createElement('option');
+        var  bonusnamesStr = web3.toAscii(bonusnames[i]);
+        opt.appendChild( document.createTextNode(bonusnamesStr) );
+        opt.value = bonusnamesStr;
+        sel.appendChild(opt);
+    }
+}
+
+
 
 function populateWallets(wallets) {
   sel = document.getElementById("wallets");

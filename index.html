@@ -59,7 +59,7 @@
       <li class="nav-item">
         <a class="nav-link" id="profile-tab" data-toggle="tab"
         href="#profile" role="tab" aria-controls="profile"
-        aria-selected="false">Check Bonuses</a>
+        aria-selected="false">Check Targets</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
@@ -77,68 +77,140 @@
         aria-controls="addwallet" aria-selected="false">Add Wallet</a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link" id="howitworks-tab" data-toggle="tab"
+        href="#howitworks" role="tab"
+        aria-controls="howitworks" aria-selected="false">How it Works</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" id="employee-tab" data-toggle="tab"
+        href="#employee" role="tab"
+        aria-controls="employee" aria-selected="false">My Bonuses</a>
+      </li>
 
       </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="home" role="tabpanel"
-      aria-labelledby="home-tab"><h1>Welcome to Etch</h1></div>
+      aria-labelledby="home-tab"><h1>Welcome to Etch</h1>
+
+<p>This is your portal to bonus management. Here you can:
+<ul>
+  <li>Add a new wallet</li>
+  <li>Add a new bonus condition</li>
+  <li>Assign a bonus condition to a wallet</li>
+  <li>Check if a bonus condition has been met for a wallet</li>
+</ul>
+Etch uses blockchain technology with smart contracts to confirm
+the results.
+</p>
+
+          <img src="bonus2.jpg" class="img-fluid" alt="Bonus">
+
+    </div>
 
       <div class="tab-pane fade" id="profile" role="tabpanel"
       aria-labelledby="profile-tab">
 
           <div class="row">
             <div class="alert alert-primary" role="alert">
-               <h3>Check Bonuses</h3>
+               <h3>Check Targets</h3>
             </div>
           </div>
 
+
           <div class="row">
-            <div class="col-md-12">
-              <button id="popWallets" onclick="listAllWallets()"
-              class="btn btn-primary btn-xl"
-              style="margin-top: 20px">List Wallets</button>
+             <div class="col-md-9">
+                <div class="input-group mb-3">
+
+                  <select id="allwallets" class="custom-select"
+                  onchange="selectWalletFromAllWallets()"></select>
+
+
+                <!--  <input type="text" class="form-control" id="employeeWallet"
+                  placeholder="My Wallet"
+                  aria-label="My Wallet" aria-describedby="button-addon2"> -->
+
+                  <div class="input-group-append">
+
+                    <button id="popWallets" onclick="listAllWallets()"
+                    class="btn btn-outline-secondary" type="button"
+                    >List Wallets</button>
+
+                  </div>
+                </div>
             </div>
           </div>
 
+
+
+
+
+
           <div class="row">
-              <div class="col-md-5">
-                <select id="allwallets" class="form-control"
-                onchange="selectWalletFromAllWallets()"></select>
-              </div>
-              <div class="col-md-5">
+
+              <div class="col-md-7">
                Wallet: <label id="readallwallet" type="text"></label>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-5">
                Email: <label id="allwalletemail" type="text"></label>
               </div>
+
           </div>
 
           <div class="row">
-              <div class="col-md-6">
-               <select id="walletbonuses" class="form-control"
+              <div class="col-md-12">
+               <select id="walletbonuses" class="custom-select"
                onchange="selectWalletBonuses()"></select>
               </div>
-              <div class="col-md-6">
-                <button id="checkbutton" onclick="checkbutton()"
-                class="btn btn-secondary btn-xl"
-                style="margin-top: 20px">Check</button>
-              </div>
+
           </div>
 
+
+
           <div class="row">
-             <div class="col-md-4">
-               Wallet: <label id="checkwallet" type="text"></label>
-             </div>
-             <div class="col-md-2">
-               Bonus: <label id="checkbonus" type="text"></label>
-             </div>
-             <div class="col-md-4">
-                <p>Date: <input type="text" id="datepickercheck" onchange="selCheckDate()"></p>
-             </div>
-             <div class="col-md-2">
-                <p>Target: <input type="text" id="checkTarget"></p>
-             </div>
+               <div class="col-md-12">
+
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Entry</th>
+                        <th scope="col">Wallet</th>
+                        <th scope="col">Bonus</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Target Reached</th>
+                        <th scope="col">Check</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td><label id="checkwallet" type="text"></label></td>
+                        <td><label type="text" id="checkbonus"></label></td>
+
+                        <td><input type="text" id="datepickercheck"
+                          onchange="selCheckDate()"></td>
+                        <td><input type="text" id="checkTarget"></td>
+                        <td>     <button id="checkbutton1" onclick="checkbutton()"
+                             class="btn btn-secondary btn-xl"
+                             >Check</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+
           </div>
+
+
+
+
+
+
+
+
+
+
+
 
           <div class="row">
             <div class="col-md-12 alert alert-info" id="eCheckMessage" role="alert">
@@ -156,86 +228,96 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-12">
-               <button id="popBonuses" onclick="listAllBonusNames()"
-               class="btn btn-primary btn-xl"
-               style="margin-top: 20px">List Bonuses</button>
-            </div>
-          </div>
+
+
 
           <div class="row">
-              <div class="col-md-3">
-                  <select id="listBonusNames" class="form-control"
+             <div class="col-md-9">
+                <div class="input-group mb-3">
+
+
+                  <select class="custom-select" id="listBonusNames"
                    onchange="selectBonusName()"></select>
-              </div>
-              <div class="col-md-5">
-                    <select id="wallets" class="form-control"
-                    onchange="selectWallet()"></select>
-              </div>
-              <div class="col-md-2">
-                  Wallet: <label id="readwallet" type="text"></label>
-              </div>
-              <div class="col-md-2">
-                <button id="marryWallet" onclick="marryWallet()"
-                class="btn btn-primary btn-xl"
-                style="margin-top: 20px">Assign</button>
-              </div>
-          </div>
+                  <div class="input-group-append">
 
-          <div class="row">
-            <div class="col-md-4">
-               Bonus Type: <label type="text" id="displayBonusType"></label>
-            </div>
-            <div class="col-md-4">
-               Bonus Name: <label type="text" id="displayBonusName"></label>
-            </div>
-            <div class="col-md-4">
-               Bonus Date: <label type="text" id="displayBonusDate"></label>
+                    <button id="popBonuses" onclick="listAllBonusNames()"
+                    class="btn btn-outline-secondary" type="button"
+                    >List Bonuses</button>
+
+
+
+                  </div>
+                </div>
             </div>
           </div>
 
+
+
           <div class="row">
-            <div class="col-md-4">
-               Bonus Target: <label type="text" id="displayBonusTarget"></label>
+             <div class="col-md-6">
+
+               <select class="custom-select" id="wallets"
+                onchange="selectWallet()">
+
+               </select>
             </div>
-            <div class="col-md-4">
-               Bonus Payable: <label type="text" id="displayBonusPayable"></label>
+            <div class="col-md-6">
+
             </div>
-            <div class="col-md-4">
-               Bonus Token: <label type="text" id="displayBonusToken"></label>
-            </div>
+
+          </div>
+
+
+
+
+
+          <div class="row">
+               <div class="col-md-12">
+
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Entry</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Target</th>
+                        <th scope="col">Payable</th>
+                        <th scope="col">Token</th>
+                        <th scope="col">Wallet</th>
+                        <th scope="col">Assign</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td><label type="input" id="displayBonusName"></label></td>
+                        <td><label type="input" id="displayBonusType"></label></td>
+                        <td><label type="input" id="displayBonusDate"></label></td>
+                        <td><label type="input" id="displayBonusTarget"></label></td>
+                        <td><label type="input" id="displayBonusPayable"></label></td>
+                        <td><label type="input" id="displayBonusToken"></label></td>
+                        <td> <label id="readwallet" type="text"></label></td>
+                        <td>
+
+                        <button id="marryWallet" onclick="marryWallet()"
+                        class="btn btn-outline-secondary"
+                        >Assign</button>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+
           </div>
 
           <div class="row">
-            <div class="col-md-8">
+               <div class="col-md-12">
                  <label type="text" id="ifstring"></label>
-            </div>
-
-            <div class="col-md-4">
-
-            </div>
-          </div>
-
-          <div class="row">
-              <div class="col-md-8">
-                   <label type="text" id="beforestring"></label>
-              </div>
-
-              <div class="col-md-4">
-
-              </div>
-          </div>
-
-
-          <div class="row">
-            <div class="col-md-8">
+                 <label type="text" id="beforestring"></label>
                  <label type="text" id="thenstring"></label>
-            </div>
 
-            <div class="col-md-4">
-
-            </div>
+               </div>
           </div>
 
 
@@ -353,6 +435,123 @@
 
       </div>
 
+      <div class="tab-pane fade" id="howitworks" role="tabpanel"
+      aria-labelledby="howitworks-tab">
+
+          <div class="row">
+            <p>
+              Etch is powered by blockchain technology and smart contracts. Here are
+              some of the features:
+              <ul>
+                 <li>All bonus conditions are stored on the blockchain.</li>
+                 <li>No off-chain databases are used.</li>
+                 <li>The conditions for bonuses are all stored in a
+                   smart contract which is visible to anyone.</li>
+                 <li>All the conditions are visible via the blockchain. Hence anyone can
+                  audit the transaction conditions using for example Remix.</li>
+                  <li>Etch is fully committed to emerging technologies, such
+                    as Polkadot to allow scaling and better security.</li>
+              </ul>
+            </p>
+          </div>
+      </div>
+
+      <div class="tab-pane fade" id="employee" role="tabpanel"
+      aria-labelledby="employee-tab">
+
+          <div class="row">
+            <div class="alert alert-primary" role="alert">
+               <h2>My Bonuses</h2>
+            </div>
+          </div>
+
+          <div class="row">
+             <div class="col-md-6">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="employeeWallet"
+                  placeholder="My Wallet"
+                  aria-label="My Wallet" aria-describedby="button-addon2">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" onclick="employeeBonus()"
+                    type="button" id="employeeBonus">Show Bonuses</button>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="row">
+             <div class="col-md-6">
+                  Email: <input type="text" id="employeeemail">
+             </div>
+             <div class="col-md-6">
+
+             </div>
+          </div>
+          <div class="row">
+              <div class="col-md-2">
+                Bonuses:
+              </div>
+              <div class="col-md-5">
+
+                <div class="input-group mb-3">
+                  <select class="custom-select" id="employeebonuses"
+                  onchange="selectEmployeeBonus()">
+                  </select>
+                  <div class="input-group-append">
+                    <label class="input-group-text" for="employeebonuses">Bonuses</label>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-md-5">
+
+              </div>
+
+          </div>
+          <div class="row">
+               <div class="col-md-12">
+
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Entry</th>
+                        <th scope="col">Bonus Name</th>
+                        <th scope="col">Bonus Type</th>
+                        <th scope="col">Bonus Date</th>
+                        <th scope="col">Bonus Target</th>
+                        <th scope="col">Bonus Payable</th>
+                        <th scope="col">Bonus Token</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td><label type="input" id="mybonusname"></label></td>
+                        <td><label type="input" id="mybonustype"></label></td>
+                        <td><label type="input" id="mybonusdate"></label></td>
+                        <td><label type="input" id="mybonustarget"></label></td>
+                        <td><label type="input" id="mybonuspayable"></label></td>
+                        <td><label type="input" id="mybonustoken"></label></td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+
+          </div>
+
+          <div class="row">
+               <div class="col-md-12">
+                 <label type="text" id="ifmystring"></label>
+                 <label type="text" id="beforemystring"></label>
+                 <label type="text" id="thenmystring"></label>
+
+               </div>
+          </div>
+
+
+      </div>
+
+
 
     </div>
 
@@ -362,7 +561,7 @@
 
 
 
- 
+
 
 
     </body>
