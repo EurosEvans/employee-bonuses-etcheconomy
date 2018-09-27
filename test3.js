@@ -5,6 +5,8 @@ var compiler;
 var web3provider;
 //var mongoose=require('mongoose');
 
+
+
 address = "0x1e229638a668cac94bc6269fe7b0cb177ee9de70";
 
 abi = [ { "constant": false, "inputs": [ { "name": "bonusType", "type": "string" }, { "name": "bonusTarget", "type": "uint256" }, { "name": "bonusEndYear", "type": "uint256" }, { "name": "bonusEndMonth", "type": "uint256" }, { "name": "bonusEndDay", "type": "uint256" }, { "name": "bonusToken", "type": "string" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusName", "type": "string" }, { "name": "ineq", "type": "uint256" } ], "name": "addBonus", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "k1", "type": "uint256" } ], "name": "addK", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "token", "type": "bytes32" }, { "name": "payment", "type": "uint256" } ], "name": "addPaymentDetail", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" } ], "name": "addWallet", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "bonusName", "type": "string" } ], "name": "addWalletBonus", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "emailAddress", "type": "string" } ], "name": "addWalletEmail", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "payable": true, "stateMutability": "payable", "type": "fallback" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "constant": true, "inputs": [ { "name": "", "type": "bytes32" } ], "name": "Bonuses", "outputs": [ { "name": "bonusName", "type": "bytes32" }, { "name": "bonusType", "type": "bytes32" }, { "name": "bonusTarget", "type": "uint256" }, { "name": "bonusEndYear", "type": "uint256" }, { "name": "bonusEndMonth", "type": "uint256" }, { "name": "bonusEndDay", "type": "uint256" }, { "name": "bonusToken", "type": "bytes32" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusExists", "type": "bool" }, { "name": "ineq", "type": "uint8" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "BonusNamesArray", "outputs": [ { "name": "bonusName", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "BonusNamesBytes", "outputs": [ { "name": "", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "x", "type": "bytes32" } ], "name": "bytes32ToString", "outputs": [ { "name": "", "type": "string" } ], "payable": false, "stateMutability": "pure", "type": "function" }, { "constant": true, "inputs": [], "name": "getBonusNames", "outputs": [ { "name": "", "type": "bytes32[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getNumberWallets", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "wallet", "type": "address" } ], "name": "getWalletBonuses", "outputs": [ { "name": "bonusNames", "type": "bytes32[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getWallets", "outputs": [ { "name": "", "type": "address[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "bonusName", "type": "string" }, { "name": "targetReached", "type": "uint256" }, { "name": "endYear", "type": "uint256" }, { "name": "endMonth", "type": "uint256" }, { "name": "endDay", "type": "uint256" } ], "name": "isBonusPayable", "outputs": [ { "name": "payBonus", "type": "bool" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusToken", "type": "string" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "bytes32" } ], "name": "PaymentDetails", "outputs": [ { "name": "totalPaid", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "source", "type": "string" } ], "name": "stringToBytes32", "outputs": [ { "name": "result", "type": "bytes32" } ], "payable": false, "stateMutability": "pure", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "bytes32" } ], "name": "WalletBonuses", "outputs": [ { "name": "bonusExists", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "uint256" } ], "name": "WalletBonusLists", "outputs": [ { "name": "bonusname", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" } ], "name": "WalletDetails", "outputs": [ { "name": "walletEmailAddress", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "Wallets", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" } ]
@@ -19,9 +21,34 @@ function myBonusLink() {
   window.location.replace('http://test.moynet.co/employee.html');
 }
 
+function sendEmail() {
+
+var emailfrom = "trevor@moynet.co";
+var emailto1 = "trevoroakley200@gmail.com";
+var emailto = "euros@nomanventures.com";
+
+    sendservermail (emailfrom, emailto);
+
+}
+
 function memberLoginLink() {
     window.location.replace('http://test.moynet.co/employer.html');
 }
+
+function userRegister() {
+    window.location.replace('http://test.moynet.co/admin.html');
+}
+
+function addUser() {
+
+    var username = document.getElementById("regUserName").value;
+    var regPassword = document.getElementById("regPassword").value;
+    var regEmail = document.getElementById("regEmail").value;
+    registerUserDB(username, regEmail, regPassword);
+
+}
+
+
 
 function selectEmployeeBonus() {
     var bonusname = document.getElementById("employeebonuses").value;
@@ -776,6 +803,69 @@ function updateAddress() {
 
 }
 
+function registerUserDB (username, emailaddress, password){
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "/api/reguser", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("username=" +username + "&emailaddress=" + emailaddress+ "&password=" + password );
+
+  xhttp.onreadystatechange = function(){
+    var messageDiv = document.getElementById('message');
+    if(this.readyState == 4 && this.status ==200){
+       var data = JSON.parse(this.response);
+     document.getElementById("uRegMessage").style.visibility="visible";
+       if (data.message == "Already Exists") {
+           document.getElementById("regMessage").innerHTML = data.message;
+           document.getElementById("uRegMessage").classList.add("alert-danger");
+           document.getElementById("uRegMessage").classList.remove("alert-info");
+
+       } else {
+           document.getElementById("regMessage").innerHTML = data.message;
+           document.getElementById("uRegMessage").classList.add("alert-info");
+           document.getElementById("uRegMessage").classList.remove("alert-danger");
+      }
+       //document.getElementById("userMessage").value = JSON.parse(this.response).message;
+
+
+
+    }
+  };
+}
+
+
+
+
+
+function sendservermail (emailfrom, emailto){
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "/api/sendmail", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("emailfrom=" +emailfrom + "&emailto=" + emailto );
+
+  xhttp.onreadystatechange = function(){
+    var messageDiv = document.getElementById('message');
+    if(this.readyState == 4 && this.status ==200){
+       var data = JSON.parse(this.response);
+  //     document.getElementById("uMessage").style.visibility="visible";
+  //     if (data.message == "Wallet exists") {
+  //         document.getElementById("userMessage").innerHTML = data.message;
+  //         document.getElementById("uMessage").classList.add("alert-danger");
+  //         document.getElementById("uMessage").classList.remove("alert-info");
+
+  //     } else {
+  //         document.getElementById("userMessage").innerHTML = data.message;
+  //         document.getElementById("uMessage").classList.add("alert-info");
+  //         document.getElementById("uMessage").classList.remove("alert-danger");
+  //    }
+       //document.getElementById("userMessage").value = JSON.parse(this.response).message;
+
+
+
+    }
+  };
+}
 
 
 
