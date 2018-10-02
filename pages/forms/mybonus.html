@@ -19,7 +19,7 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="../../images/favicon.png" />
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- <script id="testscript" src="../../etch.js" type="text/javascript"></script>
+
  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
  <script>
@@ -67,66 +67,39 @@
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
               <i class="mdi mdi-file-document-box"></i>
-              <span class="count">7</span>
+              <span class="count">1</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
               <div class="dropdown-item">
-                <p class="mb-0 font-weight-normal float-left">You have 7 unread mails
+                <p class="mb-0 font-weight-normal float-left">You have 1 new email
                 </p>
                 <span class="badge badge-info badge-pill float-right">View all</span>
               </div>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item preview-item">
                 <div class="preview-thumbnail">
-                  <img src="../../images/faces/face4.jpg" alt="image" class="profile-pic">
+                  <img src="images/faces/face4.jpg" alt="image" class="profile-pic">
                 </div>
                 <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">David Grey
-                    <span class="float-right font-weight-light small-text">1 Minutes ago</span>
+                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">New Bonus
+                    <span class="float-right font-weight-light small-text">1 day ago</span>
                   </h6>
                   <p class="font-weight-light small-text">
-                    The meeting is cancelled
+                    Team Bonus October
                   </p>
                 </div>
               </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <img src="../../images/faces/face2.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">Tim Cook
-                    <span class="float-right font-weight-light small-text">15 Minutes ago</span>
-                  </h6>
-                  <p class="font-weight-light small-text">
-                    New product launch
-                  </p>
-                </div>
-              </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <img src="../../images/faces/face3.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-medium text-dark"> Johnson
-                    <span class="float-right font-weight-light small-text">18 Minutes ago</span>
-                  </h6>
-                  <p class="font-weight-light small-text">
-                    Upcoming board meeting
-                  </p>
-                </div>
-              </a>
+
             </div>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
               <i class="mdi mdi-bell"></i>
-              <span class="count">4</span>
+              <span class="count">3</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
               <a class="dropdown-item">
-                <p class="mb-0 font-weight-normal float-left">You have 4 new notifications
+                <p class="mb-0 font-weight-normal float-left">3 bonus alerts
                 </p>
                 <span class="badge badge-pill badge-warning float-right">View all</span>
               </a>
@@ -138,9 +111,9 @@
                   </div>
                 </div>
                 <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-medium text-dark">Application Error</h6>
+                  <h6 class="preview-subject font-weight-medium text-dark">Bonus October</h6>
                   <p class="font-weight-light small-text">
-                    Just now
+                    95% met
                   </p>
                 </div>
               </a>
@@ -152,9 +125,9 @@
                   </div>
                 </div>
                 <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-medium text-dark">Settings</h6>
+                  <h6 class="preview-subject font-weight-medium text-dark">Reward Ontime</h6>
                   <p class="font-weight-light small-text">
-                    Private message
+                  92% met
                   </p>
                 </div>
               </a>
@@ -166,9 +139,9 @@
                   </div>
                 </div>
                 <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-medium text-dark">New user registration</h6>
+                  <h6 class="preview-subject font-weight-medium text-dark">Bonus New Clients</h6>
                   <p class="font-weight-light small-text">
-                    2 days ago
+                    90% met
                   </p>
                 </div>
               </a>
@@ -176,7 +149,7 @@
           </li>
           <li class="nav-item dropdown d-none d-xl-inline-block">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-              <span class="profile-texttop" id="myusertop">Hello, Richard V.Welsh !</span>
+              <span class="profile-texttop" id="myusertop"></span>
               <img class="img-xs rounded-circle" src="../../images/faces/face1.jpg" alt="Profile image">
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
@@ -221,7 +194,7 @@
                   <img src="../../images/faces/face1.jpg" alt="profile image">
                 </div>
                 <div class="text-wrapper">
-                  <p class="profile-name" id="myuser">Richard V.Welsh</p>
+                  <p class="profile-name" id="myuser"></p>
                   <div>
                     <small class="designation text-muted">Member</small>
                     <span class="status-indicator online"></span>
@@ -242,7 +215,7 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <i class="menu-icon mdi mdi-content-copy"></i>
-              <span class="menu-title">Bonuses</span>
+              <span class="menu-title">Add Bonus/Reward</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="ui-basic">
@@ -260,7 +233,7 @@
           <li class="nav-item">
             <a class="nav-link" href="../forms/basic_elements.html">
               <i class="menu-icon mdi mdi-backup-restore"></i>
-              <span class="menu-title">Assign Wallets</span>
+              <span class="menu-title">List/Allocate Bonuses</span>
             </a>
           </li>
           <li class="nav-item">
@@ -272,7 +245,7 @@
           <li class="nav-item">
             <a class="nav-link" href="../forms/mybonus.html">
               <i class="menu-icon mdi mdi-backup-restore"></i>
-              <span class="menu-title">My Bonuses</span>
+              <span class="menu-title">List Bonuses/Wallet</span>
             </a>
           </li>
           <li class="nav-item">
@@ -304,7 +277,7 @@
           <div class="row">
             <div class="col-md-12">
               <h4 class="display-4  text-center  rounded bg-light" >
-                My Bonuses</h4>
+                List Bonuses/Wallet</h4>
 
             </div>
           </div>
@@ -318,12 +291,14 @@
                   <div class="input-group-append">
                     <button class="btn btn-outline-secondary"
                     onclick="employeeBonus()"
-                    type="button" id="employeeBonus">Show Bonuses</button>
+                    type="button" id="employeeBonus">Show Bonuses/Rewards</button>
                   </div>
                 </div>
             </div>
             <div class="col-md-6">
-                 Email: <label type="text" id="employeeemail"></label>
+                <p class="card-description">
+                   Email: <label type="text" id="employeeemail"></label>
+                 </p>
             </div>
           </div>
 
@@ -332,11 +307,13 @@
               <div class="col-md-6">
 
                 <div class="input-group mb-3">
-                  <select class="custom-select" id="employeebonuses"
+                  <select class="custom-select custom-select-sm" id="employeebonuses"
                   onchange="selectEmployeeBonus()">
                   </select>
                   <div class="input-group-append">
-                    <label class="input-group-text" for="employeebonuses">Bonuses</label>
+
+                       <label class="input-group-text" for="employeebonuses">Bonuses/Rewards</label>
+
                   </div>
                 </div>
 
@@ -346,49 +323,74 @@
               </div>
 
           </div>
+
+
+
           <div class="row">
-               <div class="col-md-12">
+             <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                   <div class="card-body">
+                     <form class="forms-sample">
+                        <div class="form-group row">
+                          <div class="col">
+                              <label>Name:</label>
 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Entry</th>
-                        <th scope="col">Bonus Name</th>
-                        <th scope="col">Bonus Type</th>
-                        <th scope="col">Bonus Date</th>
-                        <th scope="col">Bonus Target</th>
-                        <th scope="col">Bonus Payable</th>
-                        <th scope="col">Bonus Token</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td><label type="input" id="mybonusname"></label></td>
-                        <td><label type="input" id="mybonustype"></label></td>
-                        <td><label type="input" id="mybonusdate"></label></td>
-                        <td><label type="input" id="mybonustarget"></label></td>
-                        <td><label type="input" id="mybonuspayable"></label></td>
-                        <td><label type="input" id="mybonustoken"></label></td>
-                      </tr>
-                    </tbody>
-                  </table>
-              </div>
+                               <label type="input" id="mybonusname"></label>
+                          </div>
+                          <div class="col">
+                              <label>Type:</label>
+                              <label type="input" id="mybonustype">
+                          </div>
+                          <div class="col">
+                            <label>Date Before:</label>
+                            <label type="input" id="mybonusdate"></label>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="col">
+                             <label>Target:</label>
+                             <label type="input" id="mybonustarget"></label>
+                          </div>
+                          <div class="col">
+                              <label>Bonus:</label>
+                              <label type="input" id="mybonuspayable">
 
+                          </div>
+
+                          <div class="col">
+                            <label>Token:</label>
+                            <label type="input" id="mybonustoken"></label>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label>Condition: </label>
+                          <label type="input" id="ifstring2"></label>
+
+                          <label type="input" id="beforestring2"></label>
+                          <label type="input" id="thenstring2"></label>
+                        </div>
+                     </form>
+                   </div>
+
+
+
+
+                </div>
+
+
+
+             </div>
           </div>
 
-          <div class="row">
-               <div class="col-md-12 bg-warning">
-                 <label type="text" id="ifmystring"></label>
-                 <label type="text" id="beforemystring"></label>
-                 <label type="text" id="thenmystring"></label>
 
-               </div>
-          </div>
+
+
+
+
 
           <div class="row">
-            <div>
-              Confirm in Remix (current contract address is needed)
+           <div class="col-md-6">
+              <p class="card-description">Confirm in Remix (current contract address is needed)</p>
             </div>
                <div class="col-md-6">
                  <p>
@@ -424,6 +426,7 @@
   <!-- plugins:js -->
   <script src="../../vendors/js/vendor.bundle.base.js"></script>
   <script src="../../vendors/js/vendor.bundle.addons.js"></script>
+   <script id="testscript" src="../../etch.js" type="text/javascript"></script>
   <!-- endinject -->
   <!-- Plugin js for this page-->
   <!-- End plugin js for this page-->
