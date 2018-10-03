@@ -69,8 +69,39 @@ contract BonusManager {
         k =k1;
     }
     
-
-    
+  /*  function getBonusesWithFreeWallets (string mybonusname) returns (
+          bytes32,
+         bytes32,
+         uint,
+         uint,
+         uint,
+         uint,
+         bytes32,
+         uint,
+         bool,
+        InequalityValue,
+        address[]) {
+        
+        bytes32 bonusNameBytes32 = stringToBytes32(mybonusname);
+        
+        (address[] memory freeWallets, uint NumberWallets, uint NumberAllocWallets, uint NumberFreeWallets)
+        = getFreeWallets(mybonusname);
+       
+        bytes32 bonusName = Bonuses[bonusNameBytes32].bonusName;
+        bytes32 bonusType = Bonuses[bonusNameBytes32].bonusType;
+        uint bonusTarget =  Bonuses[bonusNameBytes32].bonusTarget;
+        uint bonusEndYear =  Bonuses[bonusNameBytes32].bonusEndYear;
+        uint bonusEndMonth = Bonuses[bonusNameBytes32].bonusEndMonth;
+        uint bonusEndDay = Bonuses[bonusNameBytes32].bonusEndDay;
+        bytes32 bonusToken = Bonuses[bonusNameBytes32].bonusToken;
+        uint bonusAmount = Bonuses[bonusNameBytes32].bonusAmount;
+        bool bonusExists = Bonuses[bonusNameBytes32].bonusExists;
+        InequalityValue ineq = Bonuses[bonusNameBytes32].ineq;
+       
+       
+        
+    }
+    */
     function getWallets() public view returns (address[]) {
         return Wallets;
     }
@@ -83,9 +114,13 @@ contract BonusManager {
     function addBonus( string bonusType, uint bonusTarget,  uint bonusEndYear,
         uint bonusEndMonth, uint bonusEndDay, 
         string bonusToken, uint bonusAmount, string bonusName, uint ineq ) public {
+     
+        
         bytes32 bonusTokenBytes = stringToBytes32(bonusToken);
         bytes32 bonusTypeBytes = stringToBytes32(bonusType);
         bytes32 bonusNameBytes = stringToBytes32(bonusName);
+        
+        require(!Bonuses[bonusNameBytes].bonusExists, "Bonus already exists");
         
         Bonuses[bonusNameBytes].bonusName=bonusNameBytes;
         Bonuses[bonusNameBytes].bonusType=bonusTypeBytes;
@@ -108,7 +143,9 @@ contract BonusManager {
 
     function addWalletBonus( address wallet, string bonusName ) public {
         bytes32 bonusNameBytes = stringToBytes32(bonusName);
-        require (Bonuses[bonusNameBytes].bonusExists);
+        require (Bonuses[bonusNameBytes].bonusExists, "Bonus does not exist");
+        require (!WalletBonuses[wallet][bonusNameBytes].bonusExists, "Wallet and Bonus already exists");
+        
         WalletBonuses[wallet][bonusNameBytes].bonusExists =true;
         
         WalletBonusList memory b;
@@ -133,6 +170,75 @@ contract BonusManager {
 
     function getNumberWallets() public view returns(uint) {
         return Wallets.length;
+    }
+    
+  //    function getFreeWallets2(  string mybonusname) public view returns (address[], uint, uint) {
+    //      return Wallets;
+    //  }
+  
+    function getNumberWalletBonusAllocations(string bonusname) public view returns (uint) {
+        uint numberAllocatedWallets=0;
+        uint  length = Wallets.length;
+        bytes32 bonusNameBytes32 = stringToBytes32(bonusname);
+        for(uint i = 0; i < length; i++)
+        {
+           address mywallet = Wallets[i];
+           if (WalletBonuses[mywallet][bonusNameBytes32].bonusExists)
+           {
+               numberAllocatedWallets++;
+           }
+        }
+        return numberAllocatedWallets;
+    }
+    
+    
+    function getFreeWallets(  string mybonusname) public view returns (address[], uint , uint  , uint  ) {
+ 
+        bytes32 bonusNameBytes32 = stringToBytes32(mybonusname);
+        require(Bonuses[bonusNameBytes32].bonusExists, "Bonus does not exist");
+        uint numberWallets = Wallets.length;
+        uint numberAllocWalletThisBonus = getNumberWalletBonusAllocations(mybonusname);
+        uint numberFreeWalletsThisBonus = numberWallets - numberAllocWalletThisBonus;
+       // address  memory    FreeWallets=new address(length);
+       // need to count number to avoid memory issues - testing
+        address[] memory FreeWallets = new address[](numberFreeWalletsThisBonus);
+        uint  k1=0;
+        
+        for(uint i = 0; i < numberWallets; i++)
+        {
+           address mywallet = Wallets[i];
+           if (!WalletBonuses[mywallet][bonusNameBytes32].bonusExists)
+           {
+               FreeWallets[k1]=mywallet;
+               k1++;
+           }
+        }
+        
+        return (FreeWallets, numberWallets, numberAllocWalletThisBonus, numberFreeWalletsThisBonus);
+        
+    }
+
+    
+    function getFreeWalletsx(string mybonusname) public view returns (address[], uint, uint, uint) {
+        
+        bytes32 bonusNameBytes32 = stringToBytes32(mybonusname);
+        require(Bonuses[bonusNameBytes32].bonusExists, "Bonus does not exist");
+        uint length = Wallets.length;
+        uint length1 = getNumberWallets();
+        address[]  memory    FreeWallets;
+        uint k1=0;
+        for(uint i = 0; i < length; i++)
+        {
+           address mywallet = Wallets[i];
+           if (!WalletBonuses[mywallet][bonusNameBytes32].bonusExists)
+           {
+               FreeWallets[k1]=mywallet;
+               k1++;
+           }
+        }
+        
+        return (FreeWallets, length, k1, length1);
+        
     }
 
 
@@ -172,7 +278,7 @@ contract BonusManager {
 
     function addWalletEmail (address wallet, string emailAddress) public {
         bytes32 emailAddressBytes = stringToBytes32(emailAddress);
-        require(WalletDetails[wallet].walletEmailAddress==0x00);
+        require(WalletDetails[wallet].walletEmailAddress==0x00, "Only one email address per wallet is allowed");
       
         if (WalletDetails[wallet].walletEmailAddress == emailAddressBytes ) {
             // already exists
@@ -192,8 +298,8 @@ contract BonusManager {
  
     {
         bytes32 bonusNameBytes32 = stringToBytes32(bonusName);
-        require(Bonuses[bonusNameBytes32].bonusExists);
-        require(WalletBonuses[wallet][bonusNameBytes32].bonusExists);
+        require(Bonuses[bonusNameBytes32].bonusExists, "Bonus does not exist");
+        require(WalletBonuses[wallet][bonusNameBytes32].bonusExists, "Wallet does not have this bonus");
         
         bool beforeEnd=false;
         payBonus=false;
