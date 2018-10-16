@@ -54,28 +54,24 @@
       <div class="navbar-menu-wrapper d-flex align-items-center">
         <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
           <li class="nav-item">
-            <a href="#" class="nav-link">Schedule
-              <span class="badge badge-primary ml-1">New</span>
+            <a href="../../index.html" class="nav-link">Home
+
             </a>
           </li>
           <li class="nav-item active">
             <a href="#" class="nav-link">
-              <i class="mdi mdi-elevation-rise"></i>Reports</a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="mdi mdi-bookmark-plus-outline"></i>Score</a>
+              <i class="mdi mdi-elevation-rise"></i>Reports&#91;not-live&#93;</a>
           </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
               <i class="mdi mdi-file-document-box"></i>
-              <span class="count">1</span>
+              <span class="count">0</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
               <div class="dropdown-item">
-                <p class="mb-0 font-weight-normal float-left">You have 1 new email
+                <p class="mb-0 font-weight-normal float-left">You have 0 new emails
                 </p>
                 <span class="badge badge-info badge-pill float-right">View all</span>
               </div>
@@ -99,11 +95,11 @@
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
               <i class="mdi mdi-bell"></i>
-              <span class="count">3</span>
+              <span class="count">0</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
               <a class="dropdown-item">
-                <p class="mb-0 font-weight-normal float-left">3 bonus alerts
+                <p class="mb-0 font-weight-normal float-left">0 bonus alerts
                 </p>
                 <span class="badge badge-pill badge-warning float-right">View all</span>
               </a>
@@ -170,9 +166,7 @@
                   </div>
                 </div>
               </a>
-              <a class="dropdown-item mt-2" href="../samples/register.html">
-                New User
-              </a>
+
               <a class="dropdown-item" href="../samples/login.html">
                Login
               </a>
@@ -205,7 +199,7 @@
                   </div>
                 </div>
               </div>
-              <button class="btn btn-success btn-block">Add Bonus
+              <button class="btn btn-success btn-block" onclick="fastaddbonus()">Add Bonus
                 <i class="mdi mdi-plus"></i>
               </button>
             </div>
@@ -247,9 +241,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../forms/mybonus.html">
+            <a class="nav-link" href="../forms/buybutton.html">
               <i class="menu-icon mdi mdi-backup-restore"></i>
-              <span class="menu-title">List Bonuses/Wallet</span>
+              <span class="menu-title">Buy Tokens</span>
             </a>
           </li>
           <li class="nav-item">
@@ -260,9 +254,7 @@
             </a>
             <div class="collapse" id="ui-admin">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item">
-                  <a class="nav-link" href="../samples/register.html">New User</a>
-                </li>
+
                 <li class="nav-item">
                   <a class="nav-link" href="../samples/login.html">Logout</a>
                 </li>
@@ -280,190 +272,192 @@
           <div class="row">
             <div class="col-12 grid-margin">
               <div class="card">
-                <div class="row">
-                  <div class="col-md-12">
-                    <h4 class="display-4  text-center  rounded bg-light" >
-                        List/Allocate Bonuses</h4>
-
-                  </div>
-                </div>
-
-
-                <div class="row">
-                   <div class="col-md-5">
-                      <div class="input-group mb-3">
-
-
-
-                        <select class="custom-select custom-select-sm" id="listBonusNames"
-                         onchange="selectBonusName()"></select>
-                        <div class="input-group-append">
-
-                          <button id="popBonuses" onclick="listAllBonusNames()"
-                          class="btn btn-outline-secondary" type="button"
-                          >List Bonuses/Rewards</button>
-
-
-
-                        </div>
-                      </div>
-                  </div>
-                   <div class="col-md-7">
-                  </div>
-                </div>
-
-
-                <div class="row">
-                   <div class="col-lg-12 grid-margin stretch-card">
-                      <div class="card">
-                         <div class="card-body">
-                           <form class="forms-sample">
-                             <div class="form-group row">
-                               <h6>Bonus Details</h6>
-                             </div>
-                              <div class="form-group row">
-                                <div class="col">
-                                    <label>Name:</label>
-
-                                    <label type="input" id="displayBonusName"></label>
-                                </div>
-                                <div class="col">
-                                    <label>Type:</label>
-                                    <label type="input" id="displayBonusType">
-                                </div>
-                                <div class="col">
-                                  <label>Date Before:</label>
-                                  <label type="input" id="displayBonusDate"></label>
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <div class="col">
-                                   <label>Target:</label>
-                                   <label type="input" id="displayBonusTarget"></label>
-                                </div>
-                                <div class="col">
-                                    <label>Bonus:</label>
-                                    <label type="input" id="displayBonusPayable">
-
-                                </div>
-
-                                <div class="col">
-                                  <label>Token:</label>
-                                  <label type="input" id="displayBonusToken"></label>
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label type="text" id="ifstring"></label>
-                                <label type="text" id="beforestring"></label>
-                                <label type="text" id="thenstring"></label>
-                              </div>
-
-                           </form>
-                         </div>
-
+                <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h4 class="display-4  text-center  rounded bg-light" >
+                            List/Allocate Bonuses</h4>
 
                       </div>
-
-
-
-                   </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-
-                         <h6>Available Wallets</h6>
-
-                     </div>
-                     <div class="col-md-6">
-                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-
-                      <select class="custom-select custom-select-sm" id="wallets"
-                       onchange="selectWallet()">
-                      </select>
-
-                     </div>
-                     <div class="col-md-6">
-                     </div>
-                </div>
-
-            <div class="row">
-                <div class="col-lg-12 grid-margin stretch-card">
-                     <div class="card-body">
-                        <form class="forms-sample">
-                            <div class="form-group row">
-                              <div class="col">
-                               <label>Wallet:</label>
-                               <label id="readwallet" type="text"></label>
-                             </div>
-                            </div>
-                        </form>
-                     </div>
-
-                  </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-md-6">
-
-                      <button id="marryWallet" onclick="marryWallet()"
-                      class="btn btn-outline-secondary"
-                      >Allocate</button>
-
-                     </div>
-                     <div class="col-md-6">
-                     </div>
-                </div>
-
-
-                <div class="row">
-                   <div class="col-lg-12 grid-margin stretch-card">
-                      <div class="card">
-                         <div class="card-body">
-                           <form class="forms-sample">
-                             <div class="form-group row">
-                               <h6>Link an email address to a wallet</h6>
-                             </div>
-                              <div class="form-group row">
-                                <div class="col">
-                                    <label>Wallet:</label>
-
-                                    <input type="text" class="form-control"
-                                    placeholder="wallet address" id="walletaddress"
-                                    aria-label="wallet address" aria-describedby="walletbbutton">
-                                </div>
-                                <div class="col">
-                                    <label>Email Address:</label>
-                                    <input type="text" class="form-control"
-                                    placeholder="email address" id="walletemailaddress"
-                                    aria-label="email address" aria-describedby="walletbbutton">
-                                </div>
-                              </div>
-                          </form>
-
-                         </div>
-
-                        <div class="card-body">
-                             <button class="btn btn-outline-secondary" onclick="addWallet()"
-                             type="button" id="walletbbutton">Add</button>
-
-                        </div>
                     </div>
-                   </div>
+
+
+                    <div class="row">
+                       <div class="col-md-5">
+
+
+
+
+                            <select class="form-control" id="listBonusNames"
+                             onchange="selectBonusName()"></select>
+
+
+                              <button id="popBonuses" onclick="listAllBonusNames()"
+                              class="btn btn-outline-secondary" type="button"
+                              >List Bonuses/Rewards</button>
+
+
+
+
+
+                      </div>
+                       <div class="col-md-7">
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+                       <div class="col-lg-12 grid-margin stretch-card">
+                          <div class="card">
+                             <div class="card-body">
+                               <form class="forms-sample">
+                                 <div class="form-group row">
+                                   <h6>Bonus Details</h6>
+                                 </div>
+                                  <div class="form-group row">
+                                    <div class="col">
+                                        <label>Name:</label>
+
+                                        <label type="input" id="displayBonusName"></label>
+                                    </div>
+                                    <div class="col">
+                                        <label>Type:</label>
+                                        <label type="input" id="displayBonusType">
+                                    </div>
+                                    <div class="col">
+                                      <label>Date Before:</label>
+                                      <label type="input" id="displayBonusDate"></label>
+                                    </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <div class="col">
+                                       <label>Target:</label>
+                                       <label type="input" id="displayBonusTarget"></label>
+                                    </div>
+                                    <div class="col">
+                                        <label>Bonus:</label>
+                                        <label type="input" id="displayBonusPayable">
+
+                                    </div>
+
+                                    <div class="col">
+                                      <label>Token:</label>
+                                      <label type="input" id="displayBonusToken"></label>
+                                    </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <label type="text" id="ifstring"></label>
+                                    <label type="text" id="beforestring"></label>
+                                    <label type="text" id="thenstring"></label>
+                                  </div>
+
+                               </form>
+                             </div>
+
+
+                          </div>
+
+
+
+                       </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                             <h6>Available Wallets</h6>
+
+                         </div>
+                         <div class="col-md-6">
+                         </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                          <select class="form-control" id="wallets"
+                           onchange="selectWallet()">
+                          </select>
+
+                         </div>
+                         <div class="col-md-6">
+                         </div>
+                    </div>
+
+                    <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                         <div class="card-body">
+                            <form class="forms-sample">
+                                <div class="form-group row">
+                                  <div class="col">
+                                   <label>Wallet:</label>
+                                   <label id="readwallet" type="text"></label>
+                                 </div>
+                                </div>
+                            </form>
+                         </div>
+
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                          <button id="marryWallet" onclick="marryWallet()"
+                          class="btn btn-outline-secondary"
+                          >Allocate</button>
+
+                         </div>
+                         <div class="col-md-6">
+                         </div>
+                    </div>
+
+
+                    <div class="row">
+                       <div class="col-lg-12 grid-margin stretch-card">
+                          <div class="card">
+                             <div class="card-body">
+                               <form class="forms-sample">
+                                 <div class="form-group row">
+                                   <h6>Link an email address to a wallet</h6>
+                                 </div>
+                                  <div class="form-group row">
+                                    <div class="col">
+                                        <label>Wallet:</label>
+
+                                        <input type="text" class="form-control"
+                                        placeholder="wallet address" id="walletaddress"
+                                        aria-label="wallet address" aria-describedby="walletbbutton">
+                                    </div>
+                                    <div class="col">
+                                        <label>Email Address:</label>
+                                        <input type="text" class="form-control"
+                                        placeholder="email address" id="walletemailaddress"
+                                        aria-label="email address" aria-describedby="walletbbutton">
+                                    </div>
+                                  </div>
+                              </form>
+
+                             </div>
+
+                            <div class="card-body">
+                                 <button class="btn btn-outline-secondary" onclick="addWallet()"
+                                 type="button" id="walletbbutton">Add</button>
+
+                            </div>
+                        </div>
+                       </div>
+                    </div>
+
+
+
+
+
+
+                  </div>
                 </div>
-
-
-
-
-
-
-              </div>
-            </div>
+                </div>
           </div>
         </div>
 
@@ -474,11 +468,7 @@
         <!-- partial:../../partials/_footer.html -->
         <footer class="footer">
           <div class="container-fluid clearfix">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018
-              <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with
-              <i class="mdi mdi-heart text-danger"></i>
-            </span>
+
           </div>
         </footer>
         <!-- partial -->
@@ -488,6 +478,19 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127040973-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-127040973-1');
+  </script>
+
+
   <!-- plugins:js -->
   <script src="../../vendors/js/vendor.bundle.base.js"></script>
   <script src="../../vendors/js/vendor.bundle.addons.js"></script>

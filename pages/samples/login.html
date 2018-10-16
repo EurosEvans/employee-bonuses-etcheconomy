@@ -7,6 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Etch: Login</title>
   <!-- plugins:css -->
+
+
+
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+
   <link rel="stylesheet" href="../../vendors/iconfonts/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="../../vendors/css/vendor.bundle.addons.css">
@@ -51,7 +56,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <button type="button" class="btn btn-primary submit-btn btn-block" onclick="loginUserEntry()">Login</button>
+                  <button type="button" class="btn btn-secondary submit-btn btn-block" onclick="loginUserEntry()">Login</button>
                 </div>
                 <div class="form-group d-flex justify-content-between">
                   <div class="form-check form-check-flat mt-0">
@@ -71,8 +76,15 @@
                         <p id="loginMessage"></p>
                     </div>
               </div>
+              <div class="form-group">
+                <!--  <p>Anti-spam</p> -->
+                  <div class="g-recaptcha" data-sitekey="6LeKUnQUAAAAAOFunyx_oPyYttD2T8YoRt3QXFiz"></div>
+                  <br/>
+               <!--    <input type="submit" value="Submit"> -->
+              </div>
               </form>
             </div>
+
             <ul class="auth-footer">
               <li>
                 <a href="#">Conditions</a>
@@ -84,8 +96,11 @@
                 <a href="#">Terms</a>
               </li>
             </ul>
-            <p class="footer-text text-center">copyright © 2018 Bootstrapdash. All rights reserved.</p>
+
+
+            <p class="footer-text text-center"></p>
           </div>
+
         </div>
       </div>
       <!-- content-wrapper ends -->
@@ -93,6 +108,19 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127040973-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-127040973-1');
+  </script>
+
+
   <!-- plugins:js -->
   <script src="../../vendors/js/vendor.bundle.base.js"></script>
   <script src="../../vendors/js/vendor.bundle.addons.js"></script>

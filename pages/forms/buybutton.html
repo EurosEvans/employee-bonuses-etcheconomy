@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Etch: Add Reward</title>
+  <title>Etch: Check Target</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="../../vendors/iconfonts/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
@@ -14,10 +14,10 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="../../css/style.css">
   <!-- endinject -->
+  <script src="https://js.stripe.com/v3/"></script>
+
   <link rel="shortcut icon" href="../../images/favicon.png" />
    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-   <script src="../../node_modules/web3/dist/web3.min.js"></script>
-
   <script id="testscript" src="../../etch.js" type="text/javascript"></script>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -260,114 +260,144 @@
 
         </ul>
       </nav>
-
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
+
+
           <div class="row">
-            <div class="col-12 grid-margin">
-              <div class="card">
-                <div class="row">
-                  <div class="col-md-12">
-                    <h4 class="display-4  text-center  rounded bg-light" >
-                      Add Reward</h4>
 
-                  </div>
+
+                   <div class="col-md-12">
+                     <h4 class="display-4  text-center  rounded bg-light" >Buy Tokens</h4>
+
+                   </div>
+
+           </div>
+
+
+          <div class="row">
+             <div class="col-md-6">
+
+
+                  <select id="allwalletsbuy" class="form-control"
+                  onchange="selectWalletFromAllWalletsBuy()"></select>
+
+
+                <!--  <input type="text" class="form-control" id="employeeWallet"
+                  placeholder="My Wallet"
+                  aria-label="My Wallet" aria-describedby="button-addon2"> -->
+
+
+
+                    <button id="popWalletsBuy" onclick="listAllWalletsBuy()"
+                    class="btn btn-outline-secondary" type="button"
+                    >List Buying Wallets</button>
+
+
+            </div>
+             <div class="col-md-6">
+             </div>
+          </div>
+
+
+
+
+
+          <div class="row">
+             <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                   <div class="card-body">
+                     <form class="forms-sample">
+                        <div class="form-group row">
+                            <div class="col">
+                               <label>Wallet: </label>
+                               <label id="readallwalletbuy" type="text"></label>
+                            </div>
+                            <div class="col">
+                              <button id="showbalance" onclick="showTokenBalance()"
+                               class="btn btn-outline-secondary" type="button">Show Etch Balance</button>
+                            </div>
+                            <div class="col">
+                               <label>Balance (ETH):</label>
+                               <label id="accountBalanceEtch" type="text"></label>
+                            </div>
+                        </div>
+
+
+                     </form>
+                   </div>
+
+
+
                 </div>
 
-                <div class="row">
-                   <div class="col-lg-12 grid-margin stretch-card">
-                      <div class="card">
-                         <div class="card-body">
-                           <p>Enter your reward details:</p>
-
-                           <form class="forms-sample">
-                               <div class="form-group ">
-                                 <input type="radio" name="selbonus" id="Individual" onclick="selIndDom2()" checked=""> <label> Individual</label>
-                                 <input type="radio" id="Team" name="selbonus" onclick="selTeamDom2()"> <label> Team</label>
-                                 <input type="radio" id="Company" name="selbonus" onclick="selCompanyDom2()" > <label> Company</label>
-                               </div>
-                              <div class="form-group row">
-                                <div class="col">
-                                    <label>Name:</label>
-                                    <input type="input"   class="form-control" id="selBonusName2">
-                                </div>
-                                <div class="col">
-                                    <label>Type:</label>
-                                    <input type="text" class="form-control" id="selBonusType2" value="Individual" readonly>
-                                </div>
-                                <div class="col">
-                                  <label>Date Before:</label>
-                                  <input type="input"   class="form-control" id="selBonusDate2" data-inputmask="'alias':'date'">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <div class="col">
-                                   <label>Target:</label>
-                                   <input type="number" class="form-control"    id="selTarget2">
-                                </div>
-                                <div class="col">
-                                   <input type="radio" name="selcond" id="greater" class="iradio_minimal" onclick="selGreater2()" checked="">
-                                   <label for="greater"> Greater Than</label>
-                                   <input type="radio" id="lessthan" name="selcond" class="iradio_minimal" onclick="selLess2()">
-                                   <label for="lessthan"> Less Than</label>
-                                </div>
-
-                                <div class="col">
-                                   <input type="text" class="form-control" id="selCondition2" value="Greater Than" readonly>
-                                </div>
-                               </div>
-
-                                <div class="form-group row">
-                                <div class="col">
-                                    <label>Reward:</label>
-                                    <input type="number"  class="form-control"    id="selBonus2">
-
-                                </div>
-
-                                <div class="col">
-                                  <label>Tokens:</label>
-                                  <select id="selToken2"   class="form-control match-content">
-                                    <option >Coffee</option>
-                                    <option >Donuts</option>
-                                  </select>
-                                </div>
-                              </div>
 
 
-
-                              <div class="form-group">
-
-                                <div class=" alert alert-info" id="eMessage2" role="alert">
-                                  <p id="errorMessage2"></p>
-                                </div>
-                              </div>
+             </div>
+          </div>
 
 
-                           </form>
-                         </div>
-
-                      </div>
-
-                  </div>
-                </div>
-
-                <div class="row">
-                   <div class="col-lg-12 grid-margin stretch-card">
-                      <div class="card">
-                         <div class="card-body">
-                              <button id="addBonusCondition2" onclick="addBonusCondition2()"
-                          class="btn btn-outline-secondary"
-                          >Add</button>
-                         </div>
-                     </div>
+          <div class="row">
+             <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                   <div class="card-body">
+                     <form class="forms-sample">
+                        <div class="form-group row">
+                          <div class="col">
+                            <button id="buytoken" onclick="buyToken()"
+                            class="btn btn-outline-secondary" type="button"
+                            >Buy Etch (ETH)</button>
+                          </div>
+                          <div class="col">
+                            <label>Buying Amount (ETH):</label>
+                            <input type="number"  size="10" class="form-control" id="buyingAmount">
+                          </div>
+                        </div>
+                     </form>
                    </div>
                 </div>
-
-              </div>
-            </div>
+             </div>
           </div>
+
+
+
+
+
+
+          <div class="row">
+             <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                   <div class="card-body">
+                     <form class="forms-sample">
+
+                        <div class="form-group">
+                          <div class="alert alert-info" id="eCheckMessageBuy" role="alert">
+                            <p id="errorCheckMessageBuy"></p>
+                          </div>
+                        </div>
+                     </form>
+                   </div>
+
+
+
+                </div>
+
+
+
+             </div>
+          </div>
+
         </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer">
+          <div class="container-fluid clearfix">
+
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
       <!-- main-panel ends -->
     </div>
     <!-- page-body-wrapper ends -->

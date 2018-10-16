@@ -40,38 +40,34 @@
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-        <a class="navbar-brand brand-logo" href="../../index.html">
+        <a class="navbar-brand brand-logo" href="../../indexemployee.html">
           <img src="../../images/logo.svg" alt="logo" />
         </a>
-        <a class="navbar-brand brand-logo-mini" href="../../index.html">
+        <a class="navbar-brand brand-logo-mini" href="../../indexemployee.html">
           <img src="../../images/logo-mini.svg" alt="logo" />
         </a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center">
         <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
           <li class="nav-item">
-            <a href="#" class="nav-link">Schedule
-              <span class="badge badge-primary ml-1">New</span>
+            <a href="../../index.html" class="nav-link">Home
+
             </a>
           </li>
           <li class="nav-item active">
             <a href="#" class="nav-link">
-              <i class="mdi mdi-elevation-rise"></i>Reports</a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="mdi mdi-bookmark-plus-outline"></i>Score</a>
+              <i class="mdi mdi-elevation-rise"></i>Reports&#91;not-live&#93;</a>
           </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
               <i class="mdi mdi-file-document-box"></i>
-              <span class="count">1</span>
+              <span class="count">0</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
               <div class="dropdown-item">
-                <p class="mb-0 font-weight-normal float-left">You have 1 new email
+                <p class="mb-0 font-weight-normal float-left">You have 0 new emails
                 </p>
                 <span class="badge badge-info badge-pill float-right">View all</span>
               </div>
@@ -95,11 +91,11 @@
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
               <i class="mdi mdi-bell"></i>
-              <span class="count">3</span>
+              <span class="count">0</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
               <a class="dropdown-item">
-                <p class="mb-0 font-weight-normal float-left">3 bonus alerts
+                <p class="mb-0 font-weight-normal float-left">0 bonus alerts
                 </p>
                 <span class="badge badge-pill badge-warning float-right">View all</span>
               </a>
@@ -166,9 +162,6 @@
                   </div>
                 </div>
               </a>
-              <a class="dropdown-item mt-2" href="../samples/register.html">
-                New User
-              </a>
               <a class="dropdown-item" href="../samples/login.html">
                Login
               </a>
@@ -201,51 +194,28 @@
                   </div>
                 </div>
               </div>
-              <button class="btn btn-success btn-block">Add Bonus
+              <button class="btn btn-success btn-block" onclick="fastmybonus()">My Bonuses
                 <i class="mdi mdi-plus"></i>
               </button>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../../index.html">
+            <a class="nav-link" href="../../indexemployee.html">
               <i class="menu-icon mdi mdi-television"></i>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <i class="menu-icon mdi mdi-content-copy"></i>
-              <span class="menu-title">Add Bonus/Reward</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item">
-                  <a class="nav-link" href="../ui-features/buttons.html">Add Bonus</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../ui-features/addreward.html">Add Reward</a>
-                </li>
 
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../forms/basic_elements.html">
-              <i class="menu-icon mdi mdi-backup-restore"></i>
-              <span class="menu-title">List/Allocate Bonuses</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../forms/check_target.html">
-              <i class="menu-icon mdi mdi-backup-restore"></i>
-              <span class="menu-title">Check Target</span>
-            </a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="../forms/mybonus.html">
               <i class="menu-icon mdi mdi-backup-restore"></i>
-              <span class="menu-title">List Bonuses/Wallet</span>
+              <span class="menu-title">My Bonuses</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../forms/buybutton.html">
+              <i class="menu-icon mdi mdi-backup-restore"></i>
+              <span class="menu-title">Buy Tokens</span>
             </a>
           </li>
           <li class="nav-item">
@@ -256,9 +226,7 @@
             </a>
             <div class="collapse" id="ui-admin">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item">
-                  <a class="nav-link" href="../samples/register.html">New User</a>
-                </li>
+
                 <li class="nav-item">
                   <a class="nav-link" href="../samples/login.html">Logout</a>
                 </li>
@@ -304,18 +272,18 @@
 
           <div class="row">
 
-              <div class="col-md-6">
+              <div class="col-md-4">
 
-                <div class="input-group mb-3">
-                  <select class="custom-select custom-select-sm" id="employeebonuses"
+
+                  <select class="form-control" id="employeebonuses"
                   onchange="selectEmployeeBonus()">
                   </select>
-                  <div class="input-group-append">
+              </div>
+    <div class="col-md-2">
+                       <label >Bonuses/Rewards</label>
 
-                       <label class="input-group-text" for="employeebonuses">Bonuses/Rewards</label>
 
-                  </div>
-                </div>
+
 
               </div>
               <div class="col-md-6">
@@ -363,12 +331,14 @@
                           </div>
                         </div>
                         <div class="form-group row">
-                          <label>Condition: </label>
-                          <label type="input" id="ifstring2"></label>
+                              <div class="col">
+                              <label>Condition: </label>
+                              <label type="input" id="ifstring2"></label>
 
-                          <label type="input" id="beforestring2"></label>
-                          <label type="input" id="thenstring2"></label>
-                        </div>
+                              <label type="input" id="beforestring2"></label>
+                              <label type="input" id="thenstring2"></label>
+                            </div>
+                          </div>
                      </form>
                    </div>
 
@@ -409,11 +379,7 @@
         <!-- partial:../../partials/_footer.html -->
         <footer class="footer">
           <div class="container-fluid clearfix">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018
-              <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with
-              <i class="mdi mdi-heart text-danger"></i>
-            </span>
+
           </div>
         </footer>
         <!-- partial -->
@@ -423,6 +389,19 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127040973-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-127040973-1');
+  </script>
+
+
   <!-- plugins:js -->
   <script src="../../vendors/js/vendor.bundle.base.js"></script>
   <script src="../../vendors/js/vendor.bundle.addons.js"></script>
