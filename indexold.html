@@ -1,0 +1,645 @@
+<!doctype html>
+<html>
+   <head>
+       <title>Etch Bonus Demo</title>
+       <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+       <!-- // <script src="https://s3.amazonaws.com/browser-solc.dappbench.com/browser-solc.js"></script> -->
+       <script src="./node_modules/web3/dist/web3.min.js"></script>
+       <script src="./node_modules/web3/dist/web3/web3-utils.js"></script>
+       <script src="./browser-solc/browser-solc.min.js" type="text/javascript"></script>
+       <script id="testscript" src="./test3.js" type="text/javascript"></script>
+       <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+       <link rel="stylesheet" href="/resources/demos/style.css">
+       <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+       <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+       <script>
+        $( function() {
+          $( "#datepicker" ).datepicker();
+        } );
+        $( function() {
+          $( "#datepickercheck" ).datepicker();
+        } );
+        </script>
+     <!--  <link href="./browser-solc/vendor/bootstrap.min.css" rel="stylesheet"> -->
+       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+   </head>
+   <body>
+
+     <div class="container">
+         <div class="row">
+
+           <div class="col-md-1">
+             <img src="./etchlogo.png" class="img-fluid">
+           </div>
+             <div class="col-md-2">
+               <button type="button" class="btn btn-outline-secondary btn-block">TBA</button>
+             </div>
+             <div class="col-md-2">
+               <button type="button" class="btn btn-outline-secondary  btn-block">TBA</button>
+             </div>
+             <div class="col-md-2">
+               <button type="button" id="mybonusLink"
+               onclick="myBonusLink()" class="btn btn-outline-secondary  btn-block"> My Bonuses </button>
+             </div>
+             <div class="col-md-2">
+               <button type="button" id="mymemberLink"
+               onclick="memberLoginLink()" class="btn btn-outline-secondary  btn-block">Member Login</button>
+             </div>
+
+             <div class="col-md-2">
+               <div class="col-md-12 alert alert-info" id="uMessage" role="alert">
+                 <p id="userMessage"></p>
+               </div>
+             </div>
+         </div>
+     </div>
+
+
+
+<div class="container">
+ <div class="row">
+   <div class="col-md-12">
+     <hr>
+     <ul class="nav nav-tabs" id="myTab" role="tablist">
+     <li class="nav-item">
+       <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link" id="profile-tab" data-toggle="tab"
+       href="#profile" role="tab" aria-controls="profile"
+       aria-selected="false">Check Targets</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+       aria-controls="contact" aria-selected="false">Assign Wallets</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link" id="addbonus-tab" data-toggle="tab"
+       href="#addbonus" role="tab"
+       aria-controls="addbonus" aria-selected="false">Add Bonus</a>
+     </li>
+
+     <li class="nav-item">
+       <a class="nav-link" id="addwallet-tab" data-toggle="tab"
+       href="#addwallet" role="tab"
+       aria-controls="addwallet" aria-selected="false">Add Wallet</a>
+     </li>
+
+     <li class="nav-item">
+       <a class="nav-link" id="howitworks-tab" data-toggle="tab"
+       href="#howitworks" role="tab"
+       aria-controls="howitworks" aria-selected="false">How it Works</a>
+     </li>
+
+     <li class="nav-item">
+       <a class="nav-link" id="employee-tab" data-toggle="tab"
+       href="#employee" role="tab"
+       aria-controls="employee" aria-selected="false">My Bonuses</a>
+     </li>
+
+     </ul>
+   <div class="tab-content" id="myTabContent">
+     <div class="tab-pane fade show active" id="home" role="tabpanel"
+     aria-labelledby="home-tab">
+
+
+
+         <div class="row">
+             <div class="col-md-12">
+
+
+               <div class="card-group">
+                 <div class="card">
+                   <img class="card-img-top" src="wallets.png" alt="Wallets">
+                   <div class="card-body">
+                     <h5 class="card-title">Wallets</h5>
+                     <p class="card-text">Add your wallet to Etch, assign a bonus
+                     to it, and use it to track bonuses.</p>
+                   </div>
+                 </div>
+                 <div class="card">
+                   <img class="card-img-top" src="bonuspaid.png" alt="Bonuses">
+                   <div class="card-body">
+                     <h5 class="card-title">Bonuses</h5>
+                     <p class="card-text">Bonus conditions are created for teams, individuals and companies.</p>
+                   </div>
+                 </div>
+                 <div class="card">
+                   <img class="card-img-top" src="match.png" alt="Matching">
+                   <div class="card-body">
+                     <h5 class="card-title">Matching</h5>
+                     <p class="card-text">Bonus conditions are assigned to wallets.</p>
+                   </div>
+                 </div>
+               </div>
+             </div>
+         </div>
+
+
+
+         <div class="row">
+             <div class="col-md-12">
+               <img src="bonus2.jpg" class="img-fluid" alt="Bonus">
+             </div>
+         </div>
+
+   </div>
+
+     <div class="tab-pane fade" id="profile" role="tabpanel"
+     aria-labelledby="profile-tab">
+
+         <div class="row">
+
+
+                  <div class="col-md-12">
+                    <h4 class="display-4  text-center  rounded bg-light" >Check Targets</h4>
+
+                  </div>
+
+          </div>
+
+
+         <div class="row">
+            <div class="col-md-9">
+               <div class="input-group mb-3">
+
+                 <select id="allwallets" class="custom-select"
+                 onchange="selectWalletFromAllWallets()"></select>
+
+
+               <!--  <input type="text" class="form-control" id="employeeWallet"
+                 placeholder="My Wallet"
+                 aria-label="My Wallet" aria-describedby="button-addon2"> -->
+
+                 <div class="input-group-append">
+
+                   <button id="popWallets" onclick="listAllWallets()"
+                   class="btn btn-outline-secondary" type="button"
+                   >List Wallets</button>
+
+                 </div>
+               </div>
+           </div>
+         </div>
+
+
+
+
+
+
+         <div class="row">
+
+             <div class="col-md-7">
+              Wallet: <label id="readallwallet" type="text"></label>
+             </div>
+             <div class="col-md-5">
+              Email: <label id="allwalletemail" type="text"></label>
+             </div>
+
+         </div>
+
+         <div class="row">
+             <div class="col-md-12">
+              <select id="walletbonuses" class="custom-select"
+              onchange="selectWalletBonuses()"></select>
+             </div>
+
+         </div>
+
+
+
+         <div class="row">
+              <div class="col-md-12">
+
+                 <table class="table">
+                   <thead>
+                     <tr>
+                       <th  >Entry</th>
+                       <th  >Wallet</th>
+                       <th >Bonus</th>
+                       <th >Date</th>
+                       <th >Target Reached</th>
+                       <th >Check</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr>
+                       <th scope="row">1</th>
+                       <td><label id="checkwallet" type="text" ></label></td>
+                       <td><label type="text" id="checkbonus" ></label></td>
+
+                       <td><input type="text" class="form-control" id="datepickercheck"
+                         onchange="selCheckDate()"></td>
+                       <td><input type="number"  size="10" class="form-control" id="checkTarget"></td>
+                       <td>     <button id="checkbutton1" onclick="checkbutton()"
+                            class="btn btn-secondary btn-xl"
+                            >Check</button></td>
+                     </tr>
+                   </tbody>
+                 </table>
+             </div>
+
+         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+         <div class="row">
+           <div class="col-md-12 alert alert-info" id="eCheckMessage" role="alert">
+             <p id="errorCheckMessage"></p>
+           </div>
+         </div>
+
+     </div>
+     <div class="tab-pane fade" id="contact" role="tabpanel"
+     aria-labelledby="contact-tab">
+
+         <div class="row">
+           <div class="col-md-12">
+             <h4 class="display-4  text-center  rounded bg-light" >
+               Assign Wallets</h4>
+
+           </div>
+         </div>
+
+
+
+
+         <div class="row">
+            <div class="col-md-9">
+               <div class="input-group mb-3">
+
+
+                 <select class="custom-select" id="listBonusNames"
+                  onchange="selectBonusName()"></select>
+                 <div class="input-group-append">
+
+                   <button id="popBonuses" onclick="listAllBonusNames()"
+                   class="btn btn-outline-secondary" type="button"
+                   >List Bonuses</button>
+
+
+
+                 </div>
+               </div>
+           </div>
+         </div>
+
+
+
+         <div class="row">
+            <div class="col-md-6">
+
+              <select class="custom-select" id="wallets"
+               onchange="selectWallet()">
+
+              </select>
+           </div>
+           <div class="col-md-6">
+
+           </div>
+
+         </div>
+
+
+
+
+
+         <div class="row">
+              <div class="col-md-12">
+
+                 <table class="table">
+                   <thead>
+                     <tr>
+                       <th scope="col">Entry</th>
+                       <th scope="col">Name</th>
+                       <th scope="col">Type</th>
+                       <th scope="col">Date</th>
+                       <th scope="col">Target</th>
+                       <th scope="col">Payable</th>
+                       <th scope="col">Token</th>
+                       <th scope="col">Wallet</th>
+                       <th scope="col">Assign</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr>
+                       <th scope="row">1</th>
+                       <td><label type="input" id="displayBonusName"></label></td>
+                       <td><label type="input" id="displayBonusType"></label></td>
+                       <td><label type="input" id="displayBonusDate"></label></td>
+                       <td><label type="input" id="displayBonusTarget"></label></td>
+                       <td><label type="input" id="displayBonusPayable"></label></td>
+                       <td><label type="input" id="displayBonusToken"></label></td>
+                       <td> <label id="readwallet" type="text"></label></td>
+                       <td>
+
+                       <button id="marryWallet" onclick="marryWallet()"
+                       class="btn btn-outline-secondary"
+                       >Assign</button>
+                     </td>
+                     </tr>
+                   </tbody>
+                 </table>
+             </div>
+
+         </div>
+
+         <div class="row">
+              <div class="col-md-12">
+                <label type="text" id="ifstring"></label>
+                <label type="text" id="beforestring"></label>
+                <label type="text" id="thenstring"></label>
+
+              </div>
+         </div>
+
+
+     </div>
+
+
+     <div class="tab-pane fade" id="addbonus" role="tabpanel"
+     aria-labelledby="addbonus-tab">
+
+         <div class="row">
+           <div class="col-md-12">
+             <h4 class="display-4  text-center  rounded bg-light" >
+               Add Bonus</h4>
+
+           </div>
+         </div>
+
+         <div class="row">
+             <div class="col-md-8">
+               <input type="radio" name="selbonus" id="Individual" onclick="selIndDom()"> Individual
+               <input type="radio" id="Team" name="selbonus" onclick="selTeamDom()"> Team
+               <input type="radio" id="Company" name="selbonus" onclick="selCompanyDom()" > Company
+             </div>
+               <div class="col-md-4">
+
+               </div>
+         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+         <div class="row">
+              <div class="col-md-12 table-responsive">
+
+                 <table class="table">
+                   <thead>
+                     <tr>
+                       <th  >Entry</th>
+                       <th  >Name</th>
+                       <th  >Type</th>
+                       <th >Date</th>
+                       <th  >Target</th>
+                       <th >Payable</th>
+                       <th >Token</th>
+                       <th >Add</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr >
+                       <th scope="row">1</th>
+                       <td><input type="input" size="12" class="form-control" id="selBonusName"></td>
+                       <td><input type="text" size="10" class="form-control" id="selBonusType" readonly></label></td>
+                       <td><input type="text" size="10" class="form-control"  id="datepicker" onchange="selDate()"></td>
+                       <td>
+                            <input type="number" class="form-control"  size="10" id="selTarget">
+                       </td>
+                       <td><input type="number"  class="form-control"  size="10" id="selBonus"></td>
+                       <td>
+                         <select id="selToken"   class="form-control match-content">
+                           <option >WEI</option>
+                           <option >Pillar</option>
+                           <option >IOU121</option>
+                           <option >BTC</option>
+                         </select>
+                       </td>
+
+                       <td>
+                           <button id="addBonusCondition" onclick="addBonusCondition()"
+
+                       class="btn btn-outline-secondary"
+                       >Add</button>
+                     </td>
+                     </tr>
+                   </tbody>
+                 </table>
+             </div>
+
+         </div>
+
+
+
+         <div class="row">
+           <div class="col-md-12 alert alert-info" id="eMessage" role="alert">
+             <p id="errorMessage"></p>
+           </div>
+         </div>
+
+
+     </div>
+
+
+     <div class="tab-pane fade" id="addwallet" role="tabpanel"
+     aria-labelledby="addwallet-tab">
+
+         <div class="row">
+           <div class="col-md-12">
+             <h4 class="display-4  text-center  rounded bg-light" >
+               Add a Wallet</h4>
+
+           </div>
+         </div>
+
+
+         <div class="row">
+           <div class="col-md-12">
+
+             <div class="input-group mb-3">
+               <div class="input-group-prepend">
+                 <span class="input-group-text" id="">Wallet/Email Addresses</span>
+               </div>
+               <input type="text" class="form-control"
+               placeholder="wallet address" id="walletaddress"
+               aria-label="wallet address" aria-describedby="walletbbutton">
+               <input type="text" class="form-control"
+               placeholder="email address" id="walletemailaddress"
+               aria-label="email address" aria-describedby="walletbbutton">
+               <div class="input-group-append">
+                 <button class="btn btn-outline-secondary" onclick="addWallet()"
+                 type="button" id="walletbbutton">Add</button>
+               </div>
+             </div>
+
+           </div>
+         </div>
+
+     </div>
+
+     <div class="tab-pane fade" id="howitworks" role="tabpanel"
+     aria-labelledby="howitworks-tab">
+
+         <div class="row">
+           <p>
+             Etch is powered by blockchain technology and smart contracts. Here are
+             some of the features:
+             <ul>
+                <li>All bonus conditions are stored on the blockchain.</li>
+                <li>No off-chain databases are used.</li>
+                <li>The conditions for bonuses are all stored in a
+                  smart contract which is visible to anyone.</li>
+                <li>All the conditions are visible via the blockchain. Hence anyone can
+                 audit the transaction conditions using for example Remix.</li>
+                 <li>Etch is fully committed to emerging technologies, such
+                   as Polkadot to allow scaling and better security.</li>
+             </ul>
+           </p>
+         </div>
+     </div>
+
+     <div class="tab-pane fade" id="employee" role="tabpanel"
+     aria-labelledby="employee-tab">
+
+         <div class="row">
+           <div class="col-md-12">
+             <h4 class="display-4  text-center  rounded bg-light" >
+               My Bonuses</h4>
+
+           </div>
+         </div>
+
+         <div class="row">
+            <div class="col-md-6">
+               <div class="input-group mb-3">
+                 <input type="text" class="form-control" id="employeeWallet"
+                 placeholder="My Wallet"
+                 aria-label="My Wallet" aria-describedby="button-addon2">
+                 <div class="input-group-append">
+                   <button class="btn btn-outline-secondary"
+                   onclick="employeeBonus()"
+                   type="button" id="employeeBonus">Show Bonuses</button>
+                 </div>
+               </div>
+           </div>
+           <div class="col-md-6">
+                Email: <label type="text" id="employeeemail"></label>
+           </div>
+         </div>
+
+         <div class="row">
+
+             <div class="col-md-6">
+
+               <div class="input-group mb-3">
+                 <select class="custom-select" id="employeebonuses"
+                 onchange="selectEmployeeBonus()">
+                 </select>
+                 <div class="input-group-append">
+                   <label class="input-group-text" for="employeebonuses">Bonuses</label>
+                 </div>
+               </div>
+
+             </div>
+             <div class="col-md-6">
+
+             </div>
+
+         </div>
+         <div class="row">
+              <div class="col-md-12">
+
+                 <table class="table">
+                   <thead>
+                     <tr>
+                       <th scope="col">Entry</th>
+                       <th scope="col">Bonus Name</th>
+                       <th scope="col">Bonus Type</th>
+                       <th scope="col">Bonus Date</th>
+                       <th scope="col">Bonus Target</th>
+                       <th scope="col">Bonus Payable</th>
+                       <th scope="col">Bonus Token</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr>
+                       <th scope="row">1</th>
+                       <td><label type="input" id="mybonusname"></label></td>
+                       <td><label type="input" id="mybonustype"></label></td>
+                       <td><label type="input" id="mybonusdate"></label></td>
+                       <td><label type="input" id="mybonustarget"></label></td>
+                       <td><label type="input" id="mybonuspayable"></label></td>
+                       <td><label type="input" id="mybonustoken"></label></td>
+                     </tr>
+                   </tbody>
+                 </table>
+             </div>
+
+         </div>
+
+         <div class="row">
+              <div class="col-md-12 bg-warning">
+                <label type="text" id="ifmystring"></label>
+                <label type="text" id="beforemystring"></label>
+                <label type="text" id="thenmystring"></label>
+
+              </div>
+         </div>
+
+         <div class="row">
+           <div>
+             Confirm in Remix (current contract address is needed)
+           </div>
+              <div class="col-md-6">
+                <p>
+                <a href="https://remix.ethereum.org/#optimize=false&version=soljson-v0.4.25+commit.59dbf8f1.js"
+                >Remix</a>
+              </p>
+              <p>
+                <a href="https://www.youtube.com/watch?v=REjZ2sKM3w0&feature=youtu.be">Remix Video</a>               </p>
+
+              </div>
+         </div>
+
+     </div>
+
+
+
+   </div>
+
+   </div>
+ </div>
+</div>
+
+
+
+
+
+
+   </body>
+</html>

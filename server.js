@@ -6,7 +6,7 @@ const logger = require('morgan');
 
 const mongoose = require('mongoose');
 
-const solc = require('solc');
+//#const solc = require('solc');
 let Web3 = require('web3');
 
 let sgMail = require('@sendgrid/mail');
@@ -185,6 +185,19 @@ app.post("/api/loginuser", function(req, res){
 });
 
 
+app.post("/api/checkuser", function(req, res){
+  var username = req.body.username;
+
+
+  usersDB.findOne({ UserName : username}, function(err, doc){
+    if(doc == null){
+         res.json({ message: "Login details are incorrect", doc : doc, type: 'error'});
+    }else{
+         res.json({ message: "Correct", doc : doc, type: 'correct'});
+    }
+  });
+});
+
 
 app.post("/api/get_info", function(req, res){
   var hash = req.body.hash;
@@ -208,8 +221,7 @@ app.post("/api/sendmail", function(req, res){
 
 var s = '<p>'+text+'</p>';
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    //  sgMail.setApiKey(key);#
-console.log(sgMail);
+    //  sgMail.setApiKey(key);
       const msg = {
       to: emailto,
       from: emailfrom,
@@ -217,7 +229,6 @@ console.log(sgMail);
       text: text,
       html: s,
       };
-console.log(msg);
       sgMail.send(msg);
 
   });
@@ -290,6 +301,6 @@ app.post("/api/get_wallets", function(req, res){
 
 app.use(express.static(__dirname + "/public" ));
 
-app.listen(80, function(){
+app.listen(3000, function(){
   console.log("App starts at port :" +80);
 });

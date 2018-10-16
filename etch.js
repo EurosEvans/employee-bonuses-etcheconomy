@@ -3,16 +3,20 @@ var exampleSource = "";
 var optimize = 1;
 var compiler;
 var web3provider;
+var walletemailaddress;
 //var mongoose=require('mongoose');
 
+homepage = "http://etch-prepare-for-takeoff.com";
 
 
-address = "0x2a9612ec939bf8250bf8dd7d7a0903fabb72d4f6";
+address = "0xaf9f7c924e9f985ab363668ea5d97bae2b57ef18";
 
-abi =  [ { "constant": false, "inputs": [ { "name": "bonusType", "type": "string" }, { "name": "bonusTarget", "type": "uint256" }, { "name": "bonusEndYear", "type": "uint256" }, { "name": "bonusEndMonth", "type": "uint256" }, { "name": "bonusEndDay", "type": "uint256" }, { "name": "bonusToken", "type": "string" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusName", "type": "string" }, { "name": "ineq", "type": "uint256" } ], "name": "addBonus", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "k1", "type": "uint256" } ], "name": "addK", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "token", "type": "bytes32" }, { "name": "payment", "type": "uint256" } ], "name": "addPaymentDetail", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" } ], "name": "addWallet", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "bonusName", "type": "string" } ], "name": "addWalletBonus", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "emailAddress", "type": "string" } ], "name": "addWalletEmail", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "mybonusname", "type": "string" } ], "name": "getFreeWallets2", "outputs": [ { "name": "", "type": "address[]" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "payable": true, "stateMutability": "payable", "type": "fallback" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "constant": true, "inputs": [ { "name": "", "type": "bytes32" } ], "name": "Bonuses", "outputs": [ { "name": "bonusName", "type": "bytes32" }, { "name": "bonusType", "type": "bytes32" }, { "name": "bonusTarget", "type": "uint256" }, { "name": "bonusEndYear", "type": "uint256" }, { "name": "bonusEndMonth", "type": "uint256" }, { "name": "bonusEndDay", "type": "uint256" }, { "name": "bonusToken", "type": "bytes32" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusExists", "type": "bool" }, { "name": "ineq", "type": "uint8" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "BonusNamesArray", "outputs": [ { "name": "bonusName", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "BonusNamesBytes", "outputs": [ { "name": "", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "x", "type": "bytes32" } ], "name": "bytes32ToString", "outputs": [ { "name": "", "type": "string" } ], "payable": false, "stateMutability": "pure", "type": "function" }, { "constant": true, "inputs": [], "name": "getBonusNames", "outputs": [ { "name": "", "type": "bytes32[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "mybonusname", "type": "string" } ], "name": "getFreeWallets", "outputs": [ { "name": "", "type": "address[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getNumberWallets", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "wallet", "type": "address" } ], "name": "getWalletBonuses", "outputs": [ { "name": "bonusNames", "type": "bytes32[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getWallets", "outputs": [ { "name": "", "type": "address[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "bonusName", "type": "string" }, { "name": "targetReached", "type": "uint256" }, { "name": "endYear", "type": "uint256" }, { "name": "endMonth", "type": "uint256" }, { "name": "endDay", "type": "uint256" } ], "name": "isBonusPayable", "outputs": [ { "name": "payBonus", "type": "bool" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusToken", "type": "string" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "bytes32" } ], "name": "PaymentDetails", "outputs": [ { "name": "totalPaid", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "source", "type": "string" } ], "name": "stringToBytes32", "outputs": [ { "name": "result", "type": "bytes32" } ], "payable": false, "stateMutability": "pure", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "bytes32" } ], "name": "WalletBonuses", "outputs": [ { "name": "bonusExists", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "uint256" } ], "name": "WalletBonusLists", "outputs": [ { "name": "bonusname", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" } ], "name": "WalletDetails", "outputs": [ { "name": "walletEmailAddress", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "Wallets", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" } ]
+abi = [ { "constant": false, "inputs": [ { "name": "bonusType", "type": "string" }, { "name": "bonusTarget", "type": "uint256" }, { "name": "bonusEndYear", "type": "uint256" }, { "name": "bonusEndMonth", "type": "uint256" }, { "name": "bonusEndDay", "type": "uint256" }, { "name": "bonusToken", "type": "string" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusName", "type": "string" }, { "name": "ineq", "type": "uint256" } ], "name": "addBonus", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "k1", "type": "uint256" } ], "name": "addK", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "token", "type": "bytes32" }, { "name": "payment", "type": "uint256" } ], "name": "addPaymentDetail", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" } ], "name": "addWallet", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "bonusName", "type": "string" } ], "name": "addWalletBonus", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "emailAddress", "type": "string" } ], "name": "addWalletEmail", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "payable": true, "stateMutability": "payable", "type": "fallback" }, { "constant": true, "inputs": [ { "name": "", "type": "bytes32" } ], "name": "Bonuses", "outputs": [ { "name": "bonusName", "type": "bytes32" }, { "name": "bonusType", "type": "bytes32" }, { "name": "bonusTarget", "type": "uint256" }, { "name": "bonusEndYear", "type": "uint256" }, { "name": "bonusEndMonth", "type": "uint256" }, { "name": "bonusEndDay", "type": "uint256" }, { "name": "bonusToken", "type": "bytes32" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusExists", "type": "bool" }, { "name": "ineq", "type": "uint8" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "BonusNamesArray", "outputs": [ { "name": "bonusName", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "BonusNamesBytes", "outputs": [ { "name": "", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "x", "type": "bytes32" } ], "name": "bytes32ToString", "outputs": [ { "name": "", "type": "string" } ], "payable": false, "stateMutability": "pure", "type": "function" }, { "constant": true, "inputs": [], "name": "getBonusNames", "outputs": [ { "name": "", "type": "bytes32[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "mybonusname", "type": "string" } ], "name": "getFreeWallets", "outputs": [ { "name": "", "type": "address[]" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "mybonusname", "type": "string" } ], "name": "getFreeWalletsx", "outputs": [ { "name": "", "type": "address[]" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "bonusname", "type": "string" } ], "name": "getNumberWalletBonusAllocations", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getNumberWallets", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "wallet", "type": "address" } ], "name": "getWalletBonuses", "outputs": [ { "name": "bonusNames", "type": "bytes32[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getWallets", "outputs": [ { "name": "", "type": "address[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "bonusName", "type": "string" }, { "name": "targetReached", "type": "uint256" }, { "name": "endYear", "type": "uint256" }, { "name": "endMonth", "type": "uint256" }, { "name": "endDay", "type": "uint256" } ], "name": "isBonusPayable", "outputs": [ { "name": "payBonus", "type": "bool" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusToken", "type": "string" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "bytes32" } ], "name": "PaymentDetails", "outputs": [ { "name": "totalPaid", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "source", "type": "string" } ], "name": "stringToBytes32", "outputs": [ { "name": "result", "type": "bytes32" } ], "payable": false, "stateMutability": "pure", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "bytes32" } ], "name": "WalletBonuses", "outputs": [ { "name": "bonusExists", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "uint256" } ], "name": "WalletBonusLists", "outputs": [ { "name": "bonusname", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" } ], "name": "WalletDetails", "outputs": [ { "name": "walletEmailAddress", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "Wallets", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" } ]
 
 
+payEtchAddress="0x7b4543d41b05e00fca2a5a0f97ec51c8388d1521";
 
+payEtchABI=[ { "constant": false, "inputs": [], "name": "payEtch", "outputs": [ { "name": "success", "type": "bool" } ], "payable": true, "stateMutability": "payable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "constant": true, "inputs": [ { "name": "", "type": "address" } ], "name": "ClientWallets", "outputs": [ { "name": "clientBalance", "type": "uint256" }, { "name": "clientAccount", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "walletAddress", "type": "address" } ], "name": "getBalance", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "walletAddress", "type": "address" } ], "name": "getClientBalance", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "mywallet", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" } ]
 
 
 
@@ -48,28 +52,57 @@ function userLogin() {
 }
 
 function loginUserEntry() {
-  var username = document.getElementById("loginUserName").value;
-  var regPassword = document.getElementById("loginPassword").value;
+   var response = grecaptcha.getResponse();
+   if (response.length==0) {
+// uLoginMessage
+      document.getElementById("uLoginMessage").style.visibility="visible";
 
-  loginUserDB(username,  regPassword);
+      sessionStorage.removeItem('login')
+      document.getElementById("loginMessage").innerHTML = "Please check Captcha Box";
+      document.getElementById("uLoginMessage").classList.add("alert-danger");
+      document.getElementById("uLoginMessage").classList.remove("alert-info");
+
+  } else {
+      document.getElementById("uLoginMessage").style.visibility="hidden";
+      var username = document.getElementById("loginUserName").value;
+      var regPassword = document.getElementById("loginPassword").value;
+      web3 = new Web3(web3.currentProvider);
+      var pwdhash = web3.sha3(regPassword);
+
+      loginUserDB(username,  pwdhash);
+  }
 }
 
 function addUser() {
 
-    var username = document.getElementById("regUserName").value;
-    var regPassword = document.getElementById("regPassword").value;
-    var regEmail = document.getElementById("regEmail").value;
-    var employeeCheckBox = document.getElementById("checkEmployee");
-    var employerCheckBox = document.getElementById("checkEmployer");
-    if ((employeeCheckBox.checked==true) || (employerCheckBox.checked==true)) {
-          registerUserDB(username, regEmail, regPassword, employeeCheckBox.checked, employerCheckBox.checked);
-    } else {
-          document.getElementById("uRegMessage").style.visibility="visible";
-          document.getElementById("regMessage").innerHTML = "Please check Employee/Employer";
-          document.getElementById("uRegMessage").classList.add("alert-danger");
-          document.getElementById("uRegMessage").classList.remove("alert-info");
-    }
+  var response = grecaptcha.getResponse();
+  if (response.length==0) {
+// uLoginMessage
+     document.getElementById("uRegMessage").style.visibility="visible";
 
+     sessionStorage.removeItem('login')
+     document.getElementById("regMessage").innerHTML = "Please check Captcha Box";
+     document.getElementById("uRegMessage").classList.add("alert-danger");
+     document.getElementById("uRegMessage").classList.remove("alert-info");
+
+   } else {
+
+      var username = document.getElementById("regUserName").value;
+      var regPassword = document.getElementById("regPassword").value;
+      web3 = new Web3(web3.currentProvider);
+      var pwdhash = web3.sha3(regPassword);
+      var regEmail = document.getElementById("regEmail").value;
+      var employeeCheckBox = document.getElementById("checkEmployee");
+      var employerCheckBox = document.getElementById("checkEmployer");
+      if ((employeeCheckBox.checked==true) || (employerCheckBox.checked==true)) {
+            registerUserDB(username, regEmail, pwdhash, employeeCheckBox.checked, employerCheckBox.checked);
+      } else {
+            document.getElementById("uRegMessage").style.visibility="visible";
+            document.getElementById("regMessage").innerHTML = "Please check Employee/Employer";
+            document.getElementById("uRegMessage").classList.add("alert-danger");
+            document.getElementById("uRegMessage").classList.remove("alert-info");
+      }
+  }
 
 }
 
@@ -107,6 +140,30 @@ function selIndDom() {
     document.getElementById("selBonusType").value="Individual";
 }
 
+function selGreater() {
+    document.getElementById("selCondition").value="Greater Than";
+}
+
+function selLess() {
+    document.getElementById("selCondition").value="Less Than";
+}
+
+function selGreater2() {
+    document.getElementById("selCondition2").value="Greater Than";
+}
+
+function selLess2() {
+    document.getElementById("selCondition2").value="Less Than";
+}
+
+function selGreater2() {
+    document.getElementById("selCondition2").value="Greater Than";
+}
+
+function selLess2() {
+    document.getElementById("selCondition2").value="Less Than";
+}
+
 function selTeamDom() {
     document.getElementById("selBonusType").value="Team";
 }
@@ -139,17 +196,22 @@ function addBonusCondition() {
   var bonusName = document.getElementById("selBonusName").value;
   var bonusType = document.getElementById("selBonusType").value;
   var selectedDate = document.getElementById("selBonusDate").value;
+  var selectedEq = document.getElementById("selCondition").value;
+
+
   var bonus = bonusRaw;
   web3 = new Web3(web3.currentProvider);
 if (token == "ETH") {
     bonus=  web3.toWei(bonusRaw);
 }
 
+if (selectedEq=="Greater Than") ineq=1;
+else ineq=0;
 
-  ineq = 1;
-  if (bonusType=="Team") {
-    ineq = 0;
-  }
+//  ineq = 1;
+//  if (bonusType=="Team") {
+//    ineq = 0;
+//  }
 
 //  var selDate = document.getElementById("datepicker").value;
   var arrayDate;
@@ -224,10 +286,14 @@ function addBonusCondition2() {
   var bonusName = document.getElementById("selBonusName2").value;
   var bonusType = document.getElementById("selBonusType2").value;
 var rewardDate =  document.getElementById("selBonusDate2").value;
-  ineq = 1;
-  if (bonusType=="Team") {
-    ineq = 0;
-  }
+  var selectedEq = document.getElementById("selCondition2").value;
+
+if (selectedEq=="Greater Than") ineq=1;
+else ineq=0;
+//  ineq = 1;
+//  if (bonusType=="Team") {
+//    ineq = 0;
+//  }
 
 
 //  var selDate = document.getElementById("datepicker").value;
@@ -354,7 +420,8 @@ function marryWallet() {
 
    var bonusName = document.getElementById("displayBonusName").innerHTML;
    var readwallet = document.getElementById("readwallet").innerHTML;
-   assignWalletBonus(readwallet, bonusName);
+   getEmailAddressAndAssignBonus(readwallet, bonusName); // assign global variable - that or use a session variable
+  // assignWalletBonus(readwallet, bonusName, walletemailaddress);
 }
 
 function selectContract() {
@@ -369,6 +436,9 @@ function selectBonusName() {
     var bonusname = document.getElementById("listBonusNames").value;
   //  document.getElementById("readwallet").value = wallet;
     getBonusBlockchain(bonusname);
+    //pop free wallets
+    var typelisting=0;
+    getFreeBlockchainWalletsABonus(bonusname, typelisting);
 
 }
 
@@ -385,10 +455,39 @@ function getBonusBlockchain(bonusname) {
   var instanceContract = contract.at(address);
 
   instanceContract.Bonuses(
-       bonusnameBytes32
+       bonusname
      , function (e, result){
         console.log(result);
         var x = popBonusFields(result, web3);
+  });
+
+}
+
+
+
+function functsubmit(event) {
+  //var msg= document.getElementById()
+  var x=1;
+  var t=1;
+}
+
+function getEmailAddressAndAssignBonus(walletaddress, bonusName) {
+  web3 = new Web3(web3.currentProvider);
+  web3provider=web3;
+  web3provider=new Web3(web3.currentProvider);
+  web3.eth.defaultAccount = web3.eth.accounts[0];
+
+  var contract = web3.eth.contract(abi);
+  var instanceContract = contract.at(address);
+ walletemailaddress="";
+  instanceContract.WalletDetails(
+       walletaddress
+     , function (e, result){
+        console.log(result);
+           var walletemailaddress = web3.toAscii(result);
+           walletemailaddress=walletemailaddress.replace(/\0.*$/g,'');
+           assignWalletBonus(walletaddress, bonusName, walletemailaddress);
+
   });
 
 }
@@ -518,32 +617,32 @@ function getEmployeeBlockchain(wallet) {
 }
 
 
-function popBonusFields(result, web3) {
+function popBonusFields(bonusData, web3) {
 
-    if (result==undefined) return false;
-    if (result==null) return false;
-    if (result.length > 10) return false;
+    if (bonusData==undefined) return false;
+    if (bonusData==null) return false;
+    if (bonusData.length > 10) return false;
 
     var bonusName;
-    var bonusName32 = result[0]; //
+    var bonusName32 = bonusData[0]; //
     if (isValid(bonusName32)) bonusName = web3.toAscii(bonusName32);
     var bonusType;
-    var bonusType32 = result[1];
+    var bonusType32 = bonusData[1];
     if (isValid(bonusType32)) bonusType = web3.toAscii(bonusType32);
 
-    var bonusTarget = result[2]; //
-    var bonusEndYear = result[3];
-    var bonusEndMonth = result[4];
-    var bonusEndDay = result[5];
+    var bonusTarget = bonusData[2]; //
+    var bonusEndYear = bonusData[3];
+    var bonusEndMonth = bonusData[4];
+    var bonusEndDay = bonusData[5];
 
     var bonusToken;
-    var bonusToken32 = result[6]; //
+    var bonusToken32 = bonusData[6]; //
     if (isValid(bonusToken32)) bonusToken = web3.toAscii(bonusToken32);
 
-    var bonusAmount = result[7]; //
-    var bonusExists = result[8];
-    var bonusIneq = result[9];
-
+    var bonusAmount = bonusData[7]; //
+    var bonusExists = bonusData[8];
+    var bonusIneq = bonusData[9];
+// eth
     if (bonusToken32=="0x4554480000000000000000000000000000000000000000000000000000000000") {
       // convert from Wei
       bonusAmount=web3.fromWei(bonusAmount);
@@ -558,19 +657,23 @@ function popBonusFields(result, web3) {
     document.getElementById("displayBonusToken").innerHTML = bonusToken;
     document.getElementById("displayBonusDate").innerHTML = bonusDate;
 
-if ((bonusIneq) == 1) {
-    ineqStr="Greater Than";
-} else {
-    ineqStr="Less Than";
-}
+    if ((bonusIneq) == 1) {
+        ineqStr="Greater Than";
+    } else {
+        ineqStr="Less Than";
+    }
 
-var IFString = "IF " + bonusType + " Target " + ineqStr + " " + bonusTarget+ "; ";
-var BeforeString = "Before " + bonusDate+ "; ";
-var ThenString = "Then pay " + bonusAmount + " " + bonusToken+ "; ";
+    var IFString = "IF " + bonusType + " Target " + ineqStr + " " + bonusTarget+ "; ";
+    var BeforeString = "Before " + bonusDate+ "; ";
+    var ThenString = "Then pay " + bonusAmount + " " + bonusToken+ "; ";
 
-document.getElementById("ifstring").innerHTML = IFString;
-document.getElementById("beforestring").innerHTML = BeforeString;
-document.getElementById("thenstring").innerHTML = ThenString;
+    document.getElementById("ifstring").innerHTML = IFString;
+    document.getElementById("beforestring").innerHTML = BeforeString;
+    document.getElementById("thenstring").innerHTML = ThenString;
+
+    //populateWallets(freeWallets);
+    var typelisting=0;
+    getFreeBlockchainWalletsABonus(bonusName, typelisting);
 
     return true;
 
@@ -722,6 +825,31 @@ function populateWallets(wallets) {
     }
 }
 
+function populateWalletsBuy(wallets) {
+  sel = document.getElementById("allwalletsbuy");
+  sel.innerHTML = "";
+  if (wallets.length > 0)
+      document.getElementById("readallwalletbuy").innerHTML=wallets[0];
+    for(var i = 0; i < wallets.length; i++) {
+        var opt = document.createElement('option');
+        opt.appendChild( document.createTextNode(wallets[i]) );
+        opt.value = wallets[i];
+        sel.appendChild(opt);
+    }
+}
+
+
+function selectWalletFromAllWalletsBuy() {
+  var wallet = document.getElementById("allwalletsbuy").value;
+  document.getElementById("readallwalletbuy").innerHTML = wallet;
+//  document.getElementById("checkwallet").innerHTML=wallet;
+
+  //getWalletBlockchain(wallet);
+
+  // read blockchain for details.
+}
+
+
 function selectWalletFromAllWallets() {
   var wallet = document.getElementById("allwallets").value;
   document.getElementById("readallwallet").innerHTML = wallet;
@@ -865,14 +993,19 @@ function registerUserDB (username, emailaddress, password, employee, employer){
            document.getElementById("uRegMessage").classList.remove("alert-info");
 
        } else {
-         var emailfrom="info@etch.work";
+         var emailfrom="info@etch-preflight-test.com";
          var subject = "Thank you for regsitering";
-         var text = " You are now registered to use the Etch system.";
+         var text = "<p>You are now registered to use the Etch system.<p>" +
+         "<p></p>"+
+                  "<p>Visit us at <a href=\"http://etch-preflight-test.com\">etch-preflight-test.com</a></p>"+
+                  "<p></p>"+
+         "<p>Etch Preflight Team<p>";
          sendservermail (emailfrom, emailaddress, subject, text);
            document.getElementById("regMessage").innerHTML = data.message;
            document.getElementById("uRegMessage").classList.add("alert-info");
            document.getElementById("uRegMessage").classList.remove("alert-danger");
-           window.location.replace('http://etch-preflight-test.com/pages/samples/login.html');
+           var newUrl = homepage + "/pages/samples/login.html";
+           window.location.replace(newUrl);
            //trevorlee
       }
        //document.getElementById("userMessage").value = JSON.parse(this.response).message;
@@ -912,7 +1045,56 @@ function eraseCookie(name) {
 }
 
 
+function fastaddbonus() {
+      var newUrl = homepage + "/pages/ui-features/buttons.html";
+      window.location.replace(newUrl);
+}
 
+function fastmybonus() {
+    var newUrl = homepage + "/pages/forms/mybonus.html";
+    window.location.replace(newUrl);
+}
+
+
+function checkUserDB (username){
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "/api/checkuser", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("username=" +username );
+
+  xhttp.onreadystatechange = function(){
+    var messageDiv = document.getElementById('message');
+    if(this.readyState == 4 && this.status ==200){
+       var data = JSON.parse(this.response);
+       var employee=data.doc.Employee;
+       var employer=data.doc.Employer;
+       let myLogin = {'login': username, 'employer': employer, 'employee': employee};
+  //   document.getElementById("uLoginMessage").style.visibility="visible";
+       if (data.message != "Correct") {
+           sessionStorage.removeItem('login')
+           var newUrl = homepage + '/pages/samples/login.html'
+           window.location.replace(newUrl);
+
+       } else {
+           document.getElementById("myuser").innerHTML = username;
+           document.getElementById("myusertop").innerHTML = username;
+           sessionStorage.setItem('login', JSON.stringify(myLogin));
+           if (employer) {
+                var newUrl = homepage + "/index.html";
+                window.location.replace(newUrl);
+           } else {
+                var newUrl = homepage + "/indexemployee.html";
+                window.location.replace(newUrl);
+          }
+      }
+       //document.getElementById("userMessage").value = JSON.parse(this.response).message;
+
+
+
+    }
+  };
+}
 
 
 
@@ -932,16 +1114,25 @@ function loginUserDB (username, password){
        var employer=data.doc.Employer;
      document.getElementById("uLoginMessage").style.visibility="visible";
        if (data.message != "Correct") {
+           sessionStorage.removeItem('login')
            document.getElementById("loginMessage").innerHTML = data.message;
            document.getElementById("uLoginMessage").classList.add("alert-danger");
            document.getElementById("uLoginMessage").classList.remove("alert-info");
 
        } else {
            setCookie('etchcookie',username,7);
+           let myLogin = {'login': username, 'employer': employer, 'employee': employee};
+           sessionStorage.setItem('login', JSON.stringify(myLogin));
            document.getElementById("loginMessage").innerHTML = data.message + " employee " + employee + " employer " + employer;
            document.getElementById("uLoginMessage").classList.add("alert-info");
            document.getElementById("uLoginMessage").classList.remove("alert-danger");
-           window.location.replace('http://etch-preflight-test.com/index.html')
+           if (employer) {
+                var newUrl = homepage + "/index.html";
+                window.location.replace(newUrl);
+           } else {
+                var newUrl = homepage + "/indexemployee.html";
+                window.location.replace(newUrl);
+          }
       }
        //document.getElementById("userMessage").value = JSON.parse(this.response).message;
 
@@ -1097,6 +1288,16 @@ function listAllWallets() {
 }
 
 
+function listAllWalletsBuy() {
+  //document.getElementById("userMessage").innerHTML = "";
+  var typelisting=2;
+  getBlockchainWallets(typelisting);
+
+
+
+}
+
+
 function getTokens() {
   var tokens = ["IOU121", "ETH", "BTC"];
   populateTokens(tokens);
@@ -1156,11 +1357,18 @@ function getBlockchainWallets(typelisting) {
         console.log(result);
         //var emailaddr= web3.toAscii(result);
       //  document.getElementById("allwalletemail").innerHTML = emailaddr;
-        if (typelisting==0)
+      switch (typelisting) {
+        case 0:
             populateWallets(result);
-        else {
+            break;
+        case 1:
             populateAllWallets(result);
-        }
+            break;
+        case 2:
+             populateWalletsBuy(result);
+             break;
+      }
+
   });
 
 
@@ -1184,9 +1392,36 @@ bonusname =  document.getElementById("displayBonusName").innerHTML;
         //var emailaddr= web3.toAscii(result);
       //  document.getElementById("allwalletemail").innerHTML = emailaddr;
         if (typelisting==0)
-            populateWallets(result);
+            populateWallets(result[0]);
         else {
-            populateAllWallets(result);
+            populateAllWallets(result[0]);
+        }
+  });
+
+
+}
+
+function getFreeBlockchainWalletsABonus(bonusname, typelisting) {
+
+  web3 = new Web3(web3.currentProvider);
+  web3provider=web3;
+  web3provider=new Web3(web3.currentProvider);
+  web3.eth.defaultAccount = web3.eth.accounts[0];
+
+  var contract = web3.eth.contract(abi);
+  var instanceContract = contract.at(address);
+
+
+
+
+  instanceContract.getFreeWallets(bonusname, function (e, result){
+        console.log(result);
+        //var emailaddr= web3.toAscii(result);
+      //  document.getElementById("allwalletemail").innerHTML = emailaddr;
+        if (typelisting==0)
+            populateWallets(result[0]);
+        else {
+            populateAllWallets(result[0]);
         }
   });
 
@@ -1279,6 +1514,81 @@ function getWalletDetails() {
 
 }
 
+function isValidToken(tokenAmount) {
+    if (!isValid(tokenAmount)) return false;
+    if (isNaN(tokenAmount)) return false;
+    return true;
+}
+
+function showTokenBalance() {
+  wallet = document.getElementById("readallwalletbuy").innerHTML;
+  showTokenBalanceBlockchain(wallet);
+
+}
+  function showTokenBalanceBlockchain(wallet) {
+
+    web3 = new Web3(web3.currentProvider);
+    web3provider=web3;
+    web3provider=new Web3(web3.currentProvider);
+    web3.eth.defaultAccount = web3.eth.accounts[0];
+
+    var contract = web3.eth.contract(payEtchABI);
+    var instanceContract = contract.at(payEtchAddress);
+
+    instanceContract.getClientBalance(wallet, function (e, result){
+          console.log(result);
+          //var emailaddr= web3.toAscii(result);
+        //  document.getElementById("allwalletemail").innerHTML = emailaddr;
+      //  var errorDetected = result[0];
+        var balance = result;
+        if (!isNaN(balance)) {
+            balETH=web3.fromWei(balance);
+            document.getElementById("accountBalanceEtch").innerHTML=balETH;
+        } else {
+            document.getElementById("accountBalanceEtch").innerHTML=0;
+        }
+
+    });
+
+
+
+
+}
+
+function buyToken() {
+  buyingAmount = document.getElementById("buyingAmount").value;
+
+   if (isValidToken(buyingAmount)) {
+       buyTokenBlockchain(buyingAmount);
+   } else {
+     // show message
+   }
+}
+
+function buyTokenBlockchain(buyingAmount) {
+
+  buyingAmountWei=  web3.toWei(buyingAmount);
+
+  web3 = new Web3(web3.currentProvider);
+  web3provider=web3;
+  web3provider=new Web3(web3.currentProvider);
+  web3.eth.defaultAccount = web3.eth.accounts[0];
+  var contract = web3.eth.contract(payEtchABI);
+  var instanceContract = contract.at(payEtchAddress);
+
+  //document.getElementById("eMessage2").innerHTML = "Saving Blockchain Bonus";
+
+  //instanceContract.addWalletEmail(wallet, email);
+// had stack too deep in solidity - need to reduce variables
+  instanceContract.payEtch(
+       {value: buyingAmountWei}
+     , function (e, contract){
+        console.log(e, contract);
+  });
+
+}
+
+
 function saveBonusBlockchain(token, bonus, target, bonusName,
   bonusType, day, month, year, ineq) {
   web3 = new Web3(web3.currentProvider);
@@ -1300,7 +1610,7 @@ function saveBonusBlockchain(token, bonus, target, bonusName,
 
 }
 
-function assignWalletBonus(wallet, bonusName) {
+function assignWalletBonus(wallet, bonusName, emailaddress) {
   web3 = new Web3(web3.currentProvider);
   web3provider=web3;
   web3provider=new Web3(web3.currentProvider);
@@ -1316,6 +1626,15 @@ function assignWalletBonus(wallet, bonusName) {
        wallet, bonusName
      , function (e, result){
         console.log(e, result);
+        var emailfrom="info@tch-preflight-test.com";
+        var emailsubject = "You have a new bonus condition";
+        var emailtext = "<p>The following bonus condition has been added to your wallet - " + bonusName + "</p>"+
+        "<p></p>" +
+        "<p>To see more about your bonuses, visit <a href=\"http://etch-preflight-test.com\">etch-preflight-test.com</a></p>"+
+        "<p></p>" +
+        "<p>The Etch Preflight Team</p>";
+
+        sendservermail(emailfrom, emailaddress, emailsubject, emailtext);
   });
 
 }
@@ -1373,14 +1692,43 @@ else
     status("Compile Complete.");
 }
 
+function checkEmployer(myEmployer, myURL) {
+    var newUrl1 = homepage + "/pages/forms/mybonus.html";
+    var newUrl2 = homepage + "/indexemployee.html";
+    var newUrlX = homepage + "/pages/samples/login.html";
+    if (myEmployer) {
+         if ((myURL == newUrl1) ||
+            (myURL == newUrl2))  {
+               sessionStorage.removeItem('login');
+               window.location.replace(newUrlX);
+         } else {
+             //
+         }
+    }
+}
 
+function checkEmployee(myEmployee, myURL) {
+  var newUrl1 = homepage + "/pages/forms/mybonus.html";
+  var newUrl2 = homepage + "/indexemployee.html";
+  var newUrlX = homepage + "/pages/samples/login.html";
+  if (myEmployee) {
+       if ((myURL == newUrl1) ||
+          (myURL == newUrl2))  {
 
+       } else {
+           sessionStorage.removeItem('login');
+           window.location.replace(newUrlX);
+       }
+  }
+
+}
 
 
 window.onload = function() {
 //    document.getElementById("source").value = exampleSource;
 
    //document.getElementById("uMessage").style.visibility="hidden";
+
 
    var title = document.title;
    var mycookie = getCookie('etchcookie');
@@ -1391,7 +1739,9 @@ window.onload = function() {
        {
 
        } else {
-           window.location.replace('http://etch-preflight-test.com/pages/samples/login.html');
+         var newUrl = homepage + "/pages/samples/login.html";
+          sessionStorage.removeItem('login');
+           window.location.replace(newUrl);
        }
 
      // need login
@@ -1399,11 +1749,30 @@ window.onload = function() {
    } else {
      if ((title=="Etch: Login") || (title=="Etch: Register"))
      {
+          sessionStorage.removeItem('login');
           eraseCookie(mycookie);
      } else {
-       document.getElementById("myuser").innerHTML = mycookie;
-       document.getElementById("myusertop").innerHTML = mycookie;
-     }
+       if (sessionStorage.length>0) {
+          var loginJSON = JSON.parse(sessionStorage.getItem('login'));
+          var myLogin = loginJSON["login"];
+          var myEmployee = loginJSON["employee"];
+          var myEmployer = loginJSON["employer"];
+          var myURL = location.href;
+          checkEmployee(myEmployee, myURL);
+          checkEmployer(myEmployer, myURL);
+          if (myLogin == mycookie) {
+            document.getElementById("myuser").innerHTML = myLogin;
+            document.getElementById("myusertop").innerHTML = myLogin;
+          } else {
+             var newUrl = homepage + "/pages/samples/login.html";
+             sessionStorage.removeItem('log;in');
+             window.location.replace(newUrl);
+          }
+      } else {
+         checkUserDB(mycookie);
+      }
+    }
+
    }
 
 
