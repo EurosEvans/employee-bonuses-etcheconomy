@@ -1,4 +1,8 @@
 const express = require('express');
+require('dotenv').config();
+//const db=require('db')
+
+
 const app = express();
 
 const bodyParser = require('body-parser');
@@ -6,12 +10,22 @@ const logger = require('morgan');
 
 const mongoose = require('mongoose');
 
-//#const solc = require('solc');
-let Web3 = require('web3');
+
+//const solc = require('solc');
+let web3 = require('web3');
+
+let Tx=require('ethereumjs-tx');
+
+
 
 let sgMail = require('@sendgrid/mail');
 
-let web3 = new Web3();
+//let web3 = new Web3();
+
+
+bonusAddress = "0x9ae200aa2c0314ef9ed217225bad5784941f9560";
+
+bonusABI = [ { "constant": false, "inputs": [ { "name": "bonusType", "type": "string" }, { "name": "bonusTarget", "type": "uint256" }, { "name": "bonusEndYear", "type": "uint256" }, { "name": "bonusEndMonth", "type": "uint256" }, { "name": "bonusEndDay", "type": "uint256" }, { "name": "bonusToken", "type": "string" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusName", "type": "string" }, { "name": "ineq", "type": "uint256" } ], "name": "addBonus", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "k1", "type": "uint256" } ], "name": "addK", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "token", "type": "bytes32" }, { "name": "payment", "type": "uint256" } ], "name": "addPaymentDetail", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" } ], "name": "addWallet", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "bonusName", "type": "string" } ], "name": "addWalletBonus", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "emailAddress", "type": "string" } ], "name": "addWalletEmail", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "payable": true, "stateMutability": "payable", "type": "fallback" }, { "constant": true, "inputs": [ { "name": "", "type": "bytes32" } ], "name": "Bonuses", "outputs": [ { "name": "bonusName", "type": "bytes32" }, { "name": "bonusType", "type": "bytes32" }, { "name": "bonusTarget", "type": "uint256" }, { "name": "bonusEndYear", "type": "uint256" }, { "name": "bonusEndMonth", "type": "uint256" }, { "name": "bonusEndDay", "type": "uint256" }, { "name": "bonusToken", "type": "bytes32" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusExists", "type": "bool" }, { "name": "ineq", "type": "uint8" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "BonusNamesArray", "outputs": [ { "name": "bonusName", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "BonusNamesBytes", "outputs": [ { "name": "", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "x", "type": "bytes32" } ], "name": "bytes32ToString", "outputs": [ { "name": "", "type": "string" } ], "payable": false, "stateMutability": "pure", "type": "function" }, { "constant": true, "inputs": [], "name": "getBonusNames", "outputs": [ { "name": "", "type": "bytes32[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "mybonusname", "type": "string" } ], "name": "getFreeWallets", "outputs": [ { "name": "", "type": "address[]" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "mybonusname", "type": "string" } ], "name": "getFreeWalletsx", "outputs": [ { "name": "", "type": "address[]" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "bonusname", "type": "string" } ], "name": "getNumberWalletBonusAllocations", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getNumberWallets", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "wallet", "type": "address" } ], "name": "getWalletBonuses", "outputs": [ { "name": "bonusNames", "type": "bytes32[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getWallets", "outputs": [ { "name": "", "type": "address[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "bonusName", "type": "string" }, { "name": "targetReached", "type": "uint256" }, { "name": "endYear", "type": "uint256" }, { "name": "endMonth", "type": "uint256" }, { "name": "endDay", "type": "uint256" } ], "name": "isBonusPayable", "outputs": [ { "name": "payBonus", "type": "bool" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusToken", "type": "string" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "bytes32" } ], "name": "PaymentDetails", "outputs": [ { "name": "totalPaid", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "source", "type": "string" } ], "name": "stringToBytes32", "outputs": [ { "name": "result", "type": "bytes32" } ], "payable": false, "stateMutability": "pure", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "bytes32" } ], "name": "WalletBonuses", "outputs": [ { "name": "bonusExists", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "uint256" } ], "name": "WalletBonusLists", "outputs": [ { "name": "bonusname", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" } ], "name": "WalletDetails", "outputs": [ { "name": "walletEmailAddress", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "Wallets", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" } ]
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/mydb');
@@ -73,7 +87,8 @@ app.post("/api/save_code", function(req, res){
 
 
   var result = solc.compile(data, 1);
-  var hash = web3.sha3(data);
+   web3local = new Web3();
+  var hash = web3local.sha3(data);
   var bytecode = result.contracts[":greeter"].bytecode;
   var cabi = result.contracts[":greeter"].interface;
 
@@ -210,6 +225,133 @@ app.post("/api/get_info", function(req, res){
 
 
 
+//web3 = new Web3("https://ropsten.infura.io/v3/"+infuraApiKey);
+
+app.post("/api/addBonus",function(req,res){
+
+ var token = req.body.token; //n//
+  var bonus = req.body.bonus;  //n
+  var target = req.body.target; //n
+  var bonusName = req.body.bonusName; //n
+  var bonusType = req.body.bonusType; //n
+  var day = req.body.day;
+  var month = req.body.month;
+  var year = req.body.year;
+  var ineq = req.body.ineq;
+
+
+   var myAddress = "0x334701738C59229fa72801Ff18466D1D788fcA4B";
+
+   var infuraApiKey =process.env.INFURA_API_KEY;
+  // var privateKey = process.env.PRIVATE_KEY;
+
+   var web3js = new web3(new web3.providers.HttpProvider("https://kovan.infura.io/v3/"+infuraApiKey));
+
+   web3js.eth.defaultAccount = myAddress;
+   var privateKey=new Buffer(process.env.PRIVATE_KEY, 'hex');
+
+//   var toAddress = 'ADRESS_TO_SEND_TRANSACTION';
+
+   //contract abi is the array that you can get from the ethereum wallet or etherscan
+   var contractABI =bonusABI;
+   var contractAddress =bonusAddress;
+   //creating contract object
+   var contract =  web3js.eth.contract(contractABI).at(contractAddress);
+   var count;
+   var nounce;
+   var errcode="";
+   web3js.eth.getTransactionCount(myAddress, function(err, result) {
+        nounce=result;
+        var nounceHex = web3js.toHex(nounce);
+
+        var rawTransaction = {"from":myAddress,
+        "gasPrice":web3js.toHex(2*1e9),
+        "gasLimit":web3js.toHex(920000),
+        "to":contractAddress,
+        "data":contract.addBonus.getData(bonusType, target, year, month, day, token, bonus, bonusName, ineq),
+        "nonce":nounceHex}
+
+        var transaction = new Tx(rawTransaction);
+        transaction.sign(privateKey);
+
+        var serializedTx = transaction.serialize();
+        web3js.eth.sendRawTransaction('0x'+serializedTx.toString('hex'), function(err1, hash) {
+           if (!err1) {
+               errcode=hash;
+               res.json({ message:errcode});
+          }
+           else
+               errcode=err1;
+        });
+  })
+
+
+  res.json({ message:errcode});
+
+});
+
+app.post("/api/addBonusT",function(req,res){
+
+    var token = req.body.token; //n
+    var bonus = req.body.bonus;  //n
+    var target = req.body.target; //n
+    var bonusName = req.body.bonusName; //n
+    var bonusType = req.body.bonusType; //n
+    var day = req.body.day;
+    var month = req.body.month;
+    var year = req.body.year;
+    var ineq = req.body.ineq;
+
+
+    var myAddress = "0x334701738C59229fa72801Ff18466D1D788fcA4B";
+
+    var infuraApiKey = "xxx";
+            var web3js = new web3(new web3.providers.HttpProvider("https://kovan.infura.io/v3/"+infuraApiKey));
+            web3js.eth.defaultAccount = myAddress;
+            var privateKey=new Buffer(process.env.PRIVATE_KEY, 'hex');
+
+            var toAddress = 'ADRESS_TO_SEND_TRANSACTION';
+
+            //contract abi is the array that you can get from the ethereum wallet or etherscan
+            var contractABI =bonusABI;
+            var contractAddress =bonusAddress;
+            //creating contract object
+            var contract =  web3js.eth.contract(contractABI).at(contractAddress);
+            var count;
+            var nounce;
+
+           web3js.eth.getTransactionCount(myAddress, function(err, result) {
+               console.log("result == " +result);
+               nounce=result;
+               var nounceHex = web3js.toHex(nounce);
+
+                var rawTransaction = {"from":myAddress,
+                "gasPrice":web3js.toHex(2*1e9),
+                "gasLimit":web3js.toHex(920000),
+                "to":contractAddress,
+    //            "value":"0x0",
+                "data":contract.addBonus.getData(bonusType, target, year, month, day, token, bonus, bonusName, ineq),
+                "nonce":nounceHex}
+
+                //creating tranaction via ethereumjs-tx
+                var transaction = new Tx(rawTransaction);
+                //signing transaction with private key
+                transaction.sign(privateKey);
+          var errcode;
+               var serializedTx = transaction.serialize();
+               web3js.eth.sendRawTransaction('0x'+serializedTx.toString('hex'), function(err1, hash) {
+               if (!err1)
+                  errorcode=hash;
+               else errorcode=err1;
+               });
+
+
+            })
+
+
+
+
+    });
 
 
 app.post("/api/sendmail", function(req, res){

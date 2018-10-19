@@ -9,14 +9,14 @@ var walletemailaddress;
 homepage = "http://etch-prepare-for-takeoff.com";
 
 
-address = "0xaf9f7c924e9f985ab363668ea5d97bae2b57ef18";
+address = "0x9ae200aa2c0314ef9ed217225bad5784941f9560";
 
 abi = [ { "constant": false, "inputs": [ { "name": "bonusType", "type": "string" }, { "name": "bonusTarget", "type": "uint256" }, { "name": "bonusEndYear", "type": "uint256" }, { "name": "bonusEndMonth", "type": "uint256" }, { "name": "bonusEndDay", "type": "uint256" }, { "name": "bonusToken", "type": "string" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusName", "type": "string" }, { "name": "ineq", "type": "uint256" } ], "name": "addBonus", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "k1", "type": "uint256" } ], "name": "addK", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "token", "type": "bytes32" }, { "name": "payment", "type": "uint256" } ], "name": "addPaymentDetail", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" } ], "name": "addWallet", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "bonusName", "type": "string" } ], "name": "addWalletBonus", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "emailAddress", "type": "string" } ], "name": "addWalletEmail", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "payable": true, "stateMutability": "payable", "type": "fallback" }, { "constant": true, "inputs": [ { "name": "", "type": "bytes32" } ], "name": "Bonuses", "outputs": [ { "name": "bonusName", "type": "bytes32" }, { "name": "bonusType", "type": "bytes32" }, { "name": "bonusTarget", "type": "uint256" }, { "name": "bonusEndYear", "type": "uint256" }, { "name": "bonusEndMonth", "type": "uint256" }, { "name": "bonusEndDay", "type": "uint256" }, { "name": "bonusToken", "type": "bytes32" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusExists", "type": "bool" }, { "name": "ineq", "type": "uint8" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "BonusNamesArray", "outputs": [ { "name": "bonusName", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "BonusNamesBytes", "outputs": [ { "name": "", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "x", "type": "bytes32" } ], "name": "bytes32ToString", "outputs": [ { "name": "", "type": "string" } ], "payable": false, "stateMutability": "pure", "type": "function" }, { "constant": true, "inputs": [], "name": "getBonusNames", "outputs": [ { "name": "", "type": "bytes32[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "mybonusname", "type": "string" } ], "name": "getFreeWallets", "outputs": [ { "name": "", "type": "address[]" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "mybonusname", "type": "string" } ], "name": "getFreeWalletsx", "outputs": [ { "name": "", "type": "address[]" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "bonusname", "type": "string" } ], "name": "getNumberWalletBonusAllocations", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getNumberWallets", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "wallet", "type": "address" } ], "name": "getWalletBonuses", "outputs": [ { "name": "bonusNames", "type": "bytes32[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getWallets", "outputs": [ { "name": "", "type": "address[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "wallet", "type": "address" }, { "name": "bonusName", "type": "string" }, { "name": "targetReached", "type": "uint256" }, { "name": "endYear", "type": "uint256" }, { "name": "endMonth", "type": "uint256" }, { "name": "endDay", "type": "uint256" } ], "name": "isBonusPayable", "outputs": [ { "name": "payBonus", "type": "bool" }, { "name": "bonusAmount", "type": "uint256" }, { "name": "bonusToken", "type": "string" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "bytes32" } ], "name": "PaymentDetails", "outputs": [ { "name": "totalPaid", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "source", "type": "string" } ], "name": "stringToBytes32", "outputs": [ { "name": "result", "type": "bytes32" } ], "payable": false, "stateMutability": "pure", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "bytes32" } ], "name": "WalletBonuses", "outputs": [ { "name": "bonusExists", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "uint256" } ], "name": "WalletBonusLists", "outputs": [ { "name": "bonusname", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" } ], "name": "WalletDetails", "outputs": [ { "name": "walletEmailAddress", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "Wallets", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" } ]
 
 
-payEtchAddress="0x7b4543d41b05e00fca2a5a0f97ec51c8388d1521";
+payEtchAddress="0xd2195e67eb1ee37803d47bb8d5ab5c1a4bd91f70";
 
-payEtchABI=[ { "constant": false, "inputs": [], "name": "payEtch", "outputs": [ { "name": "success", "type": "bool" } ], "payable": true, "stateMutability": "payable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "constant": true, "inputs": [ { "name": "", "type": "address" } ], "name": "ClientWallets", "outputs": [ { "name": "clientBalance", "type": "uint256" }, { "name": "clientAccount", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "walletAddress", "type": "address" } ], "name": "getBalance", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "walletAddress", "type": "address" } ], "name": "getClientBalance", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "mywallet", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" } ]
+payEtchABI=[ { "constant": false, "inputs": [ { "name": "_apiKeyHash", "type": "bytes32" } ], "name": "payEtch", "outputs": [ { "name": "success", "type": "bool" } ], "payable": true, "stateMutability": "payable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "constant": true, "inputs": [ { "name": "", "type": "bytes32" } ], "name": "ApprovedWallets", "outputs": [ { "name": "ClientWalletAddress", "type": "address" }, { "name": "keyExists", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" } ], "name": "ClientWallets", "outputs": [ { "name": "clientBalance", "type": "uint256" }, { "name": "clientAccount", "type": "bool" }, { "name": "apiKeyHash", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "walletAddress", "type": "address" } ], "name": "getBalance", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "walletAddress", "type": "address" } ], "name": "getClientBalance", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "mywallet", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "validAPIKeys", "outputs": [ { "name": "", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "authKey", "type": "bytes32" } ], "name": "validKey", "outputs": [ { "name": "", "type": "bool" }, { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" } ]
 
 
 
@@ -190,6 +190,10 @@ function selCompanyDom2() {
 
 
 function addBonusCondition() {
+  document.getElementById("approvedWallet").innerHTML= "";
+  document.getElementById("approvedWalletAddress").innerHTML= "";
+
+  var authKey = document.getElementById("selAuthKey").value;
   var token = document.getElementById("selToken").value;
   var bonusRaw = document.getElementById("selBonus").value;
   var target = document.getElementById("selTarget").value;
@@ -198,6 +202,14 @@ function addBonusCondition() {
   var selectedDate = document.getElementById("selBonusDate").value;
   var selectedEq = document.getElementById("selCondition").value;
 
+  addBonusConditionManager(authKey,token, bonusRaw, target, bonusName, bonusType, selectedDate, selectedEq);
+
+
+
+
+}
+
+function addBonusConditionManager(authKey, token, bonusRaw, target, bonusName, bonusType, selectedDate, selectedEq ) {
 
   var bonus = bonusRaw;
   web3 = new Web3(web3.currentProvider);
@@ -254,8 +266,18 @@ if (eBonus) {
     document.getElementById("eMessage").innerHTML="Bonus Condition added";
     document.getElementById("eMessage").classList.remove("alert-danger");
     document.getElementById("eMessage").classList.add("alert-info");
-    saveBonusBlockchain(token, bonus, target, bonusName,
-      bonusType, day, month, year, ineq);
+
+    if ((authKey!=null) && (authKey!="")) {
+       addBonusConditionAPI(authKey, token, bonus, target,
+         bonusName, bonusType, day, month, year, ineq);
+      // process api call to etch
+    } else {
+      //process normal process via metamask
+      saveBonusBlockchain(token, bonus, target, bonusName,
+        bonusType, day, month, year, ineq);
+    }
+
+
 } else {
   document.getElementById("eMessage").style.visibility="visible";
   document.getElementById("eMessage").innerHTML="Values are wrong";
@@ -466,7 +488,7 @@ function getBonusBlockchain(bonusname) {
 
 
 function functsubmit(event) {
-  //var msg= document.getElementById()
+  //var msg= document.getElementById()listAllWallets
   var x=1;
   var t=1;
 }
@@ -825,6 +847,8 @@ function populateWallets(wallets) {
     }
 }
 
+
+
 function populateWalletsBuy(wallets) {
   sel = document.getElementById("allwalletsbuy");
   sel.innerHTML = "";
@@ -836,12 +860,16 @@ function populateWalletsBuy(wallets) {
         opt.value = wallets[i];
         sel.appendChild(opt);
     }
+
+        getWalletBlockchain(wallets[0]);
+
 }
 
 
 function selectWalletFromAllWalletsBuy() {
   var wallet = document.getElementById("allwalletsbuy").value;
   document.getElementById("readallwalletbuy").innerHTML = wallet;
+  getWalletBlockchain(wallet);
 //  document.getElementById("checkwallet").innerHTML=wallet;
 
   //getWalletBlockchain(wallet);
@@ -972,6 +1000,39 @@ function updateAddress() {
 
 }
 
+
+function addBonusConditionCallAPI (authKeyHash,  token, bonus, target,
+  bonusName, bonusType, day, month, year, ineq){
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "/api/addBonus", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("token=" +token + "&bonus=" + bonus+ "&target=" + target+ "&bonusName="
+  + bonusName+ "&bonusType=" + bonusType+"&day="
+  + day+"&month=" + month+"&year=" + year+"&ineq=" + ineq);
+  console.log(" api respoonse - " + xhttp.responseText);
+  console.log(" api readyState - " + xhttp.readyState);
+  xhttp.onreadystatechange = function(){
+  //  var messageDiv = document.getElementById('message');
+//    var data = JSON.parse(this.response);
+
+    if(this.readyState == 4 && this.status ==200){
+       var data = JSON.parse(this.response);
+       console.log("ky " + data.message );
+       document.getElementById("eMessage").style.visibility="visible";
+
+           document.getElementById("eMessage").innerHTML = "Bonus Add being processed ";
+           document.getElementById("eMessage").classList.add("alert-info");
+           document.getElementById("eMessage").classList.remove("alert-danger");
+
+
+       //document.getElementById("userMessage").value = JSON.parse(this.response).message;
+
+
+
+    }
+  };
+}
 
 
 function registerUserDB (username, emailaddress, password, employee, employer){
@@ -1303,6 +1364,37 @@ function getTokens() {
   populateTokens(tokens);
 }
 
+function addBonusConditionAPI( authKey, token, bonus, target,
+  bonusName, bonusType, day, month, year, ineq) {
+
+
+  web3 = new Web3(web3.currentProvider);
+  web3provider=web3;
+  web3provider=new Web3(web3.currentProvider);
+  web3.eth.defaultAccount = web3.eth.accounts[0];
+
+  var contract = web3.eth.contract(payEtchABI);
+  var instanceContract = contract.at(payEtchAddress);
+  var apiKeyHash = web3.sha3(authKey);
+  instanceContract.validKey(apiKeyHash, function (e, result){
+        console.log(result);
+        //var emailaddr= web3.toAscii(result);
+      //  document.getElementById("allwalletemail").innerHTML = emailaddr;
+    //  var errorDetected = result[0];
+      var validAuthKey = result[0];
+      var approvedWallet = result[1];
+      if (validAuthKey) {
+        document.getElementById("approvedWallet").innerHTML= "Approved";
+        document.getElementById("approvedWalletAddress").innerHTML= approvedWallet;
+           addBonusConditionCallAPI(apiKeyHash, token, bonus, target,
+             bonusName, bonusType, day, month, year, ineq);
+      }
+  });
+
+
+}
+
+
 
 function isBonusPayable(wallet, bonusname, targetreached,
   year, month, day) {
@@ -1565,6 +1657,27 @@ function buyToken() {
    }
 }
 
+function generateUUID()
+{
+	var d = new Date().getTime();
+
+	if( window.performance && typeof window.performance.now === "function" )
+	{
+		d += performance.now();
+	}
+
+	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c)
+	{
+		var r = (d + Math.random()*16)%16 | 0;
+		d = Math.floor(d/16);
+		return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+	});
+
+return uuid;
+}
+
+
+
 function buyTokenBlockchain(buyingAmount) {
 
   buyingAmountWei=  web3.toWei(buyingAmount);
@@ -1576,14 +1689,25 @@ function buyTokenBlockchain(buyingAmount) {
   var contract = web3.eth.contract(payEtchABI);
   var instanceContract = contract.at(payEtchAddress);
 
+  var apiKey = generateUUID();
+
+  var apiKeyHash = web3.sha3(apiKey);
   //document.getElementById("eMessage2").innerHTML = "Saving Blockchain Bonus";
+emailaddress=document.getElementById("allwalletemail").innerHTML;
+document.getElementById("authkey").innerHTML=apiKey;
 
   //instanceContract.addWalletEmail(wallet, email);
 // had stack too deep in solidity - need to reduce variables
-  instanceContract.payEtch(
+  instanceContract.payEtch(apiKeyHash,
        {value: buyingAmountWei}
      , function (e, contract){
         console.log(e, contract);
+        var emailfrom="info@etch-prepare-for-takeoff.com";
+        var subject = "Thank you for depositing funds";
+        var text = "<p>Your deposit was made of "+buyingAmount +" ETH <p>" +
+        "<p></p>"+
+        "<p>Etch Team<p>";
+        sendservermail (emailfrom, emailaddress, subject, text);
   });
 
 }
