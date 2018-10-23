@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Etch: Add Bonus</title>
+
+    <script src="../../node_modules/web3/dist/web3.min.js"></script>
+  <!-- plugins:css -->
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="../../vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.addons.css">
+  <!-- endinject -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../../css/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+   <script src="../../node_modules/web3/dist/web3.min.js"></script>
+
+  <script id="testscript" src="../../etch.js" type="text/javascript"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+ <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+  $( function() {
+    $( "#datepickercheck" ).datepicker();
+  } );
+  $( function() {
+    $( "#datepicker2" ).datepicker();
+  } );
+  </script>
+</head>
+<body>
+  <div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+        <a class="navbar-brand brand-logo" href="../../index.html">
+          <img src="../../images/logo.svg" alt="logo" />
+        </a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html">
+          <img src="../../images/logo-mini.svg" alt="logo" />
+        </a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center">
+        <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
+          <li class="nav-item">
+            <a href="../../index.html" class="nav-link">Home
+
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="#" class="nav-link">
+              <i class="mdi mdi-elevation-rise"></i>Reports&#91;not-live&#93;</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item dropdown">
+            <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+              <i class="mdi mdi-file-document-box"></i>
+              <span class="count">0</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
+              <div class="dropdown-item">
+                <p class="mb-0 font-weight-normal float-left">You have 0 new emails
+                </p>
+                <span class="badge badge-info badge-pill float-right">View all</span>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item preview-item">
+                <div class="preview-thumbnail">
+                  <img src="images/faces/face4.jpg" alt="image" class="profile-pic">
+                </div>
+                <div class="preview-item-content flex-grow">
+                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">New Bonus
+                    <span class="float-right font-weight-light small-text">1 day ago</span>
+                  </h6>
+                  <p class="font-weight-light small-text">
+                    Team Bonus October
+                  </p>
+                </div>
+              </a>
+
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+              <i class="mdi mdi-bell"></i>
+              <span class="count">0</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+              <a class="dropdown-item">
+                <p class="mb-0 font-weight-normal float-left">0 bonus alerts
+                </p>
+                <span class="badge badge-pill badge-warning float-right">View all</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item preview-item">
+                <div class="preview-thumbnail">
+                  <div class="preview-icon bg-success">
+                    <i class="mdi mdi-alert-circle-outline mx-0"></i>
+                  </div>
+                </div>
+                <div class="preview-item-content">
+                  <h6 class="preview-subject font-weight-medium text-dark">Bonus October</h6>
+                  <p class="font-weight-light small-text">
+                    95% met
+                  </p>
+                </div>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item preview-item">
+                <div class="preview-thumbnail">
+                  <div class="preview-icon bg-warning">
+                    <i class="mdi mdi-comment-text-outline mx-0"></i>
+                  </div>
+                </div>
+                <div class="preview-item-content">
+                  <h6 class="preview-subject font-weight-medium text-dark">Reward Ontime</h6>
+                  <p class="font-weight-light small-text">
+                  92% met
+                  </p>
+                </div>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item preview-item">
+                <div class="preview-thumbnail">
+                  <div class="preview-icon bg-info">
+                    <i class="mdi mdi-email-outline mx-0"></i>
+                  </div>
+                </div>
+                <div class="preview-item-content">
+                  <h6 class="preview-subject font-weight-medium text-dark">Bonus New Clients</h6>
+                  <p class="font-weight-light small-text">
+                    90% met
+                  </p>
+                </div>
+              </a>
+            </div>
+          </li>
+          <li class="nav-item dropdown d-none d-xl-inline-block">
+            <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+              <span class="profile-texttop" id="myusertop"></span>
+              <img class="img-xs rounded-circle" src="../../images/faces/face1.jpg" alt="Profile image">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+              <a class="dropdown-item p-0">
+                <div class="d-flex border-bottom">
+                  <div class="py-3 px-4 d-flex align-items-center justify-content-center">
+                    <i class="mdi mdi-bookmark-plus-outline mr-0 text-gray"></i>
+                  </div>
+                  <div class="py-3 px-4 d-flex align-items-center justify-content-center border-left border-right">
+                    <i class="mdi mdi-account-outline mr-0 text-gray"></i>
+                  </div>
+                  <div class="py-3 px-4 d-flex align-items-center justify-content-center">
+                    <i class="mdi mdi-alarm-check mr-0 text-gray"></i>
+                  </div>
+                </div>
+              </a>
+
+              <a class="dropdown-item" href="../samples/login.html">
+               Login
+              </a>
+                <a class="dropdown-item" href="../samples/login.html">Sign out
+              </a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item nav-profile">
+            <div class="nav-link">
+              <div class="user-wrapper">
+                <div class="profile-image">
+                  <img src="../../images/faces/face1.jpg" alt="profile image">
+                </div>
+                <div class="text-wrapper">
+                  <p class="profile-name" id="myuser"></p>
+                  <div>
+                    <small class="designation text-muted">Member</small>
+                    <span class="status-indicator online"></span>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-success btn-block" onclick="fastaddbonus()">Add Bonus
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../index.html">
+              <i class="menu-icon mdi mdi-television"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <i class="menu-icon mdi mdi-content-copy"></i>
+              <span class="menu-title">Add Bonus/Reward</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="../ui-features/buttons.html">Add Bonus</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../ui-features/addreward.html">Add Reward</a>
+                </li>
+
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../forms/basic_elements.html">
+              <i class="menu-icon mdi mdi-backup-restore"></i>
+              <span class="menu-title">List/Allocate Bonuses</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../forms/check_target.html">
+              <i class="menu-icon mdi mdi-backup-restore"></i>
+              <span class="menu-title">Check Target</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../forms/buybutton.html">
+              <i class="menu-icon mdi mdi-backup-restore"></i>
+              <span class="menu-title">Buy Tokens</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-admin" aria-expanded="false" aria-controls="ui-admin">
+              <i class="menu-icon mdi mdi-content-copy"></i>
+              <span class="menu-title">Admin</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-admin">
+              <ul class="nav flex-column sub-menu">
+
+                <li class="nav-item">
+                  <a class="nav-link" href="../samples/login.html">Logout</a>
+                </li>
+
+              </ul>
+            </div>
+          </li>
+
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h4 class="display-4  text-center  rounded bg-light" >
+                      Add Bonus</h4>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                   <div class="col-lg-12 grid-margin stretch-card">
+                      <div class="card">
+                         <div class="card-body">
+                           <p>Enter your bonus details:</p>
+
+                           <form class="forms-sample">
+                               <div class="form-group ">
+                                 <input type="radio" name="selbonus" id="Individual" class="iradio_minimal" onclick="selIndDom()" checked="">
+                                 <label for="Individual"> Individual</label>
+                                 <input type="radio" id="Team" name="selbonus" class="iradio_minimal" onclick="selTeamDom()">
+                                  <label for="Team"> Team</label>
+                                 <input type="radio" id="Company" name="selbonus" class="iradio_minimal" onclick="selCompanyDom()" >
+                                 <label for="Company"> Company</label>
+                               </div>
+                              <div class="form-group row">
+                                <div class="col">
+                                    <label>Name:</label>
+                                    <input type="input"   class="form-control" id="selBonusName">
+                                </div>
+                                <div class="col">
+                                    <label>Type:</label>
+                                    <input type="text" class="form-control" id="selBonusType" value="Individual" readonly>
+                                </div>
+                                <div class="col">
+                                  <label>Date Before:</label>
+                                  <input type="input"   class="form-control" id="selBonusDate" data-inputmask="'alias':'date'">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <div class="col">
+                                   <label>Target:</label>
+                                   <input type="number" class="form-control"    id="selTarget">
+                                 </div>
+                                 <div class="col">
+                                   <input type="radio" name="selcond" id="greater" class="iradio_minimal" onclick="selGreater()" checked="">
+                                   <label for="greater"> Greater Than</label>
+                                   <input type="radio" id="lessthan" name="selcond" class="iradio_minimal" onclick="selLess()">
+                                   <label for="lessthan"> Less Than</label>
+                                </div>
+
+                                <div class="col">
+                                   <input type="text" class="form-control" id="selCondition" value="Greater Than" readonly>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <div class="col">
+                                    <label>Bonus:</label>
+                                    <input type="number"  class="form-control"    id="selBonus">
+
+                                </div>
+
+                                <div class="col">
+                                  <label>Tokens:</label>
+                                  <select id="selToken"   class="form-control match-content">
+                                    <option >ETH</option>
+                                    <option >Pier</option>
+                                    <option >IOU121</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <div class="col">
+                                  <label>Auth:</label>
+                                  <input type="text"  class="form-control"    id="selAuthKey">
+                                </div>
+                                <div class="col">
+                                  <label>Approved:</label>
+                                  <label type="text"  class="form-control"    id="approvedWallet">
+                                </div>
+                                <div class="col">
+                                  <label>Wallet:</label>
+                                  <label type="text"  class="form-control"    id="approvedWalletAddress">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <div class="alert alert-info" id="eMessage" role="alert">
+                                  <p id="errorMessage"></p>
+                                </div>
+                              </div>
+
+                           </form>
+                         </div>
+
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                   <div class="col-lg-12 grid-margin stretch-card">
+                      <div class="card">
+                         <div class="card-body">
+                              <button id="addBonusCondition" onclick="addBonusCondition()"
+                          class="btn btn-outline-secondary"
+                          >Add</button>
+                         </div>
+                     </div>
+                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer">
+          <div class="container-fluid clearfix">
+
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <!--<script src="../../vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../vendors/js/vendor.bundle.addons.js"></script> -->
+  <!-- endinject -->
+  <!-- inject:js -->
+<!--  <script src="../../js/off-canvas.js"></script>
+  <script src="../../js/misc.js"></script> -->
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127040973-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-127040973-1');
+  </script>
+
+
+
+  <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="../../assets/vendors/js/vendor.bundle.addons.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <script src="../../assets/js/shared/off-canvas.js"></script>
+    <script src="../../assets/js/shared/hoverable-collapse.js"></script>
+    <script src="../../assets/js/shared/misc.js"></script>
+    <script src="../../assets/js/shared/settings.js"></script>
+    <script src="../../assets/js/shared/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="../../assets/js/shared/formpickers.js"></script>
+    <script src="../../assets/js/shared/form-addons.js"></script>
+    <script src="../../assets/js/shared/x-editable.js"></script>
+    <script src="../../assets/js/shared/dropify.js"></script>
+    <script src="../../assets/js/shared/dropzone.js"></script>
+    <script src="../../assets/js/shared/jquery-file-upload.js"></script>
+    <script src="../../assets/js/shared/form-repeater.js"></script>
+
+
+
+
+  <!-- endinject -->
+</body>
+
+</html>

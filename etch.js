@@ -1,12 +1,9 @@
 //       if(data.type == 'success'){
-var exampleSource = "";
-var optimize = 1;
-var compiler;
-var web3provider;
 var walletemailaddress;
+
 //var mongoose=require('mongoose');
 
-homepage = "http://etch-prepare-for-takeoff.com";
+homepage = "https://etch-prepare-for-takeoff.com";
 
 
 address = "0x9ae200aa2c0314ef9ed217225bad5784941f9560";
@@ -18,123 +15,269 @@ payEtchAddress="0xd2195e67eb1ee37803d47bb8d5ab5c1a4bd91f70";
 
 payEtchABI=[ { "constant": false, "inputs": [ { "name": "_apiKeyHash", "type": "bytes32" } ], "name": "payEtch", "outputs": [ { "name": "success", "type": "bool" } ], "payable": true, "stateMutability": "payable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "constant": true, "inputs": [ { "name": "", "type": "bytes32" } ], "name": "ApprovedWallets", "outputs": [ { "name": "ClientWalletAddress", "type": "address" }, { "name": "keyExists", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" } ], "name": "ClientWallets", "outputs": [ { "name": "clientBalance", "type": "uint256" }, { "name": "clientAccount", "type": "bool" }, { "name": "apiKeyHash", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "walletAddress", "type": "address" } ], "name": "getBalance", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "walletAddress", "type": "address" } ], "name": "getClientBalance", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "mywallet", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "validAPIKeys", "outputs": [ { "name": "", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "authKey", "type": "bytes32" } ], "name": "validKey", "outputs": [ { "name": "", "type": "bool" }, { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" } ]
 
-
-
-
-
-
 var selectedCheckDate;
 
-function myBonusLink() {
-  window.location.replace('http://test.moynet.co/employee.html');
+
+function printErrorMessage(innerHTMLTag, paraTag, Msg) {
+    document.getElementById(innerHTMLTag).style.visibility="visible";
+    document.getElementById(innerHTMLTag).innerHTML = Msg;
+    document.getElementById(paraTag).classList.add("alert-danger");
+    document.getElementById(paraTag).classList.remove("alert-info");
 }
 
-function sendEmail() {
+function printSuccessMessage(innerHTMLTag, paraTag, Msg) {
+    document.getElementById(innerHTMLTag).style.visibility="visible";
+    document.getElementById(innerHTMLTag).innerHTML = Msg;
+    document.getElementById(paraTag).classList.remove("alert-danger");
+    document.getElementById(paraTag).classList.add("alert-info");
+}
 
-var emailfrom = "trevor@moynet.co";
-var emailto1 = "trevoroakley200@gmail.com";
-var emailto = "trevoroakley200@gmail.com";
+function getElementValue(idValue) {
+  return  document.getElementById(idValue).value;
+}
 
-    sendservermail (emailfrom, emailto);
+function getBytes32(aValue) {
+
+  var  ch, st, re = [];
+  var str="0x";
+  for (var i = 0; i < aValue.length; i++ ) {
+	ch = aValue.charCodeAt(i).toString(16);
+  str=str+ch; // get char
+	st = [];                 // set up "stack"
+  do {
+	  st.push( ch & 0xFF );  // push byte to stack
+	  ch = ch >> 8;          // shift value down by 1 byte
+	}
+	while ( ch );
+	// add stack contents to result
+	// done because chars have "wrong" endianness
+	re = re.concat( st.reverse() );
+  }
+  // return an array of bytes
+  return str;
+
+
 
 }
 
-function memberLoginLink() {
-    window.location.replace('http://test.moynet.co/employer.html');
+//function getBytes32web(aValue) {
+//  web3 = new Web3(web3.currentProvider);
+//  return web3.fromAscii(aValue);
+//}
+
+function getContractInstance(_abi, _address) {
+//  web3 = new Web3(web3.currentProvider);
+  publicKey= "b523d13732d14c5ea8e3f93cdc9ad2f4";
+
+  web3 = new Web3(new Web3.providers.HttpProvider("https://kovan.infura.io/v3/"+publicKey));
+  web3.eth.defaultAccount = web3.eth.accounts[0];
+  var contract = web3.eth.contract(_abi);
+  var instanceContract = contract.at(_address);
+  return instanceContract;
 }
 
-function userRegister() {
-    window.location.replace('http://test.moynet.co/admin.html');
+function getAscii(hexx) {
+    var hex = hexx.toString();//force conversion
+    var str = ''; // start at position 2 to allow for the 0x
+    for (var i = 2; (i < hex.length && hex.substr(i, 2) !== '00'); i += 2)
+        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    return str;
 }
 
-function userLogin() {
-  window.location.replace('http://test.moynet.co/login.html');
+
+//function getAsciiweb(aBytes32) {
+//  web3 = new Web3(web3.currentProvider);
+//  var aAscii = web3.toAscii(aBytes32);
+//  return aAscii;
+//}
+
+function getSHA(insecureData) {
+//  web3 = new Web3(web3.currentProvider);
+  publicKey= "b523d13732d14c5ea8e3f93cdc9ad2f4";
+
+  web3 = new Web3(new Web3.providers.HttpProvider("https://kovan.infura.io/v3/"+publicKey));
+
+  return web3.sha3(insecureData);
 }
+
+function getWei(ethAmount) {
+  return ethAmount*(1e18);
+}
+
+//function getWeiWeb(ethAmount) {
+//  web3 = new Web3(web3.currentProvider);
+//  return web3.toWei(ethAmount);
+//}
+
+function getFromWei(weiAmount) {
+  return weiAmount*(1e-18);
+}
+
+
+//function getFromWeiWeb(weiAmount) {
+//  web3 = new Web3(web3.currentProvider);
+//  return web3.fromWei(weiAmount);
+//}
 
 function loginUserEntry() {
-   var response = grecaptcha.getResponse();
-   if (response.length==0) {
-// uLoginMessage
-      document.getElementById("uLoginMessage").style.visibility="visible";
-
-      sessionStorage.removeItem('login')
-      document.getElementById("loginMessage").innerHTML = "Please check Captcha Box";
-      document.getElementById("uLoginMessage").classList.add("alert-danger");
-      document.getElementById("uLoginMessage").classList.remove("alert-info");
-
+  var response = grecaptcha.getResponse();
+  if (response.length == 0) {
+    // uLoginMessage
+    sessionStorage.removeItem("login");
+    printErrorMessage(
+      "loginMessage",
+      "uLoginMessage",
+      "Please check Captcha Box"
+    );
   } else {
-      document.getElementById("uLoginMessage").style.visibility="hidden";
-      var username = document.getElementById("loginUserName").value;
-      var regPassword = document.getElementById("loginPassword").value;
-      web3 = new Web3(web3.currentProvider);
-      var pwdhash = web3.sha3(regPassword);
-
-      loginUserDB(username,  pwdhash);
+    document.getElementById("uLoginMessage").style.visibility = "hidden";
+    loginUserDB(
+      getElementValue("loginUserName"),
+      getSHA(getElementValue("loginPassword"))
+    );
   }
 }
+
+
+function loginUserDB(username, password) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", "/api/loginuser", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("username=" + username + "&password=" + password);
+  xhttp.onreadystatechange = function(){
+    var messageDiv = document.getElementById("message");
+    if (this.readyState == 4 && this.status == 200) {
+      var data = JSON.parse(this.response);
+      document.getElementById("uLoginMessage").style.visibility = "visible";
+      if (data.message != "Correct") {
+        sessionStorage.removeItem("login");
+        printErrorMessage(
+          "loginMessage",
+          "uLoginMessage",
+          "login failed with uid/pwd error"
+        );
+
+      } else {
+        let employee = data.doc.Employee;
+        let employer = data.doc.Employer;
+        setCookie("etchcookie", username, 7);
+        let myLogin = {
+          login: username,
+          employer: employer,
+          employee: employee
+        };
+        sessionStorage.setItem("login", JSON.stringify(myLogin));
+        document.getElementById("loginMessage").innerHTML =
+        data.message + " employee " + employee + " employer " + employer;
+        document.getElementById("uLoginMessage").classList.add("alert-info");
+        document
+          .getElementById("uLoginMessage")
+          .classList.remove("alert-danger");
+        if (employer) {
+          var newUrl = homepage + "/index.html";
+          window.location.replace(newUrl);
+        } else {
+          var newUrl = homepage + "/indexemployee.html";
+          window.location.replace(newUrl);
+        }
+      }
+    }
+  };
+}
+
+
 
 function addUser() {
-
   var response = grecaptcha.getResponse();
-  if (response.length==0) {
-// uLoginMessage
-     document.getElementById("uRegMessage").style.visibility="visible";
-
-     sessionStorage.removeItem('login')
-     document.getElementById("regMessage").innerHTML = "Please check Captcha Box";
-     document.getElementById("uRegMessage").classList.add("alert-danger");
-     document.getElementById("uRegMessage").classList.remove("alert-info");
-
-   } else {
-
-      var username = document.getElementById("regUserName").value;
-      var regPassword = document.getElementById("regPassword").value;
-      web3 = new Web3(web3.currentProvider);
-      var pwdhash = web3.sha3(regPassword);
-      var regEmail = document.getElementById("regEmail").value;
-      var employeeCheckBox = document.getElementById("checkEmployee");
-      var employerCheckBox = document.getElementById("checkEmployer");
-      if ((employeeCheckBox.checked==true) || (employerCheckBox.checked==true)) {
-            registerUserDB(username, regEmail, pwdhash, employeeCheckBox.checked, employerCheckBox.checked);
-      } else {
-            document.getElementById("uRegMessage").style.visibility="visible";
-            document.getElementById("regMessage").innerHTML = "Please check Employee/Employer";
-            document.getElementById("uRegMessage").classList.add("alert-danger");
-            document.getElementById("uRegMessage").classList.remove("alert-info");
-      }
+  if (response.length == 0) {
+    // uLoginMessage
+    document.getElementById("uRegMessage").style.visibility = "visible";
+    sessionStorage.removeItem("login");
+    printErrorMessage("regMessage", "uRegMessage", "Please check Captcha Box");
+  } else {
+    var _employeeCheckBox = document.getElementById("checkEmployee");
+    var _employerCheckBox = document.getElementById("checkEmployer");
+    if (
+      _employeeCheckBox.checked == true ||
+      _employerCheckBox.checked == true
+    ) {
+      var userDetail = {
+        userName: getElementValue("regUserName"),
+        pwdHash: getSHA(getElementValue("regPassword")),
+        regEmail: getElementValue("regEmail"),
+        employeeCheckBox: _employeeCheckBox.checked,
+        employerCheckBox: _employerCheckBox.checked
+      };
+      registerUserDB(userDetail);
+    } else {
+      document.getElementById("uRegMessage").style.visibility = "visible";
+      printErrorMessage(
+        "regMessage",
+        "uRegMessage",
+        "Please check Employee/Employer Box"
+      );
+    }
   }
-
 }
+
+
+
+function registerUserDB(userDetail) {
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "/api/reguser", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(
+    "username=" +
+      userDetail.userName +
+      "&emailaddress=" +
+      userDetail.regEmail +
+      "&password=" +
+      userDetail.pwdHash +
+      "&employee=" +
+      userDetail.employeeCheckBox +
+      "&employer=" +
+      userDetail.employerCheckBox
+  );
+
+  xhttp.onreadystatechange = function(){
+    var messageDiv = document.getElementById("message");
+    if (this.readyState == 4 && this.status == 200) {
+      var data = JSON.parse(this.response);
+      document.getElementById("uRegMessage").style.visibility = "visible";
+      if (data.message == "Already Exists") {
+        printErrorMessage("regMessage", "uRegMessage", data.message);
+      } else {
+        var emailfrom = "info@etch-prepare-for-takeoff.com";
+        var subject = "Thank you for regsitering";
+        var text =
+          "<p>You are now registered to use the Etch system.<p>" +
+          "<p></p>" +
+          '<p>Visit us at <a href="https://etch-prepare-for-takeoff.com">etch-prepare-for-takeoff.com</a></p>' +
+          "<p></p>" +
+          "<p>Etch Team<p>";
+        sendservermail(emailfrom, userDetail.regEmail, subject, text);
+        var newUrl = homepage + "/pages/samples/login.html";
+        window.location.replace(newUrl);
+      }
+    }
+  };
+}
+
 
 
 
 function selectEmployeeBonus() {
     var bonusname = document.getElementById("employeebonuses").value;
-
     getMyBonusBlockchain(bonusname);
-
-
-
-  //  <td><label type="input" id="mybonustype"></label></td>
-  //  <td><label type="input" id="mybonusdate"></label></td>
-  //  <td><label type="input" id="mybonustarget"></label></td>
-  //  <td><label type="input" id="mybonuspayable"></label></td>
-  //  <td><label type="input" id="mybonustoken"></label></td>
-
-
 }
 
 function employeeBonus() {
     var myWallet = document.getElementById("employeeWallet").value;
-
     getEmployeeBonusesBlockchain(myWallet);
     getEmployeeBlockchain(myWallet);
 }
 
-
-function getSourceCode() {
-    return document.getElementById("source").value;
-}
 
 function selIndDom() {
     document.getElementById("selBonusType").value="Individual";
@@ -185,109 +328,119 @@ function selCompanyDom2() {
     document.getElementById("selBonusType2").value="Company";
 }
 
-
-
-
-
 function addBonusCondition() {
-  document.getElementById("approvedWallet").innerHTML= "";
-  document.getElementById("approvedWalletAddress").innerHTML= "";
+  document.getElementById("approvedWallet").innerHTML = "";
+  document.getElementById("approvedWalletAddress").innerHTML = "";
 
-  var authKey = document.getElementById("selAuthKey").value;
-  var token = document.getElementById("selToken").value;
-  var bonusRaw = document.getElementById("selBonus").value;
-  var target = document.getElementById("selTarget").value;
-  var bonusName = document.getElementById("selBonusName").value;
-  var bonusType = document.getElementById("selBonusType").value;
-  var selectedDate = document.getElementById("selBonusDate").value;
-  var selectedEq = document.getElementById("selCondition").value;
-
-  addBonusConditionManager(authKey,token, bonusRaw, target, bonusName, bonusType, selectedDate, selectedEq);
-
-
+  var bonusDetail = {
+      authKey:  getElementValue("selAuthKey"),
+      token:  getElementValue("selToken"),
+      bonusRaw:  getElementValue("selBonus"),
+      target:  getElementValue("selTarget"),
+      bonusName:  getElementValue("selBonusName"),
+      bonusType:  getElementValue("selBonusType"),
+      selectedDate:  getElementValue("selBonusDate"),
+      selectedEq:  getElementValue("selCondition")
+  };
 
 
+//  var authKey = document.getElementById("selAuthKey").value;
+//  var token = document.getElementById("selToken").value;
+//  var bonusRaw = document.getElementById("selBonus").value;
+//  var target = document.getElementById("selTarget").value;
+//  var bonusName = document.getElementById("selBonusName").value;
+//  var bonusType = document.getElementById("selBonusType").value;
+//  var selectedDate = document.getElementById("selBonusDate").value;
+//  var selectedEq = document.getElementById("selCondition").value;
+
+  if (bonusDetail.authKey != null && bonusDetail.authKey != "") {
+      addBonusConditionManager(bonusDetail)
+  } else {
+    printErrorMessage("eMessage", "eMessage", "You need to an auth key");
+  }
 }
 
-function addBonusConditionManager(authKey, token, bonusRaw, target, bonusName, bonusType, selectedDate, selectedEq ) {
+function addBonusConditionManager(
+  bonusDetail
+) {
+  var bonus = bonusDetail.bonusRaw;
+  if (bonusDetail.token == "ETH") {
+    bonus = getWei(bonusDetail.bonusRaw);
+  }
+  var ineq=0; // default
+  if (bonusDetail.selectedEq == "Greater Than") ineq = 1;
+  else ineq = 0;
 
-  var bonus = bonusRaw;
-  web3 = new Web3(web3.currentProvider);
-if (token == "ETH") {
-    bonus=  web3.toWei(bonusRaw);
-}
-
-if (selectedEq=="Greater Than") ineq=1;
-else ineq=0;
-
-//  ineq = 1;
-//  if (bonusType=="Team") {
-//    ineq = 0;
-//  }
-
-//  var selDate = document.getElementById("datepicker").value;
   var arrayDate;
-  document.getElementById("eMessage").style.visibility="hidden";
-  document.getElementById("eMessage").innerHTML="";
+  document.getElementById("eMessage").style.visibility = "hidden";
+  document.getElementById("eMessage").innerHTML = "";
 
-  if (selectedDate!=undefined && selectedDate!=null) {
-    arrayDate = selectedDate.split("/");
+  if (bonusDetail.selectedDate != undefined && bonusDetail.selectedDate != null) {
+    arrayDate = bonusDetail.selectedDate.split("/");
   } else {
-    document.getElementById("eMessage").style.visibility="visible";
-    document.getElementById("eMessage").innerHTML="Date Wrong";
-    document.getElementById("eMessage").classList.add("alert-danger");
-    document.getElementById("eMessage").classList.remove("alert-info");
+    document.getElementById("eMessage").style.visibility = "visible";
+    printErrorMessage("eMessage", "eMessage", "Date Wrong");
   }
-  var day; var month; var year;
-  if (arrayDate!=undefined && arrayDate!=null) {
-      if (arrayDate.length > 2) {
-          month = arrayDate[1];
-          day = arrayDate[0];
-          year = arrayDate[2];
-      } else {
-        document.getElementById("eMessage").style.visibility="visible";
-        document.getElementById("eMessage").innerHTML="Date Wrong";
-        document.getElementById("eMessage").classList.add("alert-danger");
-        document.getElementById("eMessage").classList.remove("alert-info");
-      }
+  var day;
+  var month;
+  var year;
+  if (arrayDate != undefined && arrayDate != null) {
+    if (arrayDate.length > 2) {
+      month = arrayDate[1];
+      day = arrayDate[0];
+      year = arrayDate[2];
+    } else {
+      document.getElementById("eMessage").style.visibility = "visible";
+      printErrorMessage("eMessage", "eMessage", "Date Wrong");
+    }
   } else {
-    document.getElementById("eMessage").style.visibility="visible";
-    document.getElementById("eMessage").innerHTML="Date Wrong";
-    document.getElementById("eMessage").classList.add("alert-danger");
-    document.getElementById("eMessage").classList.remove("alert-info");
+    document.getElementById("eMessage").style.visibility = "visible";
+    printErrorMessage("eMessage", "eMessage", "Date Wrong");
   }
 
+  var eBonus = checkBonusNameData(bonusDetail.token, bonus,
+    bonusDetail.target, bonusDetail.bonusName, bonusDetail.bonusType);
 
-  var eBonus = checkBonusNameData(token, bonus, target, bonusName, bonusType);
+  if (eBonus) {
+    //    savebonusname(bonusName);
+    document.getElementById("eMessage").style.visibility = "visible";
+    printSuccessMessage("eMessage", "eMessage", "Bonus Condition added");
 
-if (eBonus) {
-//    savebonusname(bonusName);
-    document.getElementById("eMessage").style.visibility="visible";
-    document.getElementById("eMessage").innerHTML="Bonus Condition added";
-    document.getElementById("eMessage").classList.remove("alert-danger");
-    document.getElementById("eMessage").classList.add("alert-info");
-
-    if ((authKey!=null) && (authKey!="")) {
-       addBonusConditionAPI(authKey, token, bonus, target,
-         bonusName, bonusType, day, month, year, ineq);
+    if (bonusDetail.authKey != null && bonusDetail.authKey != "") {
+      addBonusConditionAPI(
+        bonusDetail.authKey,
+        bonusDetail.token,
+        bonus,
+        bonusDetail.target,
+        bonusDetail.bonusName,
+        bonusDetail.bonusType,
+        day,
+        month,
+        year,
+        ineq
+      );
       // process api call to etch
     } else {
       //process normal process via metamask
-      saveBonusBlockchain(token, bonus, target, bonusName,
-        bonusType, day, month, year, ineq);
+  //    saveBonusBlockchain(
+  //      bonusDetail.token,
+  //      bonus,
+  //      bonusDetail.target,
+  //      bonusDetail.bonusName,
+  //      bonusDetail.bonusType,
+  //      day,
+  //      month,
+  //      year,
+  //      ineq
+  //    );
     }
-
-
-} else {
-  document.getElementById("eMessage").style.visibility="visible";
-  document.getElementById("eMessage").innerHTML="Values are wrong";
-  document.getElementById("eMessage").classList.add("alert-danger");
-  document.getElementById("eMessage").classList.remove("alert-info");
-
+  } else {
+    document.getElementById("eMessage").style.visibility = "visible";
+    printErrorMessage("eMessage", "eMessage", "Values are wrong");
+  }
 }
 
 
-}
 
 function isValid(testStr) {
   if (testStr == "") return false;
@@ -296,18 +449,13 @@ function isValid(testStr) {
   return true;
 }
 
-
-
-
-
-
 function addBonusCondition2() {
   var token = document.getElementById("selToken2").value;
   var bonus = document.getElementById("selBonus2").value;
   var target = document.getElementById("selTarget2").value;
   var bonusName = document.getElementById("selBonusName2").value;
   var bonusType = document.getElementById("selBonusType2").value;
-var rewardDate =  document.getElementById("selBonusDate2").value;
+  var rewardDate =  document.getElementById("selBonusDate2").value;
   var selectedEq = document.getElementById("selCondition2").value;
 
 if (selectedEq=="Greater Than") ineq=1;
@@ -327,9 +475,7 @@ else ineq=0;
     arrayDate = rewardDate.split("/");
   } else {
     document.getElementById("eMessage2").style.visibility="visible";
-    document.getElementById("eMessage2").innerHTML="Date Wrong";
-    document.getElementById("eMessage2").classList.add("alert-danger");
-    document.getElementById("eMessage2").classList.remove("alert-info");
+    printErrorMessage("eMessage2", "eMessage2", "Date Wrong" );
   }
   var day; var month; var year;
   if (arrayDate!=undefined && arrayDate!=null) {
@@ -339,15 +485,11 @@ else ineq=0;
           year = arrayDate[2];
       } else {
         document.getElementById("eMessage2").style.visibility="visible";
-        document.getElementById("eMessage2").innerHTML="Date Wrong";
-        document.getElementById("eMessage2").classList.add("alert-danger");
-        document.getElementById("eMessage2").classList.remove("alert-info");
+        printErrorMessage("eMessage2", "eMessage2", "Date Wrong" );
       }
   } else {
     document.getElementById("eMessage2").style.visibility="visible";
-    document.getElementById("eMessage2").innerHTML="Date Wrong";
-    document.getElementById("eMessage2").classList.add("alert-danger");
-    document.getElementById("eMessage2").classList.remove("alert-info");
+    printErrorMessage("eMessage2", "eMessage2", "Date Wrong" );
   }
 
 
@@ -356,16 +498,12 @@ else ineq=0;
 if (eBonus) {
   //  savebonusname(bonusName);
     document.getElementById("eMessage2").style.visibility="visible";
-    document.getElementById("eMessage2").innerHTML="Bonus Condition added";
-    document.getElementById("eMessage2").classList.remove("alert-danger");
-    document.getElementById("eMessage2").classList.add("alert-info");
+    printErrorMessage("eMessage2", "eMessage2", "Bonus Condition Added" );
     saveBonusBlockchain(token, bonus, target, bonusName,
       bonusType, day, month, year, ineq);
 } else {
   document.getElementById("eMessage2").style.visibility="visible";
-  document.getElementById("eMessage2").innerHTML="Values are wrong";
-  document.getElementById("eMessage2").classList.add("alert-danger");
-  document.getElementById("eMessage2").classList.remove("alert-info");
+  printErrorMessage("eMessage2", "eMessage2", "Values are wrong" );
 
 }
 
@@ -378,25 +516,6 @@ function isValid(testStr) {
   if (testStr == null) return false;
   return true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function checkBonusNameData(token,
   bonus, target, bonusName, bonusType) {
@@ -465,22 +584,18 @@ function selectBonusName() {
 }
 
 
+
+
 function getBonusBlockchain(bonusname) {
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
+  var bonusnameBytes32 = getBytes32(bonusname);
 
-  var bonusnameBytes32 = web3.fromAscii(bonusname);
-
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
+  var instanceContract = getContractInstance(abi, address);
 
   instanceContract.Bonuses(
-       bonusname
+       bonusnameBytes32
      , function (e, result){
         console.log(result);
-        var x = popBonusFields(result, web3);
+        var x = popBonusFields(result);
   });
 
 }
@@ -494,19 +609,15 @@ function functsubmit(event) {
 }
 
 function getEmailAddressAndAssignBonus(walletaddress, bonusName) {
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
 
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
- walletemailaddress="";
+  var instanceContract = getContractInstance(abi, address);
+
+  walletemailaddress="";
   instanceContract.WalletDetails(
        walletaddress
      , function (e, result){
         console.log(result);
-           var walletemailaddress = web3.toAscii(result);
+           var walletemailaddress = getAscii(result);
            walletemailaddress=walletemailaddress.replace(/\0.*$/g,'');
            assignWalletBonus(walletaddress, bonusName, walletemailaddress);
 
@@ -515,21 +626,17 @@ function getEmailAddressAndAssignBonus(walletaddress, bonusName) {
 }
 
 function getMyBonusBlockchain(bonusname) {
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
 
-  var bonusnameBytes32 = web3.fromAscii(bonusname);
+  var bonusnameBytes32 = getBytes32(bonusname);
 
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
+  var instanceContract = getContractInstance(abi, address);
+
 
   instanceContract.Bonuses(
        bonusnameBytes32
      , function (e, result){
         console.log(result);
-        var x = popMyBonusFields(result, web3);
+        var x = popMyBonusFields(result);
   });
 
 }
@@ -544,74 +651,58 @@ function selectWalletBonuses() {
 }
 
 function getWalletBonusesBlockchain(wallet) {
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
 
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
+  instanceContract=getContractInstance(abi, address);
+
   document.getElementById("checkbonus").innerHTML="";
   instanceContract.getWalletBonuses(
        wallet
      , function (e, result){
         console.log(result);
-        populateWalletBonuses(wallet, result, web3);
+        populateWalletBonuses(wallet, result);
   });
 
 }
 
 function getEmployeeBonusesBlockchain(wallet) {
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
 
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
+  var instanceContract = getContractInstance(abi, address);
+
   //document.getElementById("checkbonus").innerHTML="";
   instanceContract.getWalletBonuses(
        wallet
      , function (e, result){
         console.log(result);
-        populateEmployeeBonuses(result, web3);
+        populateEmployeeBonuses(result);
   });
 
 }
 
 function getWalletBlockchain(wallet) {
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
 
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
+  var instanceContract = getContractInstance(abi, address);
+
 
   instanceContract.WalletDetails(
        wallet
      , function (e, result){
         console.log(result);
-        var emailaddr= web3.toAscii(result);
+        var emailaddr= getAscii(result);
         document.getElementById("allwalletemail").innerHTML = emailaddr;
   });
 
 }
 
 function getMyWalletBlockchain(wallet) {
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
 
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
+  var instanceContract = getContractInstance(abi, address);
+
 
   instanceContract.WalletDetails(
        wallet
      , function (e, result){
         console.log(result);
-        var emailaddr= web3.toAscii(result);
+        var emailaddr= getAscii(result);
         document.getElementById("mywalletemail").innerHTML = emailaddr;
   });
 
@@ -620,26 +711,22 @@ function getMyWalletBlockchain(wallet) {
 
 
 function getEmployeeBlockchain(wallet) {
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
 
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
+  var instanceContract = getContractInstance(abi, address);
+
 
   instanceContract.WalletDetails(
        wallet
      , function (e, result){
         console.log(result);
-        var emailaddr= web3.toAscii(result);
+        var emailaddr= getAscii(result);
         document.getElementById("employeeemail").innerHTML = emailaddr;
   });
 
 }
 
 
-function popBonusFields(bonusData, web3) {
+function popBonusFields(bonusData) {
 
     if (bonusData==undefined) return false;
     if (bonusData==null) return false;
@@ -647,10 +734,10 @@ function popBonusFields(bonusData, web3) {
 
     var bonusName;
     var bonusName32 = bonusData[0]; //
-    if (isValid(bonusName32)) bonusName = web3.toAscii(bonusName32);
+    if (isValid(bonusName32)) bonusName = getAscii(bonusName32);
     var bonusType;
     var bonusType32 = bonusData[1];
-    if (isValid(bonusType32)) bonusType = web3.toAscii(bonusType32);
+    if (isValid(bonusType32)) bonusType = getAscii(bonusType32);
 
     var bonusTarget = bonusData[2]; //
     var bonusEndYear = bonusData[3];
@@ -659,7 +746,7 @@ function popBonusFields(bonusData, web3) {
 
     var bonusToken;
     var bonusToken32 = bonusData[6]; //
-    if (isValid(bonusToken32)) bonusToken = web3.toAscii(bonusToken32);
+    if (isValid(bonusToken32)) bonusToken = getAscii(bonusToken32);
 
     var bonusAmount = bonusData[7]; //
     var bonusExists = bonusData[8];
@@ -667,7 +754,7 @@ function popBonusFields(bonusData, web3) {
 // eth
     if (bonusToken32=="0x4554480000000000000000000000000000000000000000000000000000000000") {
       // convert from Wei
-      bonusAmount=web3.fromWei(bonusAmount);
+      bonusAmount=getFromWei(bonusAmount);
     }
 
 
@@ -701,7 +788,7 @@ function popBonusFields(bonusData, web3) {
 
 }
 
-function popMyBonusFields(result, web3) {
+function popMyBonusFields(result) {
 
     if (result==undefined) return false;
     if (result==null) return false;
@@ -709,10 +796,10 @@ function popMyBonusFields(result, web3) {
 
     var bonusName;
     var bonusName32 = result[0]; //
-    if (isValid(bonusName32)) bonusName = web3.toAscii(bonusName32);
+    if (isValid(bonusName32)) bonusName = getAscii(bonusName32);
     var bonusType;
     var bonusType32 = result[1];
-    if (isValid(bonusType32)) bonusType = web3.toAscii(bonusType32);
+    if (isValid(bonusType32)) bonusType = getAscii(bonusType32);
 
     var bonusTarget = result[2]; //
     var bonusEndYear = result[3];
@@ -721,7 +808,7 @@ function popMyBonusFields(result, web3) {
 
     var bonusToken;
     var bonusToken32 = result[6]; //
-    if (isValid(bonusToken32)) bonusToken = web3.toAscii(bonusToken32);
+    if (isValid(bonusToken32)) bonusToken = getAscii(bonusToken32);
 
     var bonusAmount = result[7]; //
     var bonusExists = result[8];
@@ -731,7 +818,7 @@ function popMyBonusFields(result, web3) {
 
     if (bonusToken32=="0x4554480000000000000000000000000000000000000000000000000000000000") {
       // convert from Wei
-      bonusAmount=web3.fromWei(bonusAmount);
+      bonusAmount=getFromWei(bonusAmount);
     }
 
     if ((bonusIneq) == 1) {
@@ -766,65 +853,41 @@ function selectToken() {
     document.getElementById("readtoken").value = token;
 }
 
-function getVersion() {
-    return document.getElementById("versions").value;
-}
+//function getVersion() {
+//    return document.getElementById("versions").value;
+//}
 
 function status(txt) {
     document.getElementById("status").innerHTML = txt;
 }
 
-function populateVersions(versions) {
-    sel = document.getElementById("versions");
-    sel.innerHTML = "";
 
-    for(var i = 0; i < versions.length; i++) {
-        var opt = document.createElement('option');
-        opt.appendChild( document.createTextNode(versions[i]) );
-        opt.value = versions[i];
-        sel.appendChild(opt);
-    }
-}
 
-function populateContracts(contractHashes) {
-    sel = document.getElementById("contracts");
-    sel.innerHTML = "";
-
-    for(var i = 0; i < contractHashes.length; i++) {
-        var opt = document.createElement('option');
-        opt.appendChild( document.createTextNode(contractHashes[i]) );
-        opt.value = contractHashes[i];
-        sel.appendChild(opt);
-    }
-    document.getElementById("userMessage").innerHTML = "Hashes Listed";
-
-}
-
-function populateWalletBonuses(wallets, bonusnames, web3) {
+function populateWalletBonuses(wallets, bonusnames) {
   sel = document.getElementById("walletbonuses");
   sel.innerHTML = "";
   if (wallets.length > 0)
-    var  bonusnamesStrLocal = web3.toAscii(bonusnames[0]);
+    var  bonusnamesStrLocal = getAscii(bonusnames[0]);
       document.getElementById("checkbonus").innerHTML=bonusnamesStrLocal;
     for(var i = 0; i < bonusnames.length; i++) {
         var opt = document.createElement('option');
-        var  bonusnamesStr = web3.toAscii(bonusnames[i]);
+        var  bonusnamesStr = getAscii(bonusnames[i]);
         opt.appendChild( document.createTextNode(bonusnamesStr) );
         opt.value = bonusnamesStr;
         sel.appendChild(opt);
     }
 }
 
-function populateEmployeeBonuses(bonusnames, web3) {
+function populateEmployeeBonuses(bonusnames) {
   sel = document.getElementById("employeebonuses");
   sel.innerHTML = "";
   if (bonusnames.length > 0)
-    var  bonusnamesStrLocal = web3.toAscii(bonusnames[0]);
+    var  bonusnamesStrLocal = getAscii(bonusnames[0]);
     //  document.getElementById("checkbonus").innerHTML=bonusnamesStrLocal;
-    var bonusname0 = web3.toAscii(bonusnames[0]);
+    var bonusname0 = getAscii(bonusnames[0]);
     for(var i = 0; i < bonusnames.length; i++) {
         var opt = document.createElement('option');
-        var  bonusnamesStr = web3.toAscii(bonusnames[i]);
+        var  bonusnamesStr = getAscii(bonusnames[i]);
         opt.appendChild( document.createTextNode(bonusnamesStr) );
         opt.value = bonusnamesStr;
         sel.appendChild(opt);
@@ -935,20 +998,20 @@ function checkbutton() {
 
 }
 
-function populateBonuses(bonusnames, web3) {
+function populateBonuses(bonusnames) {
   sel = document.getElementById("listBonusNames");
   sel.innerHTML = "";
   if (bonusnames.length > 0)
     //  document.getElementById("readwallet").value=wallets[0];
     for(var i = 0; i < bonusnames.length; i++) {
         var opt = document.createElement('option');
-        var localBonusName = web3.toAscii(bonusnames[i]);
+        var localBonusName = getAscii(bonusnames[i]);
         opt.appendChild( document.createTextNode(localBonusName) );
         opt.value = localBonusName;
         sel.appendChild(opt);
     }
-    var bonusnameFirst = web3.toAscii(bonusnames[0]);
-getBonusBlockchain(bonusnameFirst);
+    var bonusnameFirst = getAscii(bonusnames[0]);
+    getBonusBlockchain(bonusnameFirst);
 
 }
 
@@ -978,27 +1041,6 @@ function testDB() {
 
 
 
-function updateAddress() {
-   var txid = document.getElementById("transactionhash").value;
-   var hash = document.getElementById("contracthash").value;
-
-   //var web3 = new Web3(web3.currentProvider);
-   web3provider.eth.defaultAccount = web3provider.eth.accounts[0];
-
-  web3provider.eth.getTransactionReceipt(txid , function(error, result){
-  if(!error) {
-     document.getElementById("contractaddress").value = result.contractAddress;
-     update(hash, result.contractAddress);
-     console.log(result)
-  }
-  else {
-     document.getElementById("contractaddress").value = "not mined";
-     console.error(error);
-  }
-  });
-
-
-}
 
 
 function addBonusConditionCallAPI (authKeyHash,  token, bonus, target,
@@ -1020,10 +1062,11 @@ function addBonusConditionCallAPI (authKeyHash,  token, bonus, target,
        var data = JSON.parse(this.response);
        console.log("ky " + data.message );
        document.getElementById("eMessage").style.visibility="visible";
+       printSuccessMessage("eMessage","eMessage","Bonus Add being processed ")
 
-           document.getElementById("eMessage").innerHTML = "Bonus Add being processed ";
-           document.getElementById("eMessage").classList.add("alert-info");
-           document.getElementById("eMessage").classList.remove("alert-danger");
+        //   document.getElementById("eMessage").innerHTML = "Bonus Add being processed ";
+        //   document.getElementById("eMessage").classList.add("alert-info");
+        //   document.getElementById("eMessage").classList.remove("alert-danger");
 
 
        //document.getElementById("userMessage").value = JSON.parse(this.response).message;
@@ -1035,47 +1078,7 @@ function addBonusConditionCallAPI (authKeyHash,  token, bonus, target,
 }
 
 
-function registerUserDB (username, emailaddress, password, employee, employer){
-  var xhttp = new XMLHttpRequest();
 
-  xhttp.open("POST", "/api/reguser", true);
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("username=" +username + "&emailaddress=" + emailaddress+ "&password=" + password+ "&employee="
-  + employee+ "&employer=" + employer);
-
-  xhttp.onreadystatechange = function(){
-    var messageDiv = document.getElementById('message');
-    if(this.readyState == 4 && this.status ==200){
-       var data = JSON.parse(this.response);
-     document.getElementById("uRegMessage").style.visibility="visible";
-       if (data.message == "Already Exists") {
-           document.getElementById("regMessage").innerHTML = data.message;
-           document.getElementById("uRegMessage").classList.add("alert-danger");
-           document.getElementById("uRegMessage").classList.remove("alert-info");
-
-       } else {
-         var emailfrom="info@etch-preflight-test.com";
-         var subject = "Thank you for regsitering";
-         var text = "<p>You are now registered to use the Etch system.<p>" +
-         "<p></p>"+
-                  "<p>Visit us at <a href=\"http://etch-preflight-test.com\">etch-preflight-test.com</a></p>"+
-                  "<p></p>"+
-         "<p>Etch Preflight Team<p>";
-         sendservermail (emailfrom, emailaddress, subject, text);
-           document.getElementById("regMessage").innerHTML = data.message;
-           document.getElementById("uRegMessage").classList.add("alert-info");
-           document.getElementById("uRegMessage").classList.remove("alert-danger");
-           var newUrl = homepage + "/pages/samples/login.html";
-           window.location.replace(newUrl);
-           //trevorlee
-      }
-       //document.getElementById("userMessage").value = JSON.parse(this.response).message;
-
-
-
-    }
-  };
-}
 
 
 
@@ -1130,7 +1133,7 @@ function checkUserDB (username){
        var data = JSON.parse(this.response);
        var employee=data.doc.Employee;
        var employer=data.doc.Employer;
-       let myLogin = {'login': username, 'employer': employer, 'employee': employee};
+       var myLogin = {'login': username, 'employer': employer, 'employee': employee};
   //   document.getElementById("uLoginMessage").style.visibility="visible";
        if (data.message != "Correct") {
            sessionStorage.removeItem('login')
@@ -1160,48 +1163,7 @@ function checkUserDB (username){
 
 
 
-function loginUserDB (username, password){
-  var xhttp = new XMLHttpRequest();
 
-  xhttp.open("POST", "/api/loginuser", true);
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("username=" +username + "&password=" + password );
-
-  xhttp.onreadystatechange = function(){
-    var messageDiv = document.getElementById('message');
-    if(this.readyState == 4 && this.status ==200){
-       var data = JSON.parse(this.response);
-       var employee=data.doc.Employee;
-       var employer=data.doc.Employer;
-     document.getElementById("uLoginMessage").style.visibility="visible";
-       if (data.message != "Correct") {
-           sessionStorage.removeItem('login')
-           document.getElementById("loginMessage").innerHTML = data.message;
-           document.getElementById("uLoginMessage").classList.add("alert-danger");
-           document.getElementById("uLoginMessage").classList.remove("alert-info");
-
-       } else {
-           setCookie('etchcookie',username,7);
-           let myLogin = {'login': username, 'employer': employer, 'employee': employee};
-           sessionStorage.setItem('login', JSON.stringify(myLogin));
-           document.getElementById("loginMessage").innerHTML = data.message + " employee " + employee + " employer " + employer;
-           document.getElementById("uLoginMessage").classList.add("alert-info");
-           document.getElementById("uLoginMessage").classList.remove("alert-danger");
-           if (employer) {
-                var newUrl = homepage + "/index.html";
-                window.location.replace(newUrl);
-           } else {
-                var newUrl = homepage + "/indexemployee.html";
-                window.location.replace(newUrl);
-          }
-      }
-       //document.getElementById("userMessage").value = JSON.parse(this.response).message;
-
-
-
-    }
-  };
-}
 
 
 
@@ -1254,14 +1216,13 @@ function savewallet(wallet, email){
        var data = JSON.parse(this.response);
        document.getElementById("uMessage").style.visibility="visible";
        if (data.message == "Wallet exists") {
-           document.getElementById("userMessage").innerHTML = data.message;
-           document.getElementById("uMessage").classList.add("alert-danger");
-           document.getElementById("uMessage").classList.remove("alert-info");
+         printErrorMessage("userMessage","uMessage", data.message );
 
        } else {
-           document.getElementById("userMessage").innerHTML = data.message;
-           document.getElementById("uMessage").classList.add("alert-info");
-           document.getElementById("uMessage").classList.remove("alert-danger");
+           printSucessMessage("userMessage","uMessage", data.message );
+        //   document.getElementById("userMessage").innerHTML = data.message;
+        //   document.getElementById("uMessage").classList.add("alert-info");
+        //   document.getElementById("uMessage").classList.remove("alert-danger");
       }
        //document.getElementById("userMessage").value = JSON.parse(this.response).message;
 
@@ -1289,14 +1250,16 @@ function savebonusname(bonusName){
        var data = JSON.parse(this.response);
        document.getElementById("uMessage").style.visibility="visible";
        if (data.message == "Name exists") {
-           document.getElementById("userMessage").innerHTML = data.message;
-           document.getElementById("uMessage").classList.add("alert-danger");
-           document.getElementById("uMessage").classList.remove("alert-info");
+         printErrorMessage("userMessage","uMessage", data.message );
+  //         document.getElementById("userMessage").innerHTML = data.message;
+    //       document.getElementById("uMessage").classList.add("alert-danger");
+      //     document.getElementById("uMessage").classList.remove("alert-info");
 
        } else {
-           document.getElementById("userMessage").innerHTML = data.message;
-           document.getElementById("uMessage").classList.add("alert-info");
-           document.getElementById("uMessage").classList.remove("alert-danger");
+          printSuccessMessage("userMessage","uMessage", data.message );
+      //     document.getElementById("userMessage").innerHTML = data.message;
+      //     document.getElementById("uMessage").classList.add("alert-info");
+      //     document.getElementById("uMessage").classList.remove("alert-danger");
       }
     }
   };
@@ -1328,7 +1291,8 @@ function listAllBonusNames() {
   //getBonuses();
   getBlockchainBonuses();
   var typelisting=0;
-  getFreeBlockchainWallets(typelisting);
+  var  bonusname =  document.getElementById("displayBonusName").innerHTML;
+  getFreeBlockchainWalletsABonus(bonusname, typelisting);
 
   //var bonusname = document.getElementById("listBonusNames").firstChild.innerHTML;
 //  document.getElementById("readwallet").value = wallet;
@@ -1367,18 +1331,13 @@ function getTokens() {
 function addBonusConditionAPI( authKey, token, bonus, target,
   bonusName, bonusType, day, month, year, ineq) {
 
+  var instanceContract=getContractInstance(payEtchABI,payEtchAddress );
 
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
+  var apiKeyHash = getSHA(authKey);
 
-  var contract = web3.eth.contract(payEtchABI);
-  var instanceContract = contract.at(payEtchAddress);
-  var apiKeyHash = web3.sha3(authKey);
   instanceContract.validKey(apiKeyHash, function (e, result){
         console.log(result);
-        //var emailaddr= web3.toAscii(result);
+        //var emailaddr= getAscii(result);
       //  document.getElementById("allwalletemail").innerHTML = emailaddr;
     //  var errorDetected = result[0];
       var validAuthKey = result[0];
@@ -1399,18 +1358,12 @@ function addBonusConditionAPI( authKey, token, bonus, target,
 function isBonusPayable(wallet, bonusname, targetreached,
   year, month, day) {
 
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
-
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
+  var instanceContract=getContractInstance(abi, address);
 
   instanceContract.isBonusPayable(wallet, bonusname,
     targetreached, year, month, day, function (e, result){
         console.log(result);
-        //var emailaddr= web3.toAscii(result);
+        //var emailaddr= getAscii(result);
       //  document.getElementById("allwalletemail").innerHTML = emailaddr;
     //  var errorDetected = result[0];
       var payBonus = result[0];
@@ -1437,17 +1390,11 @@ if (payToken == "ETH") {
 
 function getBlockchainWallets(typelisting) {
 
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
-
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
+  var instanceContract= getContractInstance(abi, address);
 
   instanceContract.getWallets(function (e, result){
         console.log(result);
-        //var emailaddr= web3.toAscii(result);
+        //var emailaddr= getAscii(result);
       //  document.getElementById("allwalletemail").innerHTML = emailaddr;
       switch (typelisting) {
         case 0:
@@ -1466,77 +1413,41 @@ function getBlockchainWallets(typelisting) {
 
 }
 
-function getFreeBlockchainWallets(typelisting) {
-
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
-
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
-
-bonusname =  document.getElementById("displayBonusName").innerHTML;
-
-
-  instanceContract.getFreeWallets(bonusname, function (e, result){
-        console.log(result);
-        //var emailaddr= web3.toAscii(result);
-      //  document.getElementById("allwalletemail").innerHTML = emailaddr;
-        if (typelisting==0)
-            populateWallets(result[0]);
-        else {
-            populateAllWallets(result[0]);
-        }
-  });
-
-
-}
-
 function getFreeBlockchainWalletsABonus(bonusname, typelisting) {
 
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
 
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
+  var instanceContract=getContractInstance(abi, address);
 
 
-
-
-  instanceContract.getFreeWallets(bonusname, function (e, result){
-        console.log(result);
-        //var emailaddr= web3.toAscii(result);
-      //  document.getElementById("allwalletemail").innerHTML = emailaddr;
-        if (typelisting==0)
-            populateWallets(result[0]);
-        else {
-            populateAllWallets(result[0]);
+  if ((bonusname!=null) && (bonusname!="") && (bonusname!="undefined")) {
+      instanceContract.getFreeWallets(bonusname, function (e, result){
+        if ((e==null)|| e=="undefined") {
+            console.log(result);
+            //var emailaddr= getAscii(result);
+          //  document.getElementById("allwalletemail").innerHTML = emailaddr;
+            if (typelisting==0)
+                populateWallets(result[0]);
+            else {
+                populateAllWallets(result[0]);
+            }
         }
-  });
-
+      });
+  }
 
 }
 
 
 function getBlockchainBonuses() {
 
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
+  var instanceContract=getContractInstance(abi, address);
 
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
 
   instanceContract.getBonusNames(function (e, result){
         console.log(result);
-        //var emailaddr= web3.toAscii(result);
+        //var emailaddr= getAscii(result);
       //  document.getElementById("allwalletemail").innerHTML = emailaddr;
 
-        populateBonuses(result, web3);
+        populateBonuses(result);
 
   });
 
@@ -1564,7 +1475,7 @@ function getWallets(typelisting) {
         wallets[i]=data.doc[i].Wallet;
       }
       if (typelisting==0)
-      populateWallets(wallets);
+          populateWallets(wallets);
       else {
           populateAllWallets(wallets);
       }
@@ -1597,10 +1508,6 @@ function getBonuses() {
   };
 }
 
-
-
-
-
 function getWalletDetails() {
 
 
@@ -1619,22 +1526,18 @@ function showTokenBalance() {
 }
   function showTokenBalanceBlockchain(wallet) {
 
-    web3 = new Web3(web3.currentProvider);
-    web3provider=web3;
-    web3provider=new Web3(web3.currentProvider);
-    web3.eth.defaultAccount = web3.eth.accounts[0];
 
-    var contract = web3.eth.contract(payEtchABI);
-    var instanceContract = contract.at(payEtchAddress);
+    var instanceEtchContract=getContractInstance(payEtchABI, payEtchAddress);
 
-    instanceContract.getClientBalance(wallet, function (e, result){
+
+    instanceEtchContract.getClientBalance(wallet, function (e, result){
           console.log(result);
-          //var emailaddr= web3.toAscii(result);
+          //var emailaddr= getAscii(result);
         //  document.getElementById("allwalletemail").innerHTML = emailaddr;
       //  var errorDetected = result[0];
         var balance = result;
         if (!isNaN(balance)) {
-            balETH=web3.fromWei(balance);
+            balETH=getFromWei(balance);
             document.getElementById("accountBalanceEtch").innerHTML=balETH;
         } else {
             document.getElementById("accountBalanceEtch").innerHTML=0;
@@ -1680,21 +1583,18 @@ return uuid;
 
 function buyTokenBlockchain(buyingAmount) {
 
-  buyingAmountWei=  web3.toWei(buyingAmount);
+  buyingAmountWei=  getWei(buyingAmount);
 
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
-  var contract = web3.eth.contract(payEtchABI);
-  var instanceContract = contract.at(payEtchAddress);
+
+  let instanceContract=getContractInstance(payEtchABI, payEtchAddress);
 
   var apiKey = generateUUID();
 
-  var apiKeyHash = web3.sha3(apiKey);
+  var apiKeyHash = getSHA(apiKey);
+
   //document.getElementById("eMessage2").innerHTML = "Saving Blockchain Bonus";
-emailaddress=document.getElementById("allwalletemail").innerHTML;
-document.getElementById("authkey").innerHTML=apiKey;
+  emailaddress=document.getElementById("allwalletemail").innerHTML;
+  document.getElementById("authkey").innerHTML=apiKey;
 
   //instanceContract.addWalletEmail(wallet, email);
 // had stack too deep in solidity - need to reduce variables
@@ -1715,12 +1615,11 @@ document.getElementById("authkey").innerHTML=apiKey;
 
 function saveBonusBlockchain(token, bonus, target, bonusName,
   bonusType, day, month, year, ineq) {
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
+
+
+
+  let instanceContract=getContractInstance(abi, address);
+
 
   //document.getElementById("eMessage2").innerHTML = "Saving Blockchain Bonus";
 
@@ -1735,12 +1634,8 @@ function saveBonusBlockchain(token, bonus, target, bonusName,
 }
 
 function assignWalletBonus(wallet, bonusName, emailaddress) {
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
+
+  let instanceContract=getContractInstance(abi, address);
 
   //document.getElementById("userMessage").innerHTML = "Assignment Done";
 
@@ -1765,12 +1660,8 @@ function assignWalletBonus(wallet, bonusName, emailaddress) {
 
 
 function saveWalletBlockchain(wallet, email) {
-  web3 = new Web3(web3.currentProvider);
-  web3provider=web3;
-  web3provider=new Web3(web3.currentProvider);
-  web3.eth.defaultAccount = web3.eth.accounts[0];
-  var contract = web3.eth.contract(abi);
-  var instanceContract = contract.at(address);
+
+  let instanceContract=getContractInstance(abi, address);
 
   //document.getElementById("userMessage").innerHTML = "updating Wallet";
 
@@ -1786,35 +1677,6 @@ function saveWalletBlockchain(wallet, email) {
 
 
 
-function showAddress() {
-    status("compiling");
-
-    web3 = new Web3(web3.currentProvider);
-
-    // Our future code here..
-     web3.eth.defaultAccount = web3.eth.accounts[0];
-
-//    var contract = web3.eth.contract(JSON.parse(abi));
-//    var hash = web3.sha3(getSourceCode());
-
-
-  //    var contractList=web3.eth.contract([ { "constant": false, "inputs": [ { "name": "contractAddress", "type": "bytes32" }, { "name": "sourceCodeHash", "type": "bytes32" } ], "name": "addContractDetail", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "payable": true, "stateMutability": "payable", "type": "fallback" }, { "constant": true, "inputs": [ { "name": "", "type": "bytes32" } ], "name": "ContractDetails", "outputs": [ { "name": "sourceCodeHash", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "contractAddress", "type": "bytes32" } ], "name": "readContractDetails", "outputs": [ { "name": "", "type": "bytes32" } ], "payable": false, "stateMutability": "view", "type": "function" } ]);
-
-  //    var contractListInstance = contractList.at('0xb0719adb9892f6c234fb97e5953718d3637b952b');
-
-//      contractListInstance.addContractDetail(hash);
-var txn = "0x16c38c6ba0902136b19b46ed108545d69c8c70aaf77b0de60e80a6e0ee93d1c2";
-
-web3.eth.getTransactionReceipt(txn , function(error, result){
-if(!error) {
-    console.log(result)
-  }
-else
-    console.error(error);
-});
-
-    status("Compile Complete.");
-}
 
 function checkEmployer(myEmployer, myURL) {
     var newUrl1 = homepage + "/pages/forms/mybonus.html";
@@ -1849,11 +1711,6 @@ function checkEmployee(myEmployee, myURL) {
 
 
 window.onload = function() {
-//    document.getElementById("source").value = exampleSource;
-
-   //document.getElementById("uMessage").style.visibility="hidden";
-
-
    var title = document.title;
    var mycookie = getCookie('etchcookie');
 
