@@ -394,6 +394,22 @@
                                    <label id="readwallet" type="text"></label>
                                  </div>
                                 </div>
+
+                                <div class="form-group row">
+                                  <div class="col">
+                                    <label>Auth:</label>
+                                    <input type="text"  class="form-control"    id="selAuthKey">
+                                  </div>
+                                  <div class="col">
+                                    <label>Approved:</label>
+                                    <label type="text"  class="form-control"    id="approvedWallet">
+                                  </div>
+                                  <div class="col">
+                                    <label>Wallet:</label>
+                                    <label type="text"  class="form-control"    id="approvedWalletAddress">
+                                  </div>
+                                </div>
+
                             </form>
                          </div>
 
@@ -446,6 +462,13 @@
                                  type="button" id="walletbbutton">Add</button>
 
                             </div>
+
+                            <div class="card-body">
+                              <div class="alert alert-info" id="eMessage" role="alert">
+                                <p id="errorMessage"></p>
+                              </div>
+                            </div>
+
                         </div>
                        </div>
                     </div>
