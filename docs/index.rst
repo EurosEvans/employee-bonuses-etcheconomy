@@ -9,7 +9,7 @@ Welcome Etch documentation
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-          
+   bonus          
    
 .. automodule::etch
 
