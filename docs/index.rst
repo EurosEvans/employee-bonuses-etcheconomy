@@ -8,45 +8,5 @@ Welcome Etch documentation
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
    bonus          
    
-.. automodule::etch
-
-Classes
-=======   
-    
-    
-UserInterface	
----------
-.. autoclass:: UserInterface
-   :members:
-   :inherited-members:
-    
-
-APIs	
-------------
-.. autoclass:: APIs
-   :members:
-   :inherited-members:
-
-    
-Bonus	
---------------
-.. autoclass:: Bonus	
-   :members:
-   :inherited-members:
-    
-
-Approvals
--------
-.. autoclass:: Approvals
-   :members:
-   :inherited-members:
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`search`
