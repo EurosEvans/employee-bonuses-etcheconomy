@@ -294,29 +294,32 @@ app.post("/api/addWalletEmail",function(req,res){
          outcome = result[65];
          outcomen=parseInt(outcome);
          if (outcomen==1) {
-           web3js.eth.getTransactionCount(myAddress, function(err1, result1) {
-               nounce=result1;
-               var nounceHex = web3js.toHex(nounce);
-               var rawTransaction = {
-                 "from":myAddress,
-                 "gasPrice":web3js.toHex(2*1e9),
-                 "gasLimit":web3js.toHex(920000),
-                 "to":contractAddress,
-                 "data":contract.addWalletEmail.getData(wallet, emailaddress),
-                 "nonce":nounceHex}
-               var transaction = new Tx(rawTransaction);
-               transaction.sign(privateKey);
 
-               var serializedTx = transaction.serialize();
-               web3js.eth.sendRawTransaction('0x'+serializedTx.toString('hex'),
-               function(err2, hash) {
-                   if (!err2) {
-                     res.json({ message:hash});
-                   } else {
-                     res.json({ message:err2});
-                   }
-                })
-               })
+           web3js.eth.getTransactionCount(myAddress, function(err1, result1) {
+             nounce=result1;
+             var nounceHex = web3js.toHex(nounce);
+             var rawTransaction = {
+               "from":myAddress,
+               "gasPrice":web3js.toHex(2*1e9),
+               "gasLimit":web3js.toHex(920000),
+               "to":contractAddress,
+               "data":contract.addWalletEmail.getData(wallet, emailaddress),
+               "nonce":nounceHex}
+             var transaction = new Tx(rawTransaction);
+             transaction.sign(privateKey);
+
+             var serializedTx = transaction.serialize();
+             web3js.eth.sendRawTransaction('0x'+serializedTx.toString('hex'),
+             function(err2, hash) {
+                 if (!err2) {
+                   res.json({ message:hash});
+                 } else {
+                   res.json({ message:err2});
+                 }
+              })
+             })
+
+
          } else {
             res.json({ message:"invalid auth"});
          }
@@ -345,9 +348,10 @@ app.post("/api/assignWalletBonus1",function(req,res){
 
 app.post("/api/assignWalletBonus",function(req,res){
 
-  var wallet = req.body.wallet; //n//
+   var wallet = req.body.wallet; //n//
    var bonusname = req.body.bonusname;  //n
    var emailaddress = req.body.emailaddress; //n
+   var authKey = req.body.authkey; //n
 
    var myAddress = "0x334701738C59229fa72801Ff18466D1D788fcA4B";
 
@@ -369,33 +373,52 @@ app.post("/api/assignWalletBonus",function(req,res){
    var count;
    var nounce;
    var errcode="";
-   web3js.eth.getTransactionCount(myAddress, function(err, result) {
-        nounce=result;
-        var nounceHex = web3js.toHex(nounce);
 
-        var rawTransaction = {"from":myAddress,
-        "gasPrice":web3js.toHex(2*1e9),
-        "gasLimit":web3js.toHex(920000),
-        "to":contractAddress,
-        "data":contract.addWalletBonus.getData(wallet, bonusname),
-        "nonce":nounceHex}
+   var apiKeyHash = web3js.sha3(authKey);
 
-        var transaction = new Tx(rawTransaction);
-        transaction.sign(privateKey);
-
-        var serializedTx = transaction.serialize();
-        web3js.eth.sendRawTransaction('0x'+serializedTx.toString('hex'), function(err1, hash) {
-           if (!err1) {
-               errcode=hash;
-               res.json({ message:errcode});
-          }
-           else
-               errcode=err1;
-        });
-  })
+   var contractEtch =  web3js.eth.contract(payEtchABI).at(payEtchAddress);
 
 
-  res.json({ message:errcode});
+     var rTxn = {
+         "to":payEtchAddress,
+         "data":contractEtch.validKey.getData(apiKeyHash)}
+     web3js.eth.call(rTxn, function(errx, resultx) {
+       if (!errx) {
+         outcome = resultx[65];
+         outcomen=parseInt(outcome);
+         if (outcomen==1) {
+
+           web3js.eth.getTransactionCount(myAddress, function(err, result) {
+                nounce=result;
+                var nounceHex = web3js.toHex(nounce);
+                var rawTransaction = {"from":myAddress,
+                "gasPrice":web3js.toHex(2*1e9),
+                "gasLimit":web3js.toHex(920000),
+                "to":contractAddress,
+                "data":contract.addWalletBonus.getData(wallet, bonusname),
+                "nonce":nounceHex}
+
+                var transaction = new Tx(rawTransaction);
+                transaction.sign(privateKey);
+
+                var serializedTx = transaction.serialize();
+                web3js.eth.sendRawTransaction('0x'+serializedTx.toString('hex'), function(err1, hash) {
+                   if (!err1) {
+                       res.json({ message:hash});
+                  }
+                   else
+                      res.json({ message:err1});
+                });
+           })
+
+         } else {
+            res.json({ message:"invalid auth"});
+         }
+        } else {
+            res.json({ message:errx});
+        }
+   })
+
 
 });
 
@@ -411,7 +434,7 @@ app.post("/api/addBonus",function(req,res){
   var month = req.body.month;
   var year = req.body.year;
   var ineq = req.body.ineq;
-
+  var authKey = req.body.authkey; //n
 
    var myAddress = "0x334701738C59229fa72801Ff18466D1D788fcA4B";
 
@@ -433,33 +456,58 @@ app.post("/api/addBonus",function(req,res){
    var count;
    var nounce;
    var errcode="";
-   web3js.eth.getTransactionCount(myAddress, function(err, result) {
-        nounce=result;
-        var nounceHex = web3js.toHex(nounce);
 
-        var rawTransaction = {"from":myAddress,
-        "gasPrice":web3js.toHex(2*1e9),
-        "gasLimit":web3js.toHex(920000),
-        "to":contractAddress,
-        "data":contract.addBonus.getData(bonusType, target, year, month, day, token, bonus, bonusName, ineq),
-        "nonce":nounceHex}
+   var apiKeyHash = web3js.sha3(authKey);
 
-        var transaction = new Tx(rawTransaction);
-        transaction.sign(privateKey);
-
-        var serializedTx = transaction.serialize();
-        web3js.eth.sendRawTransaction('0x'+serializedTx.toString('hex'), function(err1, hash) {
-           if (!err1) {
-               errcode=hash;
-               res.json({ message:errcode});
-          }
-           else
-               errcode=err1;
-        });
-  })
+   var contractEtch =  web3js.eth.contract(payEtchABI).at(payEtchAddress);
 
 
-  res.json({ message:errcode});
+   var rTxn = {
+       "to":payEtchAddress,
+       "data":contractEtch.validKey.getData(apiKeyHash)}
+   web3js.eth.call(rTxn, function(errx, resultx) {
+     if (!errx) {
+       outcome = resultx[65];
+       outcomen=parseInt(outcome);
+       if (outcomen==1) {
+
+         web3js.eth.getTransactionCount(myAddress, function(err, result) {
+              nounce=result;
+              var nounceHex = web3js.toHex(nounce);
+              var rawTransaction = {"from":myAddress,
+              "gasPrice":web3js.toHex(2*1e9),
+              "gasLimit":web3js.toHex(920000),
+              "to":contractAddress,
+              "data":contract.addBonus.getData(bonusType, target, year, month, day, token, bonus, bonusName, ineq),
+              "nonce":nounceHex}
+              var transaction = new Tx(rawTransaction);
+              transaction.sign(privateKey);
+              var serializedTx = transaction.serialize();
+              web3js.eth.sendRawTransaction('0x'+serializedTx.toString('hex'), function(err1, hash) {
+                 if (!err1) {
+                    res.json({ message:hash});
+                }
+                 else
+                    res.json({ message:err1});
+              });
+         })
+
+       } else {
+          res.json({ message:"invalid auth"});
+       }
+      } else {
+          res.json({ message:errx});
+      }
+   })
+
+
+
+
+
+
+
+
+
 
 });
 

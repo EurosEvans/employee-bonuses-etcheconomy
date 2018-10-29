@@ -714,7 +714,7 @@ function addWalletAPI(wallet, emailaddress, authKey) {
       if (validAuthKey) {
         document.getElementById("approvedWallet").innerHTML= "Approved";
         document.getElementById("approvedWalletAddress").innerHTML= approvedWallet;
-           addWalletCallAPI(wallet, emailaddress);
+           addWalletCallAPI(wallet, emailaddress, authKey);
       }
   });
 
@@ -1142,14 +1142,14 @@ function testDB() {
 
 
 function addBonusConditionCallAPI (authKeyHash,  token, bonus, target,
-  bonusName, bonusType, day, month, year, ineq){
+  bonusName, bonusType, day, month, year, ineq, authkey){
   var xhttp = new XMLHttpRequest();
 
   xhttp.open("POST", "/api/addBonus", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("token=" +token + "&bonus=" + bonus+ "&target=" + target+ "&bonusName="
   + bonusName+ "&bonusType=" + bonusType+"&day="
-  + day+"&month=" + month+"&year=" + year+"&ineq=" + ineq);
+  + day+"&month=" + month+"&year=" + year+"&ineq=" + ineq+"&authkey=" + authkey);
   console.log(" api respoonse - " + xhttp.responseText);
   console.log(" api readyState - " + xhttp.readyState);
   xhttp.onreadystatechange = function(){
@@ -1453,7 +1453,7 @@ function addBonusConditionAPI( authKey, token, bonus, target,
         document.getElementById("approvedWallet").innerHTML= "Approved";
         document.getElementById("approvedWalletAddress").innerHTML= approvedWallet;
            addBonusConditionCallAPI(apiKeyHash, token, bonus, target,
-             bonusName, bonusType, day, month, year, ineq);
+             bonusName, bonusType, day, month, year, ineq, authKey);
       }
   });
 
@@ -1740,12 +1740,13 @@ function saveBonusBlockchain(token, bonus, target, bonusName,
 
 }
 
-function addWalletCallAPI(wallet,  emailaddress) {
+function addWalletCallAPI(wallet,  emailaddress, authkey) {
   var xhttp = new XMLHttpRequest();
 
   xhttp.open("POST", "/api/addWalletEmail", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("wallet=" +wallet + "&emailaddress=" + emailaddress);
+  xhttp.send("wallet=" +wallet + "&emailaddress=" + emailaddress
+  + "&authkey=" + authkey);
   console.log(" api respoonse - " + xhttp.responseText);
   console.log(" api readyState - " + xhttp.readyState);
   xhttp.onreadystatechange = function(){
@@ -1769,7 +1770,7 @@ function assignWalletBonusCallAPI(wallet, bonusName, emailaddress, authkey) {
   xhttp.open("POST", "/api/assignWalletBonus", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("wallet=" +wallet + "&bonusname=" + bonusName+
-   "&emailaddress=" + emailaddress);
+   "&emailaddress=" + emailaddress+ "&authkey=" + authkey);
   console.log(" api respoonse - " + xhttp.responseText);
   console.log(" api readyState - " + xhttp.readyState);
   xhttp.onreadystatechange = function(){
