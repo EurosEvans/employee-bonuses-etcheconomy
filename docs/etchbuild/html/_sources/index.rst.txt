@@ -1,15 +1,24 @@
-.. etchproject documentation master file, created by
-   sphinx-quickstart on Mon Oct 29 10:52:17 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
-Welcome to etchproject's documentation!
-=======================================
+Etch Documentation
+==================
+
+New Header
+==========
+
+A new header::
+
+    print 'hello'
+    >> hello
+
+Paragraph
+^^^^^^^^^
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+    license:
+    help:
 
 
 Indices and tables
