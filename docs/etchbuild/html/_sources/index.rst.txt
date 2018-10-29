@@ -17,8 +17,8 @@ Paragraph
    :maxdepth: 2
    :caption: Contents:
 
-    license:
-    help:
+   license
+   help
 
 
 Indices and tables
