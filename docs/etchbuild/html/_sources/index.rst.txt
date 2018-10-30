@@ -5,7 +5,7 @@ Etch Documentation
 New Header
 ==========
 
-A new header::
+Hello A new header::
 
     print 'hello'
     >> hello
@@ -20,10 +20,12 @@ Paragraph
    license
    help
 
+.. _linking-pages:
 
 Indices and tables
 ==================
 
+* :ref:`linking-pages`
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
