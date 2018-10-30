@@ -2,7 +2,7 @@
 Etch Documentation
 ==================
 
-Etch is a project to manage bonuses by allows key functions as follows - 
+Etch is a project to manage bonuses by allowing key functions as follows - 
 
 * Add Bonuses/Rewards
 * Approving payments
@@ -26,15 +26,9 @@ Pages
    AllocateWallet
    AuthCode
    BuyingCredits
-   license
-   help
 
-.. _linking-pages:
 
 Indices and tables
 ==================
 
-* :ref:`linking-pages`
-* :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`

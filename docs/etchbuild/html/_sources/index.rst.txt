@@ -2,16 +2,18 @@
 Etch Documentation
 ==================
 
-New Header
-==========
+Etch is a project to manage bonuses by allowing key functions as follows - 
 
-Hello A new header::
+* Add Bonuses/Rewards
+* Approving payments
+* Checking targets
+* Listing Bonuses
+* Buying Credits
 
-    print 'hello'
-    >> hello
+The system works with wallets and therefore options exist to add wallets and assign them to bonuses.
 
-Paragraph
-^^^^^^^^^
+Pages
+^^^^^
 
 .. toctree::
    :maxdepth: 2
@@ -24,15 +26,9 @@ Paragraph
    AllocateWallet
    AuthCode
    BuyingCredits
-   license
-   help
 
-.. _linking-pages:
 
 Indices and tables
 ==================
 
-* :ref:`linking-pages`
-* :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
