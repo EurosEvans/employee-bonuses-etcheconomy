@@ -27,6 +27,10 @@ Pages
    AuthCode
    BuyingCredits
 
+   CheckAuthKeyAPI
+   AssignWalletBonusAPI
+   AddWalletEmailAPI
+   AddBonusAPI
 
 Indices and tables
 ==================
