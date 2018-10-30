@@ -17,6 +17,13 @@ Paragraph
    :maxdepth: 2
    :caption: Contents:
 
+   AddBonus
+   AddReward
+   ListBonuses
+   AvailableWallets
+   AllocateWallet
+   AuthCode
+   BuyingCredits
    license
    help
 
