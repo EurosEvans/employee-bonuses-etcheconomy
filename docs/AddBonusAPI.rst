@@ -1,7 +1,7 @@
 Add Bonus (API)
 ===============
 
-Etch allows a bonus (includes) rewards to be added by calling the API which has these fields populated - 
+Etch allows a bonus (includes rewards) to be added by calling the API which has these fields populated - 
 
 * token
 * bonus
