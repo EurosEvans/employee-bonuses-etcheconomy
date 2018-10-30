@@ -16,6 +16,7 @@ The following fields should be completed on the Add Bonus screen. They are neede
 * Bonus Payable (what is paid)
 * Token (currency of the payment)
 
+An Auth Key is used to approve the transaction.
 
 
 .. image:: images/addbonus.png
