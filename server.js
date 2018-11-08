@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 //const db=require('db')
+var url = require('url');
 
 
 const app = express();
@@ -20,6 +21,7 @@ let Tx=require('ethereumjs-tx');
 
 let sgMail = require('@sendgrid/mail');
 
+const getReturnString = require('./nameManager.js');
 //let web3 = new Web3();
 
 
@@ -262,6 +264,19 @@ app.post("/api/checkAuthKey",function(req,res){
 
 
 
+});
+
+app.get("/testetch",function(req,res){
+console.log(req);
+  var url_parts=url.parse(req.url, true);
+  console.log("*****************************");
+  console.log(url_parts);
+    console.log("+++++++++++++++++++++++++");
+  console.log(url_parts.query.name);
+  var name = url_parts.query.name;
+  var returnJSON = getReturnString(name);
+  //res.json({ message:"etch found with name " + name});
+  res.json(returnJSON);
 });
 
 app.post("/api/addWalletEmail",function(req,res){
