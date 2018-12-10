@@ -1,5 +1,6 @@
 const express = require('express');
 require('dotenv').config();
+request = require('request');
 //const db=require('db')
 var url = require('url');
 
@@ -142,6 +143,103 @@ app.post("/api/save_wallet", function(req, res){
     }
   });
 });
+
+app.post("/api/makePaymentEOS",function(req,res){
+
+  var payAmount = req.body.payAmount; //n//
+  var payeeAccount = req.body.payeeAccount;  //n
+  var freqPayment = req.body.freqPayment; //n
+
+//var payAmount=1;
+//var payeeAccount="mary1";
+//var freqPayment=1;
+
+  var json = {"payAmount":payAmount, "payeeAccount":payeeAccount,"freqPayment":freqPayment};
+  console.log(json);
+  //var json1={"payAmount=1",
+  request.post({
+  //headers: {'content-type': 'application/x-www-form-urlencoded'},
+  url:'http://209.97.185.16:3000/api/makePayment',
+  //method: 'POST',
+  body: json,
+  json:true
+  //json:{json},
+}, function(err, res1, body) {
+    if (err) res1.json({ err:err});
+    else
+  res1.json({ message:"done"});
+  });
+
+  res.json({ message:"done"});
+
+
+
+})
+
+app.post("/api/makePayment",function(req,res){
+
+   var payAmount = req.body.payAmount; //n//
+   var payeeAccount = req.body.payeeAccount;  //n
+   var freqPayment = req.body.freqPayment; //n
+
+   var myAddress = "0xd3a20af365538c2090f7b81496a83365c2489b3b";
+
+  localContractABI= [ { "constant": false, "inputs": [ { "name": "payeeWallet", "type": "address" } ], "name": "addPayeeWallet", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "payeeWallet", "type": "address" } ], "name": "payWallet", "outputs": [ { "name": "success", "type": "bool" } ], "payable": true, "stateMutability": "payable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" } ], "name": "PayeeWallets", "outputs": [ { "name": "PayeeAllowed", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" } ]
+
+   localContractAddress="0xe28497515f9a57b16b92102eaa0b407f7f20d6d4";
+
+   //var infuraApiKey =process.env.INFURA_API_KEY;
+  // var privateKey = process.env.PRIVATE_KEY;
+
+   var web3js = new web3(new web3.providers.HttpProvider("http://178.128.172.167:8501"));
+
+   web3js.eth.defaultAccount = myAddress;
+   var privateKey=new Buffer(process.env.PAYMENT_PRIVATE_KEY, 'hex');
+
+//   var toAddress = 'ADRESS_TO_SEND_TRANSACTION';
+
+   //contract abi is the array that you can get from the ethereum wallet or etherscan
+   var contractABI =localContractABI;
+   var contractAddress =localContractAddress;
+   //creating contract object
+   var contract =  web3js.eth.contract(contractABI).at(contractAddress);
+   var count;
+   var nounce;
+   var errcode="";
+
+//   var apiKeyHash = web3js.sha3(authKey);
+
+   var chainId = 1515;
+
+   web3js.eth.getTransactionCount(myAddress, function(err, result) {
+      nounce=result;
+      var nounceHex = web3js.toHex(nounce);
+      var rawTransaction = {
+      "from":myAddress,
+      "gasPrice":web3js.toHex(2*1e9),
+      "gasLimit":web3js.toHex(90000),
+      "to":payeeAccount,
+      "value": web3js.toHex(web3js.toWei(payAmount, 'wei')), // must be in hex
+      "chainId": web3js.toHex(chainId), // must be in hex
+    //  "data":contract.payWallet.getData(payeeAccount),
+      "nonce":nounceHex}
+
+      var transaction = new Tx(rawTransaction);
+      transaction.sign(privateKey);
+
+      var serializedTx = transaction.serialize();
+      web3js.eth.sendRawTransaction('0x'+serializedTx.toString('hex'), function(err1, hash) {
+          if (!err1) {
+             res.json({ message:hash});
+          } else res.json({ message:err1});
+      }); // raw
+   }) //get
+
+});
+
+
+
+
 
 
 app.post("/api/save_bonusname", function(req, res){
@@ -525,6 +623,83 @@ app.post("/api/addBonus",function(req,res){
 
 
 });
+
+
+app.post("/api/paySomeone",function(req,res){
+
+   var payAmount = req.body.payAmount; //n//
+   var payerAccount = req.body.payerAccount;  //n
+   var payeeAccount = req.body.payeeAccount;  //n
+   var authKey = req.body.authkey; //n
+
+   var myAddress = "0x334701738C59229fa72801Ff18466D1D788fcA4B";
+
+   var infuraApiKey =process.env.INFURA_API_KEY;
+  // var privateKey = process.env.PRIVATE_KEY;
+
+   var web3js = new web3(new web3.providers.HttpProvider("https://kovan.infura.io/v3/"+infuraApiKey));
+
+   web3js.eth.defaultAccount = myAddress;
+   var privateKey=new Buffer(process.env.PRIVATE_KEY, 'hex');
+
+//   var toAddress = 'ADRESS_TO_SEND_TRANSACTION';
+
+   //contract abi is the array that you can get from the ethereum wallet or etherscan
+   var contractABI =bonusABI;
+   var contractAddress =bonusAddress;
+   //creating contract object
+   var contract =  web3js.eth.contract(contractABI).at(contractAddress);
+   var count;
+   var nounce;
+   var errcode="";
+
+   var apiKeyHash = web3js.sha3(authKey);
+
+   var contractEtch =  web3js.eth.contract(payEtchABI).at(payEtchAddress);
+
+
+   var rTxn = {
+       "to":payEtchAddress,
+       "data":contractEtch.validKey.getData(apiKeyHash)}
+   web3js.eth.call(rTxn, function(errx, resultx) {
+     if (!errx) {
+       outcome = resultx[65];
+       outcomen=parseInt(outcome);
+       if (outcomen==1) {
+
+         web3js.eth.getTransactionCount(myAddress, function(err, result) {
+              nounce=result;
+              var nounceHex = web3js.toHex(nounce);
+              var rawTransaction = {"from":myAddress,
+              "gasPrice":web3js.toHex(2*1e9),
+              "gasLimit":web3js.toHex(920000),
+              "to":contractAddress,
+              "data":contract.addBonus.getData(bonusType, target, year, month, day, token, bonus, bonusName, ineq),
+              "nonce":nounceHex}
+              var transaction = new Tx(rawTransaction);
+              transaction.sign(privateKey);
+              var serializedTx = transaction.serialize();
+              web3js.eth.sendRawTransaction('0x'+serializedTx.toString('hex'), function(err1, hash) {
+                 if (!err1) {
+                    res.json({ message:hash});
+                }
+                 else
+                    res.json({ message:err1});
+              });
+         })
+
+       } else {
+          res.json({ message:"invalid auth"});
+       }
+      } else {
+          res.json({ message:errx});
+      }
+   })
+
+
+});
+
+
 
 app.post("/api/addBonusT",function(req,res){
 
